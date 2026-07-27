@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class QuizSubmission extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'quiz_id',
+        'user_id',
+        'correct_answer',
+        'wrong_answer',
+        'submits',
+        'status',
+    ];
+    
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class,'quiz_id','id');
+    }
+}

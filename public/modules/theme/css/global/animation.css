@@ -1,0 +1,1233 @@
+/*Start Loading*/
+@-webkit-keyframes preloader-animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes preloader-animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-1 {
+  -webkit-animation: preloader-animate-svg-fill-1 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both infinite alternate-reverse;
+  animation: preloader-animate-svg-fill-1 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both infinite alternate-reverse
+}
+
+@-webkit-keyframes preloader-animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-2 {
+  -webkit-animation:  preloader-animate-svg-fill-2 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-2 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-3 {
+  -webkit-animation:  preloader-animate-svg-fill-3 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.1s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-3 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.1s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-4 {
+  -webkit-animation:  preloader-animate-svg-fill-4 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.2s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-4 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.2s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-5 {
+  -webkit-animation:  preloader-animate-svg-fill-5 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.3s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-5 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.3s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-6 {
+  -webkit-animation:  preloader-animate-svg-fill-6 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.5s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-6 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.5s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #0064a5
+  }
+}
+
+.preloader .svg-elem-7 {
+  -webkit-animation:  preloader-animate-svg-fill-7 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-7 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.6s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-8 {
+  -webkit-animation:  preloader-animate-svg-fill-8 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.7s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-8 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.7s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-9 {
+  -webkit-animation:  preloader-animate-svg-fill-9 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.8s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-9 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.8s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-10 {
+  -webkit-animation:  preloader-animate-svg-fill-10 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.9s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-10 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.9s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-11 {
+  -webkit-animation:  preloader-animate-svg-fill-11 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-11 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-12 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-12 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-12 {
+  -webkit-animation:  preloader-animate-svg-fill-12 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.1s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-12 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.1s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-13 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-13 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-13 {
+  -webkit-animation:  preloader-animate-svg-fill-13 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.2s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-13 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.2s both infinite alternate-reverse
+}
+
+@-webkit-keyframes  preloader-animate-svg-fill-14 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+@keyframes  preloader-animate-svg-fill-14 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: #ed1a33
+  }
+}
+
+.preloader .svg-elem-14 {
+  -webkit-animation:  preloader-animate-svg-fill-14 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.3s both infinite alternate-reverse;
+  animation:  preloader-animate-svg-fill-14 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.3s both infinite alternate-reverse
+}
+
+/*End Loading*/
+
+/*Start Corona El*/
+
+.animated__corona {
+  opacity: .1;
+  position: fixed;
+  z-index: -1;
+}
+
+.ot-login-area .animated__corona {
+  z-index: -1;
+}
+
+.corona-1 {
+      right: 30px;
+        bottom: 20vh;
+          -webkit-animation: randMove 10s ease-in-out infinite forwards;
+  animation: randMove 10s ease-in-out infinite forwards;
+}
+
+.corona-2 {
+    right: 50px;
+    top: 50%;
+      -webkit-animation: randMove 15s ease-in-out 0.5s infinite forwards;
+  animation: randMove 15s ease-in-out 0.5s infinite forwards;
+}
+
+.animated__corona svg {
+  -webkit-animation: toSpin 7s linear infinite forwards;
+  animation: toSpin 7s linear infinite forwards;
+}
+
+@keyframes toSpin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes randMove {
+  0% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+
+  10% {
+    -webkit-transform: translate(-30px);
+    transform: translate(-30px);
+  }
+
+  20% {
+    -webkit-transform: translate(-30px, -30px);
+    transform: translate(-30px, -30px);
+  }
+
+  30% {
+    -webkit-transform: translate(-60px, -30px);
+    transform: translate(-60px, -30px);
+  }
+
+  40% {
+    -webkit-transform: translate(-10px, -30px);
+    transform: translate(-10px, -30px);
+  }
+
+  50% {
+    -webkit-transform: translate(-15px);
+    transform: translate(-15px);
+  }
+
+  60% {
+    -webkit-transform: translate(-15px, 30px);
+    transform: translate(-15px, 30px);
+  }
+
+  70% {
+    -webkit-transform: translate(-35px, 30px);
+    transform: translate(-35px, 30px);
+  }
+
+  80% {
+    -webkit-transform: translate(-15px, 30px);
+    transform: translate(-15px, 30px);
+  }
+
+  90% {
+    -webkit-transform: translate(-15px);
+    transform: translate(-15px);
+  }
+
+  100% {
+    -webkit-transform: translate(0);
+    transform: translate(0);
+  }
+}
+
+/*End Corona El*/
+
+/* Start DNA Animnation*/
+.dna-loader-3d *,
+.dna-loader-3d *::before,
+.dna-loader-3d *::after {
+  transform-style: preserve-3d;
+}
+
+.dna-loader-3d {
+  --grey-color: #454344;
+  --blue-color: #0b4fff;
+  --red-color: #be0808;
+  --ball-width: 0.25rem;
+  --rotate-radius: 1rem;
+  
+    --anime: var(--rotate-duration) linear infinite;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  opacity: 0.8;
+}
+.ot-login-area .dna-loader-3d {
+  z-index: -1;
+}
+.dna-1 {
+    --rotate-duration: 2s;
+    top: 20%;
+    right: 40px;
+}
+
+.dna-2 {
+    --rotate-duration: 3.5s;
+    bottom: 20%;
+    right: 40px;
+}
+
+.dna-loader-3d .orbit {
+  --rotate-delay-even: calc(var(--rotate-duration) / var(--count) * var(--i) * -2);
+  --rotate-delay-odd: calc(var(--rotate-delay-even) - calc(var(--rotate-duration) * 0.5));
+  position: relative;
+  width: var(--ball-width);
+  height: var(--ball-width);
+  animation: rotate-y var(--anime) var(--rotate-delay);
+}
+
+.dna-loader-3d .orbit .ball {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(calc(var(--rotate-radius) * -1));
+}
+
+.dna-loader-3d .orbit .ball::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: var(--ball-color);
+  border-radius: 50%;
+  animation: rotate-y-reverse var(--anime) var(--rotate-delay);
+}
+
+.dna-loader-3d .orbit:nth-child(odd) {
+  --ball-color: var(--blue-color);
+  --rotate-delay: var(--rotate-delay-odd);
+}
+
+.dna-loader-3d .orbit:nth-child(even) {
+  --ball-color: var(--red-color);
+  --rotate-delay: var(--rotate-delay-even);
+}
+
+@keyframes rotate-y {
+  from {
+    transform: rotateY(0);
+  }
+
+  to {
+    transform: rotateY(1turn);
+  }
+}
+
+@keyframes rotate-y-reverse {
+  from {
+    transform: rotateY(0);
+  }
+
+  to {
+    transform: rotateY(-1turn);
+  }
+}
+
+/* End DNA Animnation*/
+
+/*Start SignIn Animation*/
+@-webkit-keyframes login-animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-1 {
+  -webkit-animation: login-animate-svg-fill-1 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.8s infinite;
+  animation: login-animate-svg-fill-1 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.8s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-2 {
+  -webkit-animation: login-animate-svg-fill-2 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.9s infinite;
+  animation: login-animate-svg-fill-2 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.9s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-3 {
+  -webkit-animation: login-animate-svg-fill-3 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1s infinite;
+  animation: login-animate-svg-fill-3 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-4 {
+  -webkit-animation: login-animate-svg-fill-4 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.1s infinite;
+  animation: login-animate-svg-fill-4 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.1s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-5 {
+  -webkit-animation: login-animate-svg-fill-5 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.2000000000000002s infinite;
+  animation: login-animate-svg-fill-5 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.2000000000000002s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-6 {
+  -webkit-animation: login-animate-svg-fill-6 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.3s infinite;
+  animation: login-animate-svg-fill-6 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.3s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+@keyframes login-animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(109, 150, 188)
+  }
+}
+
+.login-image .svg-elem-7 {
+  -webkit-animation: login-animate-svg-fill-7 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.4000000000000001s infinite;
+  animation: login-animate-svg-fill-7 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.4000000000000001s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-8 {
+  -webkit-animation: login-animate-svg-fill-8 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2s infinite;
+  animation: login-animate-svg-fill-8 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-9 {
+  -webkit-animation: login-animate-svg-fill-9 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.6s infinite;
+  animation: login-animate-svg-fill-9 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.6s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-10 {
+  -webkit-animation: login-animate-svg-fill-10 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.7000000000000002s infinite;
+  animation: login-animate-svg-fill-10 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.7000000000000002s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-11 {
+  -webkit-animation: login-animate-svg-fill-11 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.8s infinite;
+  animation: login-animate-svg-fill-11 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.8s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-12 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-12 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-12 {
+  -webkit-animation: login-animate-svg-fill-12 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.9000000000000001s infinite;
+  animation: login-animate-svg-fill-12 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 1.9000000000000001s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-13 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-13 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-13 {
+  -webkit-animation: login-animate-svg-fill-13 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2s infinite;
+  animation: login-animate-svg-fill-13 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2s infinite
+}
+
+@-webkit-keyframes login-animate-svg-fill-14 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+@keyframes login-animate-svg-fill-14 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(0, 9, 94)
+  }
+}
+
+.login-image .svg-elem-14 {
+  -webkit-animation: login-animate-svg-fill-14 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2.1s infinite;
+  animation: login-animate-svg-fill-14 2s cubic-bezier(0.55, 0.085, 0.68, 0.53) 2.1s infinite
+}
+
+
+.ot-login-area .ot-login-card {
+    background: rgb(255 255 255 / 66%);
+    backdrop-filter: blur(2px);
+}
+
+body.dark-mode .ot-login-area .ot-login-card {
+    background:rgb(31 41 68 / 65%);
+}
+
+@media (max-width: 991px) {
+    .login-image, .signup-image {
+        position: fixed;
+        z-index: -1;
+        top: 45vh;
+        left: 50%;
+        transform: rotate(45deg) translateX(-50%);
+        max-width: 300px;
+        max-height: 300px;
+        opacity: 0.4;
+    }
+}
+
+/*End SignIn Animation*/
+/*------------------------------------------------------------------------------------------------------------*/
+/*Start SignUp Animation*/
+
+@-webkit-keyframes animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(212, 51, 48)
+  }
+}
+
+@keyframes animate-svg-fill-1 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(212, 51, 48)
+  }
+}
+
+ .signup-image .svg-elem-1 {
+  -webkit-animation: animate-svg-fill-1 2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s infinite;
+  animation: animate-svg-fill-1 2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.8s infinite
+}
+
+@-webkit-keyframes animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+@keyframes animate-svg-fill-2 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+ .signup-image .svg-elem-2 {
+  -webkit-animation: animate-svg-fill-2 2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.9s infinite forwards;
+  animation: animate-svg-fill-2 2s cubic-bezier(0.165, 0.84, 0.44, 1) 0.9s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+@keyframes animate-svg-fill-3 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+ .signup-image .svg-elem-3 {
+  -webkit-animation: animate-svg-fill-3 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1s infinite forwards;
+  animation: animate-svg-fill-3 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(212, 51, 48)
+  }
+}
+
+@keyframes animate-svg-fill-4 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(212, 51, 48)
+  }
+}
+
+ .signup-image .svg-elem-4 {
+  -webkit-animation: animate-svg-fill-4 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.1s infinite forwards;
+  animation: animate-svg-fill-4 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.1s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(254, 95, 95)
+  }
+}
+
+@keyframes animate-svg-fill-5 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(254, 95, 95)
+  }
+}
+
+ .signup-image .svg-elem-5 {
+  -webkit-animation: animate-svg-fill-5 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.2000000000000002s infinite forwards;
+  animation: animate-svg-fill-5 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.2000000000000002s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(255, 106, 101)
+  }
+}
+
+@keyframes animate-svg-fill-6 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(255, 106, 101)
+  }
+}
+
+ .signup-image .svg-elem-6 {
+  -webkit-animation: animate-svg-fill-6 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.3s infinite forwards;
+  animation: animate-svg-fill-6 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.3s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(255, 143, 140)
+  }
+}
+
+@keyframes animate-svg-fill-7 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(255, 143, 140)
+  }
+}
+
+ .signup-image .svg-elem-7 {
+  -webkit-animation: animate-svg-fill-7 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.4000000000000001s infinite forwards;
+  animation: animate-svg-fill-7 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.4000000000000001s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+@keyframes animate-svg-fill-8 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+ .signup-image .svg-elem-8 {
+  -webkit-animation: animate-svg-fill-8 2s cubic-bezier(0.165, 0.84, 0.44, 1) 2s infinite forwards;
+  animation: animate-svg-fill-8 2s cubic-bezier(0.165, 0.84, 0.44, 1) 2s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+@keyframes animate-svg-fill-9 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+ .signup-image .svg-elem-9 {
+  -webkit-animation: animate-svg-fill-9 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.6s infinite forwards;
+  animation: animate-svg-fill-9 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.6s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+@keyframes animate-svg-fill-10 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(166, 39, 20)
+  }
+}
+
+ .signup-image .svg-elem-10 {
+  -webkit-animation: animate-svg-fill-10 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.7000000000000002s infinite forwards;
+  animation: animate-svg-fill-10 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.7000000000000002s infinite forwards
+}
+
+@-webkit-keyframes animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+@keyframes animate-svg-fill-11 {
+  0% {
+    fill: transparent
+  }
+
+  100% {
+    fill: rgb(244, 66, 54)
+  }
+}
+
+ .signup-image .svg-elem-11 {
+  -webkit-animation: animate-svg-fill-11 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.8s infinite forwards;
+  animation: animate-svg-fill-11 2s cubic-bezier(0.165, 0.84, 0.44, 1) 1.8s infinite forwards
+}
+/*End SignUp Animation*/
+
+
+/*Start Brands Section*/
+.NumberCounter__Component {
+    padding: 40px 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.NumberCounter__Component .Icon__IconContainer img {
+    width: 150px;
+    height: 150px;
+}
+.NumberCounter__Component .Counter__CounterComponent {
+    font-weight: bold;
+    font-style: normal;
+    font-size: 8rem;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: pre;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+.NumberCounter__Component .Card__CardCaption {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+}
+/*End Brands Section*/
+
+
+

@@ -1,0 +1,206 @@
+/* =========================================================
+   Public Terms & Privacy — Modern Redesign
+   ========================================================= */
+
+.lp-page {
+    --lp-card: #ffffff;
+    --lp-text: #0f172a;
+    --lp-muted: #64748b;
+    --lp-border: rgba(15, 23, 42, 0.08);
+    --lp-radius: 18px;
+    --lp-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    --lp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --lp-accent-rgb: var(--c-accent-rgb, 13, 148, 136);
+    padding: 2.5rem 0 4rem;
+}
+
+.lp-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--lp-radius);
+    padding: 2rem 1.6rem;
+    margin: 0 auto 1.5rem;
+    color: #fff;
+    background:
+        radial-gradient(120% 140% at 100% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
+        linear-gradient(
+            120deg,
+            rgb(var(--c-secondary-rgb, 51, 65, 85)) 0%,
+            rgb(var(--lp-accent-rgb)) 55%,
+            rgb(var(--c-accent-hover-rgb, var(--lp-accent-rgb))) 100%
+        );
+    box-shadow: 0 18px 40px rgba(var(--lp-accent-rgb), 0.28);
+}
+
+.lp-hero__eyebrow {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.88;
+}
+
+.lp-hero__title {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.lp-hero__sub {
+    margin: 0;
+    max-width: 40rem;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    opacity: 0.92;
+}
+
+.lp-shell {
+    background: var(--lp-card);
+    border: 1px solid var(--lp-border);
+    border-radius: var(--lp-radius);
+    box-shadow: var(--lp-shadow);
+    overflow: hidden;
+}
+
+.lp-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--lp-border);
+    background: #f8fafc;
+}
+
+.lp-tab {
+    appearance: none;
+    border: 1px solid var(--lp-border);
+    background: #fff;
+    color: var(--lp-muted);
+    font-weight: 800;
+    font-size: 0.9rem;
+    min-height: 44px;
+    padding: 0.55rem 1.15rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s var(--lp-ease);
+}
+
+.lp-tab.is-active,
+.lp-tab:hover {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(
+        135deg,
+        rgb(var(--lp-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--lp-accent-rgb)))
+    );
+    box-shadow: 0 8px 18px rgba(var(--lp-accent-rgb), 0.22);
+}
+
+.lp-pane {
+    display: none;
+    padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.lp-pane.is-active {
+    display: block;
+    animation: lp-fade 0.35s var(--lp-ease) both;
+}
+
+.lp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.lp-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.95rem;
+    padding: 1.1rem 1.15rem;
+    border-radius: 16px;
+    border: 1px solid var(--lp-border);
+    background: #fff;
+    transition: transform 0.2s var(--lp-ease), box-shadow 0.2s var(--lp-ease);
+}
+
+.lp-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--lp-shadow);
+}
+
+.lp-item__num {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: rgb(var(--lp-accent-rgb));
+    background: rgba(var(--lp-accent-rgb), 0.12);
+    flex-shrink: 0;
+}
+
+.lp-item__title {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--lp-text);
+    line-height: 1.35;
+}
+
+.lp-item__body {
+    margin: 0;
+    color: var(--lp-muted);
+    font-size: 0.95rem;
+    line-height: 1.85;
+    white-space: pre-line;
+}
+
+.lp-item__body p {
+    margin: 0 0 0.75rem;
+}
+
+.lp-item__body p:last-child {
+    margin-bottom: 0;
+}
+
+.lp-empty {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--lp-muted);
+}
+
+.lp-empty strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--lp-text);
+    font-size: 1.1rem;
+}
+
+@keyframes lp-fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lp-pane,
+    .lp-item {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .lp-hero {
+        padding: 1.4rem 1.15rem;
+    }
+
+    .lp-item {
+        grid-template-columns: 1fr;
+    }
+}

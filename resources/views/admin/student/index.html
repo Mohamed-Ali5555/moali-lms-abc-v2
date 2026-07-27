@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التعليم الإلكتروني - القائمة الرئيسية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* الشريط الجانبي */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px 0;
+            box-shadow: var(--shadow);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .menu-section {
+            margin-bottom: 25px;
+        }
+
+        .menu-title {
+            font-size: 14px;
+            font-weight: 600;
+            padding: 0 25px 10px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu-items {
+            list-style: none;
+        }
+
+        .menu-item {
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
+            border-right: 3px solid transparent;
+        }
+
+        .menu-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-right: 3px solid var(--accent);
+        }
+
+        .menu-item i {
+            margin-left: 10px;
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            flex: 1;
+            margin-right: 280px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* بطاقات الدورات */
+        .courses-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .course-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .course-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .course-body {
+            padding: 20px;
+        }
+
+        .course-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--primary));
+            border-radius: 4px;
+        }
+
+        .course-date {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-lessons {
+            margin-bottom: 15px;
+        }
+
+        .lessons-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .lesson-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .lesson-item:last-child {
+            border-bottom: none;
+        }
+
+        .lesson-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #e9ecef;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .lesson-completed .lesson-icon {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .lesson-name {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .lesson-duration {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* التكيف مع الشاشات الصغيرة */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .main-content {
+                margin-right: 240px;
+            }
+
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .main-content {
+                margin-right: 0;
+            }
+
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* تبويب الكورسات */
+        .courses-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 5px;
+            box-shadow: var(--shadow);
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- الشريط الجانبي -->
+        <div class="sidebar">
+            <div class="logo">
+                <h1>نظام التعليم الإلكتروني</h1>
+                <p>منصة التعلم الذكي</p>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">القائمة الرئيسية</div>
+                <ul class="menu-items">
+                    <li class="menu-item active">
+                        <i class="fas fa-home"></i>
+                        <span>الرئيسية</span>
+                    </li>
+                    <li class="menu-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>تسجيل الطلاب</span>
+                    </li>
+                    <li class="menu-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>تقرير المدفوعات</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">المستخدمون</div>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <i class="fas fa-users"></i>
+                        <span>المستخدمون</span>
+                    </li>
+                    <li class="menu-item">
+                        <i class="fas fa-user-tie"></i>
+                        <span>الموظفون</span>
+                    </li>
+                    <li class="menu-item">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>الطلاب</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">إدارة الطلاب</div>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <i class="fas fa-user-plus"></i>
+                        <span>إضافة طالب جديد</span>
+                    </li>
+                    <li class="menu-item">
+                        <i class="fas fa-edit"></i>
+                        <span>إدارة الطلاب</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">الامتحانات</div>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <i class="fas fa-file-alt"></i>
+                        <span>الامتحانات</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="menu-section">
+                <div class="menu-title">الإعدادات</div>
+                <ul class="menu-items">
+                    <li class="menu-item">
+                        <i class="fas fa-cog"></i>
+                        <span>إعدادات النظام</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">القائمة الرئيسية</h1>
+                <div class="user-info">
+                    <div class="user-avatar">م</div>
+                    <div>
+                        <div style="font-weight: 600;">مدير النظام</div>
+                        <div style="font-size: 14px; color: var(--gray);">مسؤول</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تبويبات الكورسات -->
+            <div class="courses-tabs">
+                <div class="tab active" data-tab="all-courses">جميع الكورسات</div>
+                <div class="tab" data-tab="my-courses">كورساتي</div>
+                <div class="tab" data-tab="new-courses">كورسات جديدة</div>
+            </div>
+
+            <div class="courses-section">
+                <div class="section-header">
+                    <h2 class="section-title">جميع الدورات (6)</h2>
+                    <a href="#" class="view-all">
+                        <span>عرض الكل</span>
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                </div>
+
+                <div class="courses-grid">
+                    <!-- بطاقة الدورة الأولى -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div class="course-badge">جديد</div>
+                            <h3 class="course-title">DNA to RNA</h3>
+                            <p class="course-subtitle">TRANSCRIPTION EXPLAINED!</p>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-price">350 ج.م</div>
+
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>التقدم</span>
+                                    <span>0%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-date">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>2025-10-13</span>
+                            </div>
+
+                            <div class="course-lessons">
+                                <div class="lessons-title">دروس الكورس (4)</div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">مقدمة في علم الوراثة</div>
+                                    <div class="lesson-duration">15:30</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">هيكل DNA</div>
+                                    <div class="lesson-duration">22:10</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">عملية النسخ</div>
+                                    <div class="lesson-duration">18:45</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">الفرق بين DNA و RNA</div>
+                                    <div class="lesson-duration">25:20</div>
+                                </div>
+                            </div>
+
+                            <button class="btn">عرض الكورس</button>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة الدورة الثانية -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <div class="course-badge">الأكثر شيوعًا</div>
+                            <h3 class="course-title">DNA & RNA</h3>
+                            <p class="course-subtitle">شرح مفصل للعلاقة بين الحمض النووي والحمض النووي الريبي</p>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-price">300 ج.م</div>
+
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>التقدم</span>
+                                    <span>25%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 25%"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-date">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>2025-10-14</span>
+                            </div>
+
+                            <div class="course-lessons">
+                                <div class="lessons-title">دروس الكورس (5)</div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">مقدمة في الأحماض النووية</div>
+                                    <div class="lesson-duration">12:15</div>
+                                </div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">تركيب DNA</div>
+                                    <div class="lesson-duration">20:30</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">وظائف RNA</div>
+                                    <div class="lesson-duration">17:40</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">الفرق بين DNA و RNA</div>
+                                    <div class="lesson-duration">15:20</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">التطبيقات العملية</div>
+                                    <div class="lesson-duration">24:10</div>
+                                </div>
+                            </div>
+
+                            <button class="btn">استكمال المشاهدة</button>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة الدورة الثالثة -->
+                    <div class="course-card">
+                        <div class="course-header">
+                            <h3 class="course-title">بيولوجيا الخلية المتقدمة</h3>
+                            <p class="course-subtitle">دراسة متعمقة لهيكل ووظائف الخلية</p>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-price">450 ج.م</div>
+
+                            <div class="progress-container">
+                                <div class="progress-info">
+                                    <span>التقدم</span>
+                                    <span>60%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+
+                            <div class="course-date">
+                                <i class="far fa-calendar-alt"></i>
+                                <span>2025-09-20</span>
+                            </div>
+
+                            <div class="course-lessons">
+                                <div class="lessons-title">دروس الكورس (6)</div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">مقدمة في بيولوجيا الخلية</div>
+                                    <div class="lesson-duration">18:25</div>
+                                </div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">هيكل الخلية الحيوانية</div>
+                                    <div class="lesson-duration">22:10</div>
+                                </div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">هيكل الخلية النباتية</div>
+                                    <div class="lesson-duration">19:45</div>
+                                </div>
+                                <div class="lesson-item lesson-completed">
+                                    <div class="lesson-icon"><i class="fas fa-check"></i></div>
+                                    <div class="lesson-name">الأنظمة الغشائية</div>
+                                    <div class="lesson-duration">25:30</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">النواة والانقسام الخلوي</div>
+                                    <div class="lesson-duration">21:15</div>
+                                </div>
+                                <div class="lesson-item">
+                                    <div class="lesson-icon"><i class="far fa-play-circle"></i></div>
+                                    <div class="lesson-name">الطاقة الخلوية</div>
+                                    <div class="lesson-duration">23:40</div>
+                                </div>
+                            </div>
+
+                            <button class="btn">استكمال المشاهدة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // إضافة تفاعلية للقائمة
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // تفعيل التبويبات
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // إزالة النشاط من جميع التبويبات
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+
+                // إضافة النشاط للتبويب المحدد
+                this.classList.add('active');
+
+                // يمكن هنا إضافة كود لتحميل محتوى التبويب المحدد
+            });
+        });
+
+        // تفعيل الأزرار
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('سيتم فتح الكورس المحدد');
+            });
+        });
+    </script>
+</body>
+</html>

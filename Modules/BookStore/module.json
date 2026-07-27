@@ -1,0 +1,11 @@
+{
+    "name": "BookStore",
+    "alias": "bookstore",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BookStore\\App\\Providers\\BookStoreServiceProvider"
+    ],
+    "files": []
+}

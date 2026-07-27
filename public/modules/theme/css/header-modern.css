@@ -1,0 +1,579 @@
+/* =========================================================
+   Theme Header / Navbar — Modern Redesign
+   ========================================================= */
+
+:root {
+    --tn-nav-offset: 76px;
+}
+
+@media (max-width: 575.98px) {
+    :root {
+        --tn-nav-offset: 64px;
+    }
+}
+
+/* Keep page content below the fixed navbar on every page */
+body {
+    padding-top: var(--tn-nav-offset);
+    scroll-padding-top: calc(var(--tn-nav-offset) + 12px);
+}
+
+.tn-nav#main__navbar,
+nav#main__navbar.tn-nav {
+    --tn-accent: rgb(var(--c-accent-rgb, 0, 156, 204));
+    --tn-accent-rgb: var(--c-accent-rgb, 0, 156, 204);
+    --tn-hover: rgb(var(--c-accent-hover-rgb, 0, 140, 184));
+    --tn-text: rgb(var(--c-text-rgb, 15, 23, 42));
+    --tn-muted: rgb(var(--c-gray-rgb, 100, 116, 139));
+    --tn-card: rgb(var(--c-card-bg-rgb, 255, 255, 255));
+    --tn-border: rgba(var(--c-border-rgb, 226, 232, 240), 0.95);
+    --tn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 999;
+    min-height: var(--tn-nav-offset);
+    height: var(--tn-nav-offset);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    direction: rtl;
+    background: rgba(var(--c-card-bg-rgb, 255, 255, 255), 0.72);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    border-bottom: 1px solid rgba(var(--c-border-rgb, 226, 232, 240), 0.55);
+    box-shadow: 0 10px 30px -24px rgba(15, 23, 42, 0.35);
+    transition: background 0.25s var(--tn-ease), box-shadow 0.25s var(--tn-ease);
+}
+
+nav#main__navbar.tn-nav.scrolling {
+    background: rgba(var(--c-card-bg-rgb, 255, 255, 255), 0.92);
+    box-shadow: 0 14px 34px -24px rgba(15, 23, 42, 0.4);
+}
+
+body[data-theme="dark"] nav#main__navbar.tn-nav {
+    background: rgba(15, 23, 42, 0.78);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.tn-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: calc(var(--tn-nav-offset) - 4px);
+    height: 100%;
+    padding: 0.35rem 0;
+}
+
+.tn-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+}
+
+.tn-logo img.logo {
+    width: auto;
+    max-width: 160px;
+    height: 46px;
+    aspect-ratio: auto;
+    object-fit: contain;
+}
+
+.tn-actions {
+    display: flex !important;
+    align-items: center;
+    gap: 0.55rem;
+    flex-direction: row !important;
+    overflow: visible !important;
+    flex-shrink: 0;
+}
+
+.tn-icon-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 14px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    color: var(--tn-text) !important;
+    background: rgba(var(--c-bg-rgb, 248, 249, 250), 0.9);
+    border: 1px solid var(--tn-border);
+    text-decoration: none !important;
+    position: relative;
+    overflow: visible !important;
+    flex-shrink: 0;
+    transition: transform 0.18s var(--tn-ease), border-color 0.18s var(--tn-ease), color 0.18s var(--tn-ease), background 0.18s var(--tn-ease);
+}
+
+.tn-icon-btn svg {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px;
+    stroke: currentColor !important;
+    fill: none !important;
+    display: block !important;
+    flex-shrink: 0;
+    color: inherit;
+}
+
+.tn-icon-btn svg circle {
+    fill: currentColor !important;
+    stroke: none !important;
+}
+
+.tn-icon-btn:hover {
+    color: var(--tn-accent) !important;
+    border-color: rgba(var(--tn-accent-rgb), 0.35);
+    background: rgba(var(--tn-accent-rgb), 0.08);
+    transform: translateY(-1px);
+}
+
+.tn-badge,
+.tn-nav .cart-number,
+.tn-nav .tn-wallet-badge {
+    position: absolute !important;
+    top: -6px !important;
+    inset-inline-start: auto !important;
+    inset-inline-end: -6px !important;
+    left: auto !important;
+    right: auto !important;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--tn-accent) !important;
+    color: #fff !important;
+    font-size: 11px !important;
+    font-weight: 800;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--tn-card);
+    line-height: 1;
+    z-index: 2;
+    white-space: nowrap;
+}
+
+/* Wallet amount badge can be wider than cart count */
+.tn-nav .tn-wallet-badge {
+    min-width: 22px;
+    max-width: 64px;
+    padding: 0 6px;
+    font-size: 10px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tn-wallet-btn {
+    box-shadow: none;
+}
+
+/* Kill legacy pill wallet styles when using icon+badge */
+.tn-nav .tn-wallet-btn.balance-container {
+    min-width: 44px !important;
+    width: 44px;
+    height: 44px;
+    padding: 0 !important;
+    gap: 0;
+    background: rgba(var(--c-bg-rgb, 248, 249, 250), 0.9) !important;
+    border-radius: 14px !important;
+    box-shadow: none !important;
+}
+
+.tn-user {
+    position: relative;
+}
+
+.tn-user__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    padding: 0.25rem 0.55rem 0.25rem 0.3rem;
+    border-radius: 999px;
+    border: 1px solid var(--tn-border);
+    background: var(--tn-card);
+    box-shadow: 0 8px 20px -16px rgba(15, 23, 42, 0.35);
+    cursor: pointer;
+    color: var(--tn-text);
+}
+
+.tn-user__btn::after {
+    display: none !important;
+}
+
+.tn-user__btn img,
+.tn-nav .Userprofile img.image-40 {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(var(--tn-accent-rgb), 0.2);
+}
+
+.tn-user__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+    min-width: 0;
+}
+
+.tn-user__meta strong {
+    font-size: 0.82rem;
+    font-weight: 800;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tn-user__meta small {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--tn-muted);
+}
+
+.tn-user__chev {
+    width: 14px;
+    height: 14px;
+    color: var(--tn-muted);
+    margin-inline-start: 0.15rem;
+}
+
+.tn-menu.dropdown-menu,
+.tn-nav .Userprofile .dropmenu-end {
+    --bs-dropdown-min-width: 280px;
+    width: min(300px, calc(100vw - 1.5rem));
+    padding: 0.55rem;
+    margin-top: 0.55rem !important;
+    border-radius: 20px !important;
+    border: 1px solid var(--tn-border) !important;
+    background: var(--tn-card) !important;
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 24px 50px -28px rgba(15, 23, 42, 0.45) !important;
+    overflow: hidden;
+}
+
+.tn-menu__head,
+.tn-nav .figure_user {
+    display: flex !important;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 0.75rem !important;
+    margin: 0 0 0.35rem;
+    border-radius: 16px;
+    background:
+        radial-gradient(ellipse at 100% 0%, rgba(var(--tn-accent-rgb), 0.18), transparent 55%),
+        linear-gradient(145deg, #0b1220 0%, #152033 100%);
+    color: #f8fafc;
+}
+
+.tn-menu__head img,
+.tn-nav .figure_user img {
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+.tn-menu__head h4,
+.tn-nav .figure_user .figure_text h4 {
+    margin: 0 0 0.15rem;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #fff !important;
+}
+
+.tn-menu__head p,
+.tn-nav .figure_user .figure_text p {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(248, 250, 252, 0.72) !important;
+}
+
+.tn-menu__link,
+.tn-nav .Userprofile .dropmenu-end a.dropdown-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.75rem !important;
+    width: 100%;
+    min-height: 46px;
+    padding: 0.55rem 0.65rem !important;
+    margin: 0 0 0.2rem;
+    border-radius: 14px !important;
+    color: var(--tn-text) !important;
+    font-size: 0.92rem !important;
+    font-weight: 750 !important;
+    text-decoration: none !important;
+    background: transparent !important;
+    transition: background 0.16s var(--tn-ease), color 0.16s var(--tn-ease), transform 0.16s var(--tn-ease);
+}
+
+.tn-menu__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.05);
+    color: #475569;
+}
+
+.tn-menu__icon svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke: currentColor !important;
+    fill: none !important;
+    margin: 0 !important;
+}
+
+.tn-menu__link:hover,
+.tn-nav .Userprofile .dropmenu-end a.dropdown-item:hover {
+    background: rgba(var(--tn-accent-rgb), 0.08) !important;
+    color: var(--tn-accent) !important;
+    transform: translateX(-2px);
+}
+
+.tn-menu__link:hover .tn-menu__icon {
+    background: rgba(var(--tn-accent-rgb), 0.14);
+    color: var(--tn-accent);
+}
+
+.tn-menu__divider {
+    height: 1px;
+    margin: 0.35rem 0.4rem;
+    background: linear-gradient(90deg, transparent, var(--tn-border), transparent);
+    list-style: none;
+}
+
+.tn-menu__link--logout,
+.tn-nav .Userprofile .dropmenu-end a.tn-menu__link--logout {
+    color: #e11d48 !important;
+}
+
+.tn-menu__link--logout .tn-menu__icon {
+    background: rgba(225, 29, 72, 0.1);
+    color: #e11d48;
+}
+
+.tn-menu__link--logout:hover {
+    background: rgba(225, 29, 72, 0.08) !important;
+    color: #be123c !important;
+}
+
+.tn-guest {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.tn-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 0.55rem 1.1rem;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-decoration: none !important;
+}
+
+.tn-btn--ghost {
+    color: var(--tn-text);
+    background: transparent;
+    border: 1px solid var(--tn-border);
+}
+
+.tn-btn--primary {
+    color: #fff;
+    border: 0;
+    background: linear-gradient(135deg, var(--tn-accent), var(--tn-hover));
+    box-shadow: 0 10px 22px -14px rgba(var(--tn-accent-rgb), 0.85);
+}
+
+/* Kill legacy dropdown SVG path fill overrides for modern menu */
+.tn-nav .Userprofile .dropmenu-end a:hover svg path,
+.tn-nav .Userprofile .dropmenu-end a svg path {
+    fill: none !important;
+    stroke: currentColor !important;
+}
+
+.tn-nav .Userprofile .dropmenu-end a.bootcamp-menu-icon svg,
+.tn-nav .Userprofile .dropmenu-end a svg {
+    margin: 0 !important;
+}
+
+@media (max-width: 991.98px) {
+    .tn-logo img.logo {
+        max-width: 120px;
+        height: 40px;
+    }
+}
+
+/* Logged-in header: prevent wallet/cart/avatar from crowding the logo */
+@media (max-width: 767.98px) {
+    .tn-bar {
+        gap: 0.4rem;
+        flex-wrap: nowrap;
+        min-height: calc(var(--tn-nav-offset) - 4px);
+        padding: 0.25rem 0;
+        overflow: visible;
+    }
+
+    .tn-brand {
+        flex: 1 1 auto;
+        min-width: 0;
+        gap: 0.35rem;
+    }
+
+    .tn-logo {
+        min-width: 0;
+        display: inline-flex;
+    }
+
+    .tn-logo img.logo {
+        max-width: min(110px, 32vw);
+        height: 36px;
+    }
+
+    .tn-theme .switch__button {
+        transform: scale(0.88);
+        transform-origin: center;
+    }
+
+    /* Override legacy style.css (.buttons-afterLogin flex-grow / space-between) */
+    .tn-nav .tn-actions.buttons-afterLogin,
+    .tn-nav .navbar .buttons-afterLogin {
+        flex: 0 0 auto !important;
+        flex-grow: 0 !important;
+        justify-content: flex-end !important;
+        gap: 0.3rem !important;
+        max-width: none;
+        min-width: 0;
+        overflow: visible !important;
+    }
+
+    .tn-icon-btn,
+    .tn-icon-btn.cart-button,
+    .tn-icon-btn.tn-wallet-btn {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 14px;
+        flex-shrink: 0;
+        display: inline-flex !important;
+        overflow: visible !important;
+    }
+
+    .tn-user__meta,
+    .tn-user__chev {
+        display: none !important;
+    }
+
+    .tn-user__btn {
+        width: 40px;
+        height: 40px;
+        min-height: 40px;
+        min-width: 40px;
+        padding: 0 !important;
+        gap: 0;
+        justify-content: center;
+        border-radius: 14px;
+        flex-shrink: 0;
+    }
+
+    .tn-user__btn img,
+    .tn-nav .Userprofile img.image-40 {
+        width: 34px !important;
+        height: 34px !important;
+    }
+
+    .tn-menu.dropdown-menu,
+    .tn-nav .Userprofile .dropmenu-end {
+        width: min(300px, calc(100vw - 1rem));
+        inset-inline-end: 0 !important;
+        inset-inline-start: auto !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .tn-nav#main__navbar {
+        min-height: var(--tn-nav-offset);
+        height: var(--tn-nav-offset);
+        overflow: visible;
+    }
+
+    .tn-logo img.logo {
+        max-width: min(96px, 28vw);
+        height: 32px;
+    }
+
+    .tn-actions {
+        gap: 0.25rem !important;
+    }
+
+    .tn-icon-btn,
+    .tn-icon-btn.cart-button,
+    .tn-icon-btn.tn-wallet-btn,
+    .tn-user__btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px !important;
+        min-height: 36px;
+    }
+
+    .tn-icon-btn svg {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .tn-user__btn img,
+    .tn-nav .Userprofile img.image-40 {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    .tn-badge,
+    .tn-nav .cart-number,
+    .tn-nav .tn-wallet-badge {
+        min-width: 18px;
+        height: 18px;
+        font-size: 9px !important;
+        top: -5px !important;
+        inset-inline-end: -5px !important;
+    }
+
+    .tn-nav .tn-wallet-badge {
+        max-width: 52px;
+        padding: 0 4px;
+    }
+}
+
+@media (max-width: 429.98px) {
+    /* Kill legacy space-between that stretches auth icons across the bar */
+    .tn-nav .tn-actions.buttons-afterLogin,
+    .tn-nav .navbar .buttons-afterLogin {
+        justify-content: flex-end !important;
+        gap: 0.2rem !important;
+        flex-grow: 0 !important;
+    }
+
+    .tn-logo img.logo {
+        max-width: min(84px, 26vw);
+        height: 30px;
+    }
+
+    .tn-theme .switch__button {
+        transform: scale(0.78);
+    }
+}

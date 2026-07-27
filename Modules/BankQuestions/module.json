@@ -1,0 +1,11 @@
+{
+    "name": "BankQuestions",
+    "alias": "bankquestions",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\BankQuestions\\App\\Providers\\BankQuestionsServiceProvider"
+    ],
+    "files": []
+}

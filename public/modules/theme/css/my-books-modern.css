@@ -1,0 +1,383 @@
+/* =========================================================
+   Student My Books — Modern Redesign
+   ========================================================= */
+
+.mb-page {
+    --mb-card: #ffffff;
+    --mb-text: #0f172a;
+    --mb-muted: #64748b;
+    --mb-border: rgba(15, 23, 42, 0.08);
+    --mb-radius: 18px;
+    --mb-radius-sm: 14px;
+    --mb-shadow: 0 10px 28px rgba(15, 23, 42, 0.06);
+    --mb-shadow-hover: 0 16px 36px rgba(15, 23, 42, 0.1);
+    --mb-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --mb-accent-rgb: var(--c-accent-rgb, 13, 148, 136);
+}
+
+.mb-page .mb-panel {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.mb-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.mb-header__intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.mb-header__icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: #fff;
+    background: linear-gradient(
+        135deg,
+        rgb(var(--mb-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--mb-accent-rgb)))
+    );
+    box-shadow: 0 10px 24px rgba(var(--mb-accent-rgb), 0.28);
+}
+
+.mb-header__icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+}
+
+.mb-header__title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1.35rem, 2vw, 1.65rem);
+    font-weight: 800;
+    color: var(--mb-text);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+}
+
+.mb-header__sub {
+    margin: 0;
+    color: var(--mb-muted);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    max-width: 36rem;
+}
+
+.mb-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+}
+
+.mb-stat {
+    background: var(--mb-card);
+    border: 1px solid var(--mb-border);
+    border-radius: var(--mb-radius-sm);
+    padding: 1rem 1.1rem;
+    box-shadow: var(--mb-shadow);
+}
+
+.mb-stat__label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--mb-muted);
+    margin-bottom: 0.35rem;
+}
+
+.mb-stat__value {
+    display: block;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--mb-text);
+    letter-spacing: -0.02em;
+}
+
+.mb-stat--accent .mb-stat__value {
+    color: rgb(var(--mb-accent-rgb));
+}
+
+.mb-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.1rem;
+}
+
+.mb-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--mb-card);
+    border: 1px solid var(--mb-border);
+    border-radius: var(--mb-radius);
+    box-shadow: var(--mb-shadow);
+    overflow: hidden;
+    transition: transform 0.25s var(--mb-ease), box-shadow 0.25s var(--mb-ease), border-color 0.25s var(--mb-ease);
+    animation: mb-fade-up 0.45s var(--mb-ease) both;
+    height: 100%;
+}
+
+.mb-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--mb-shadow-hover);
+    border-color: rgba(var(--mb-accent-rgb), 0.22);
+}
+
+.mb-card__cover {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background:
+        radial-gradient(120% 80% at 50% 0%, rgba(var(--mb-accent-rgb), 0.12), transparent 60%),
+        #f1f5f9;
+    overflow: hidden;
+}
+
+.mb-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s var(--mb-ease);
+}
+
+.mb-card:hover .mb-card__cover img {
+    transform: scale(1.04);
+}
+
+.mb-card__badge {
+    position: absolute;
+    top: 12px;
+    inset-inline-start: 12px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #047857;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.mb-card__badge svg {
+    width: 12px;
+    height: 12px;
+}
+
+.mb-card__qty {
+    position: absolute;
+    top: 12px;
+    inset-inline-end: 12px;
+    z-index: 2;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #fff;
+    background: rgb(var(--mb-accent-rgb));
+    box-shadow: 0 8px 16px rgba(var(--mb-accent-rgb), 0.35);
+}
+
+.mb-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 1.05rem 1.15rem;
+    flex: 1;
+}
+
+.mb-card__title {
+    margin: 0;
+    font-size: 1.02rem;
+    font-weight: 800;
+    color: var(--mb-text);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.8em;
+}
+
+.mb-card__title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.mb-card__title a:hover {
+    color: rgb(var(--mb-accent-rgb));
+}
+
+.mb-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.85rem;
+    color: var(--mb-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.mb-card__meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.mb-card__meta svg {
+    width: 13px;
+    height: 13px;
+    opacity: 0.8;
+}
+
+.mb-card__actions {
+    margin-top: auto;
+    display: flex;
+    gap: 0.55rem;
+}
+
+.mb-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    min-height: 42px;
+    padding: 0.55rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none !important;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s var(--mb-ease), filter 0.2s var(--mb-ease), box-shadow 0.2s var(--mb-ease);
+}
+
+.mb-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+.mb-btn--primary {
+    flex: 1;
+    color: #fff !important;
+    background: linear-gradient(
+        135deg,
+        rgb(var(--mb-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--mb-accent-rgb)))
+    );
+    box-shadow: 0 8px 18px rgba(var(--mb-accent-rgb), 0.25);
+}
+
+.mb-btn--primary:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+    color: #fff !important;
+}
+
+.mb-empty {
+    background: var(--mb-card);
+    border: 1px dashed rgba(15, 23, 42, 0.14);
+    border-radius: var(--mb-radius);
+    padding: 2.75rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--mb-shadow);
+}
+
+.mb-empty__icon {
+    width: 68px;
+    height: 68px;
+    margin: 0 auto 1rem;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    color: rgb(var(--mb-accent-rgb));
+    background: rgba(var(--mb-accent-rgb), 0.1);
+}
+
+.mb-empty__icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.mb-empty__title {
+    margin: 0 0 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--mb-text);
+}
+
+.mb-empty__text {
+    margin: 0 0 1.1rem;
+    color: var(--mb-muted);
+    font-size: 0.95rem;
+}
+
+.mb-empty .mb-btn {
+    display: inline-flex;
+}
+
+@keyframes mb-fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mb-card:nth-child(1) { animation-delay: 0.02s; }
+.mb-card:nth-child(2) { animation-delay: 0.06s; }
+.mb-card:nth-child(3) { animation-delay: 0.1s; }
+.mb-card:nth-child(4) { animation-delay: 0.14s; }
+.mb-card:nth-child(5) { animation-delay: 0.18s; }
+.mb-card:nth-child(6) { animation-delay: 0.22s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .mb-card,
+    .mb-btn {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .mb-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .mb-grid,
+    .mb-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .mb-header__icon {
+        width: 44px;
+        height: 44px;
+    }
+}

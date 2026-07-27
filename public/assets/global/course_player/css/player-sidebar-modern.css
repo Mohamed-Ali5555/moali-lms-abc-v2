@@ -1,0 +1,409 @@
+/* =========================================================
+   Course Player Sidebar — Modern Redesign
+   Scoped under .psb-sidebar to avoid breaking player layout
+   ========================================================= */
+
+.psb-sidebar.course-content-playlist {
+    --psb-card: #ffffff;
+    --psb-text: #0f172a;
+    --psb-muted: #64748b;
+    --psb-border: rgba(15, 23, 42, 0.08);
+    --psb-soft: #f1f5f9;
+    --psb-radius: 18px;
+    --psb-radius-sm: 12px;
+    --psb-shadow: 0 10px 30px rgba(15, 23, 42, 0.07);
+    --psb-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --psb-accent-rgb: var(--c-accent-rgb, 37, 99, 235);
+
+    padding: 1.1rem 0.95rem 1rem;
+    border-radius: var(--psb-radius);
+    background: var(--psb-card);
+    box-shadow: var(--psb-shadow);
+    border: 1px solid var(--psb-border);
+}
+
+/* ---------- Header ---------- */
+.psb-header {
+    margin-bottom: 1rem;
+    padding-bottom: 0.95rem;
+    border-bottom: 1px solid var(--psb-border);
+}
+
+.psb-header__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.85rem;
+    margin-bottom: 0.85rem;
+}
+
+.psb-header__eyebrow {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgb(var(--psb-accent-rgb));
+    letter-spacing: 0.02em;
+}
+
+.psb-header__title,
+.psb-sidebar .heading {
+    margin: 0;
+    color: var(--psb-text);
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.35;
+    text-align: start;
+}
+
+.psb-progress svg {
+    display: block;
+}
+
+.psb-progress__track {
+    stroke: #e2e8f0;
+}
+
+.psb-progress__bar {
+    stroke: rgb(var(--psb-accent-rgb));
+    transition: stroke-dashoffset 0.5s var(--psb-ease);
+}
+
+.psb-progress__pct {
+    font-size: 9px;
+    font-weight: 800;
+    fill: var(--psb-text);
+}
+
+.psb-header__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.psb-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    width: fit-content;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(var(--psb-accent-rgb), 0.1);
+    color: var(--psb-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.psb-chip strong {
+    color: var(--psb-text);
+    font-weight: 800;
+}
+
+.psb-bar {
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.psb-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(
+        90deg,
+        rgb(var(--psb-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--psb-accent-rgb)))
+    );
+    transition: width 0.45s var(--psb-ease);
+}
+
+/* ---------- Accordion sections ---------- */
+.psb-sidebar .psb-section.accordion-item {
+    margin: 0 0 0.65rem !important;
+    padding: 0 !important;
+    border: 1px solid var(--psb-border) !important;
+    border-radius: var(--psb-radius-sm) !important;
+    box-shadow: none !important;
+    background: var(--psb-card);
+    overflow: hidden;
+}
+
+.psb-sidebar .psb-section__btn.accordion-button {
+    gap: 0.7rem;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--psb-text);
+    background: #fff;
+    box-shadow: none !important;
+}
+
+.psb-sidebar .psb-section__btn.accordion-button:not(.collapsed) {
+    color: var(--psb-text);
+    background: rgba(var(--psb-accent-rgb), 0.05);
+}
+
+.psb-sidebar .psb-section__btn.accordion-button:focus {
+    box-shadow: none !important;
+    border-color: transparent;
+}
+
+.psb-sidebar .psb-section__btn.accordion-button::after {
+    width: 14px;
+    height: 14px;
+    background-size: 14px;
+    margin-right: auto;
+    margin-left: 0;
+    opacity: 0.55;
+}
+
+.psb-section__icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: #fff;
+    background: linear-gradient(
+        135deg,
+        rgb(var(--psb-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--psb-accent-rgb)))
+    );
+    box-shadow: 0 8px 18px rgba(var(--psb-accent-rgb), 0.25);
+}
+
+.psb-section__icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.psb-section__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-width: 0;
+    text-align: start;
+}
+
+.psb-section__title {
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.psb-section__count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--psb-muted);
+}
+
+.psb-section__body.accordion-body {
+    padding: 0.35rem 0.55rem 0.7rem !important;
+    margin: 0 !important;
+    background: var(--psb-soft);
+}
+
+/* ---------- Lessons ---------- */
+.psb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.psb-sidebar .psb-lesson.coourse-playlist-item {
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0.65rem 0.7rem;
+    border-radius: 12px;
+    background: #fff;
+    border: 1px solid transparent;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    transition:
+        transform 0.22s var(--psb-ease),
+        box-shadow 0.22s var(--psb-ease),
+        border-color 0.22s var(--psb-ease),
+        background 0.22s var(--psb-ease);
+}
+
+.psb-sidebar .psb-lesson.coourse-playlist-item:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    border-color: rgba(var(--psb-accent-rgb), 0.18);
+}
+
+.psb-lesson__link {
+    gap: 0.65rem;
+    min-width: 0;
+    text-decoration: none !important;
+    color: inherit;
+}
+
+.psb-sidebar .psb-lesson .play-lock-number,
+.psb-lesson__type {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    margin: 0;
+    border-radius: 10px;
+    background: rgba(var(--psb-accent-rgb), 0.1);
+    color: rgb(var(--psb-accent-rgb));
+}
+
+.psb-lesson__type svg {
+    width: 18px;
+    height: 18px;
+}
+
+.psb-lesson__type .fa-image {
+    font-size: 0.95rem;
+}
+
+.psb-lesson__content {
+    min-width: 0;
+}
+
+.psb-sidebar .psb-lesson .video-title {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--psb-text);
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.psb-sidebar .psb-lesson .video-title:hover {
+    color: rgb(var(--psb-accent-rgb));
+}
+
+.psb-lesson__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+}
+
+.psb-sidebar .psb-lesson .duration {
+    color: var(--psb-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.psb-lesson__now {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.12rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(var(--psb-accent-rgb), 0.12);
+    color: rgb(var(--psb-accent-rgb));
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.psb-lesson__status {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    flex-shrink: 0;
+    color: var(--psb-muted);
+}
+
+.psb-lesson__status .checkbox-icon,
+.psb-sidebar .checkbox-icon {
+    color: rgb(var(--psb-accent-rgb));
+    font-size: 1.05rem;
+}
+
+.psb-lesson__status .fa-lock {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.psb-lesson__status .form-check-input {
+    width: 1.05rem;
+    height: 1.05rem;
+    margin: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    accent-color: rgb(var(--psb-accent-rgb));
+}
+
+.psb-lesson__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #cbd5e1;
+}
+
+/* Active lesson */
+.psb-sidebar .psb-lesson.coourse-playlist-item.active {
+    background: linear-gradient(
+        135deg,
+        rgb(var(--psb-accent-rgb)),
+        rgb(var(--c-accent-hover-rgb, var(--psb-accent-rgb)))
+    );
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(var(--psb-accent-rgb), 0.28);
+}
+
+.psb-sidebar .psb-lesson.active .video-title,
+.psb-sidebar .psb-lesson.active .duration,
+.psb-sidebar .psb-lesson.active .psb-lesson__status,
+.psb-sidebar .psb-lesson.active .psb-lesson__now {
+    color: #fff !important;
+}
+
+.psb-sidebar .psb-lesson.active .psb-lesson__type {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.psb-sidebar .psb-lesson.active .psb-lesson__now {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.psb-sidebar .psb-lesson.active path {
+    fill: none !important;
+    stroke: currentColor;
+}
+
+.psb-sidebar .psb-lesson.active .checkbox-icon {
+    color: #fff !important;
+}
+
+/* Completed */
+.psb-sidebar .psb-lesson.is-done:not(.active) {
+    background: #f8fafc;
+}
+
+.psb-sidebar .psb-lesson.is-done:not(.active) .video-title {
+    color: var(--psb-muted);
+}
+
+.psb-sidebar .psb-lesson.is-locked:not(.active) {
+    opacity: 0.72;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .psb-sidebar .psb-lesson.coourse-playlist-item,
+    .psb-bar span,
+    .psb-progress__bar {
+        transition: none !important;
+    }
+
+    .psb-sidebar .psb-lesson.coourse-playlist-item:hover {
+        transform: none;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .psb-sidebar.course-content-playlist {
+        margin-top: 1rem;
+    }
+}
