@@ -54,9 +54,15 @@ class BookStoreController extends Controller
     /**
      * Show the specified resource.
      */
-    public function show($id)
+     public function view($id)
     {
-        return view('bookstore::show');
+        $book = Book::findOrFail($id);
+
+        if (!$book->hasReadableContent()) {
+            return redirect()->route('admin.bookstore')->with('error', get_phrase('No book file available'));
+        }
+
+        return view('bookstore::view', compact('book'));
     }
 
     /**

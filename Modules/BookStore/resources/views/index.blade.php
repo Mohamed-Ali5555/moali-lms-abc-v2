@@ -77,6 +77,14 @@
 
                         <div class="admin-media-card__footer">
                             <div class="admin-media-card__footer-actions">
+                                @if ($book->hasReadableContent())
+                                    <a href="{{ route('admin.bookstore.view', $book->id) }}"
+                                        class="admin-btn admin-btn--ghost admin-media-card__read-btn"
+                                        title="{{ get_phrase('View book') }}">
+                                        <i class="fi-rr-book-open-cover"></i>
+                                        <span>{{ get_phrase('View book') }}</span>
+                                    </a>
+                                @endif
                                 @if (has_permission('admin.bookstore.edit'))
                                     <a href="#"
                                         onclick="ajaxModal('{{ route('modal', ['bookstore::edit', 'id' => $book->id]) }}', '{{ get_phrase('Edit book') }}', 'modal-lg')"

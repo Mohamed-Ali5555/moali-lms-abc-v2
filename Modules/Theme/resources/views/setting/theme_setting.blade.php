@@ -493,6 +493,30 @@
                 <i class="fi-rr-palette"></i>
                 <span>{{ get_phrase('ألوان الموقع') }}</span>
             </button>
+            <button type="button"
+                class="ts-tab nav-link {{ $activeTab === 'about' ? 'active is-active' : '' }}"
+                data-ts-target="#theme-about" role="tab"
+                aria-controls="theme-about"
+                aria-selected="{{ $activeTab === 'about' ? 'true' : 'false' }}">
+                <i class="fi-rr-info"></i>
+                <span>{{ get_phrase('من نحن') }}</span>
+            </button>
+            <button type="button"
+                class="ts-tab nav-link {{ $activeTab === 'contact' ? 'active is-active' : '' }}"
+                data-ts-target="#theme-contact" role="tab"
+                aria-controls="theme-contact"
+                aria-selected="{{ $activeTab === 'contact' ? 'true' : 'false' }}">
+                <i class="fi-rr-envelope"></i>
+                <span>{{ get_phrase('تواصل معنا') }}</span>
+            </button>
+            <button type="button"
+                class="ts-tab nav-link {{ $activeTab === 'accreditation' ? 'active is-active' : '' }}"
+                data-ts-target="#theme-accreditation" role="tab"
+                aria-controls="theme-accreditation"
+                aria-selected="{{ $activeTab === 'accreditation' ? 'true' : 'false' }}">
+                <i class="fi-rr-award"></i>
+                <span>{{ get_phrase('الاعتمادية') }}</span>
+            </button>
         </nav>
 
         <div class="tab-content ts-content">
@@ -771,8 +795,52 @@
 
                     <div class="ts-section">
                         <h3 class="ts-section__title">{{ get_phrase('Footer Settings') }}</h3>
-                        <label for="footer_description" class="form-label ol-form-label">{{ get_phrase('Footer Description') }}<span class="required">*</span></label>
-                        <textarea name="footer_description" rows="4" class="form-control ol-form-control text_editor" id="footer_description" required>{{ get_theme_settings('footer_description') }}</textarea>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="footer_description" class="form-label ol-form-label">{{ get_phrase('Footer Description') }}<span class="required">*</span></label>
+                                <textarea name="footer_description" rows="4" class="form-control ol-form-control text_editor" id="footer_description" required>{{ get_theme_settings('footer_description') }}</textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="map_link">{{ get_phrase('رابط خرائط جوجل') }}</label>
+                                <input type="url" name="map_link" id="map_link" class="form-control ol-form-control" value="{{ get_theme_settings('map_link') }}" placeholder="https://maps.app.goo.gl/...">
+                                <small class="text-muted d-block mt-1">{{ get_phrase('يظهر في الفوتر وصفحة الاعتمادية') }}</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="map_address">{{ get_phrase('العنوان النصي') }}</label>
+                                <input type="text" name="map_address" id="map_address" class="form-control ol-form-control" value="{{ get_theme_settings('map_address') }}" placeholder="المدينة، الحي، الشارع">
+                                <small class="text-muted d-block mt-1">{{ get_phrase('يظهر بجانب أيقونة الموقع في الفوتر') }}</small>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="map_embed_url">{{ get_phrase('رابط تضمين الخريطة (iframe)') }}</label>
+                                <input type="url" name="map_embed_url" id="map_embed_url" class="form-control ol-form-control" value="{{ get_theme_settings('map_embed_url') }}" placeholder="https://www.google.com/maps/embed?pb=...">
+                                <small class="text-muted d-block mt-1">{{ get_phrase('يُستخدم في صفحة الاعتمادية — انسخه من خرائط جوجل (مشاركة ← تضمين خريطة)') }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('إعدادات حقوق النشر') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="copyright_status">{{ get_phrase('حالة حقوق النشر') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="copyright_status" id="copyright_status">
+                                    <option value="1" @if(get_theme_settings('copyright_status') != 0) selected @endif>{{ get_phrase('ظاهر') }}</option>
+                                    <option value="0" @if(get_theme_settings('copyright_status') == 0) selected @endif>{{ get_phrase('مخفي') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="copyright_prefix">{{ get_phrase('نص قبل اسم صاحب الحق') }}</label>
+                                <input type="text" name="copyright_prefix" id="copyright_prefix" class="form-control ol-form-control" value="{{ get_theme_settings('copyright_prefix') ?: 'جميع الحقوق محفوظة لـ' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="copyright_text">{{ get_phrase('اسم صاحب الحق') }}</label>
+                                <input type="text" name="copyright_text" id="copyright_text" class="form-control ol-form-control" value="{{ get_theme_settings('copyright_text') ?: 'Arkan' }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="copyright_url">{{ get_phrase('رابط صاحب الحق') }}</label>
+                                <input type="url" name="copyright_url" id="copyright_url" class="form-control ol-form-control" value="{{ get_theme_settings('copyright_url') ?: 'https://wa.me/+201044445330' }}" placeholder="https://...">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="ts-section">
@@ -917,6 +985,241 @@
                     </div>
                 </form>
             </div>
+
+            {{-- About Us --}}
+            <div class="tab-pane fade {{ $activeTab === 'about' ? 'show active' : '' }}" id="theme-about" role="tabpanel">
+                <form class="required-form ts-panel" action="{{ route('admin.theme.settings.store', 'theme_about') }}" method="post">
+                    @csrf
+                    <div class="ts-panel__head">
+                        <div>
+                            <h2>{{ get_phrase('من نحن') }}</h2>
+                            <p>{{ get_phrase('محتوى صفحة التعريف بالمنصة والمدرس') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('إعدادات الصفحة') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="about_status">{{ get_phrase('حالة الصفحة') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="about_status" id="about_status">
+                                    <option value="1" @if(get_theme_settings('about_status') != '0') selected @endif>{{ get_phrase('ظاهرة') }}</option>
+                                    <option value="0" @if(get_theme_settings('about_status') == '0') selected @endif>{{ get_phrase('مخفية') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="about_subtitle">{{ get_phrase('العنوان الفرعي للبانر') }}</label>
+                                <input type="text" name="about_subtitle" id="about_subtitle" class="form-control ol-form-control" value="{{ get_theme_settings('about_subtitle') }}" placeholder="{{ get_phrase('تعرف علينا أكثر') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="about_us">{{ get_phrase('محتوى صفحة من نحن') }}</label>
+                                <textarea name="about_us" id="about_us" rows="10" class="form-control ol-form-control text_editor">{{ get_theme_settings('about_us') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-actions">
+                        <button type="submit" class="admin-btn admin-btn--primary">
+                            <i class="fi-rr-disk"></i>
+                            <span>{{ get_phrase('حفظ') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Contact Us --}}
+            <div class="tab-pane fade {{ $activeTab === 'contact' ? 'show active' : '' }}" id="theme-contact" role="tabpanel">
+                <form class="required-form ts-panel" action="{{ route('admin.theme.settings.store', 'theme_contact') }}" method="post">
+                    @csrf
+                    <div class="ts-panel__head">
+                        <div>
+                            <h2>{{ get_phrase('تواصل معنا') }}</h2>
+                            <p>{{ get_phrase('بيانات التواصل التي تظهر في صفحة تواصل معنا') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('إعدادات الصفحة') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_status">{{ get_phrase('حالة الصفحة') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="contact_status" id="contact_status">
+                                    <option value="1" @if(get_theme_settings('contact_status') != '0') selected @endif>{{ get_phrase('ظاهرة') }}</option>
+                                    <option value="0" @if(get_theme_settings('contact_status') == '0') selected @endif>{{ get_phrase('مخفية') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_subtitle">{{ get_phrase('العنوان الفرعي للبانر') }}</label>
+                                <input type="text" name="contact_subtitle" id="contact_subtitle" class="form-control ol-form-control" value="{{ get_theme_settings('contact_subtitle') }}" placeholder="{{ get_phrase('نحن هنا لمساعدتك دائماً') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="contact_intro">{{ get_phrase('مقدمة الصفحة') }}</label>
+                                <input type="text" name="contact_intro" id="contact_intro" class="form-control ol-form-control" value="{{ get_theme_settings('contact_intro') }}" placeholder="{{ get_phrase('نص تمهيدي يظهر أعلى بطاقات التواصل') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('بيانات التواصل') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_email">{{ get_phrase('البريد الإلكتروني') }}</label>
+                                <input type="email" name="contact_email" id="contact_email" class="form-control ol-form-control" value="{{ get_theme_settings('contact_email') }}" placeholder="info@example.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_phone">{{ get_phrase('رقم الهاتف') }}</label>
+                                <input type="text" name="contact_phone" id="contact_phone" class="form-control ol-form-control" value="{{ get_theme_settings('contact_phone') }}" placeholder="01xxxxxxxxx">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_address">{{ get_phrase('العنوان') }}</label>
+                                <input type="text" name="contact_address" id="contact_address" class="form-control ol-form-control" value="{{ get_theme_settings('contact_address') }}" placeholder="{{ get_phrase('المدينة، الحي، الشارع') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="contact_hours">{{ get_phrase('ساعات العمل') }}</label>
+                                <input type="text" name="contact_hours" id="contact_hours" class="form-control ol-form-control" value="{{ get_theme_settings('contact_hours') }}" placeholder="{{ get_phrase('السبت – الخميس / 9 ص – 5 م') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-actions">
+                        <button type="submit" class="admin-btn admin-btn--primary">
+                            <i class="fi-rr-disk"></i>
+                            <span>{{ get_phrase('حفظ') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {{-- Accreditation --}}
+            <div class="tab-pane fade {{ $activeTab === 'accreditation' ? 'show active' : '' }}" id="theme-accreditation" role="tabpanel">
+                <form class="required-form ts-panel" action="{{ route('admin.theme.settings.store', 'theme_accreditation') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="ts-panel__head">
+                        <div>
+                            <h2>{{ get_phrase('الاعتمادية') }}</h2>
+                            <p>{{ get_phrase('بيانات اعتماد وترخيص المنصة التعليمية') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('إعدادات الصفحة') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_status">{{ get_phrase('حالة الصفحة') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="accreditation_status" id="accreditation_status">
+                                    <option value="1" @if(get_theme_settings('accreditation_status') != '0') selected @endif>{{ get_phrase('ظاهرة') }}</option>
+                                    <option value="0" @if(get_theme_settings('accreditation_status') == '0') selected @endif>{{ get_phrase('مخفية') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_subtitle">{{ get_phrase('العنوان الفرعي للبانر') }}</label>
+                                <input type="text" name="accreditation_subtitle" id="accreditation_subtitle" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_subtitle') }}" placeholder="{{ get_phrase('اعتماد وترخيص المنصة التعليمية') }}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('بطاقة جهة الاعتماد') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_body_title">{{ get_phrase('اسم جهة الاعتماد (عربي)') }}</label>
+                                <input type="text" name="accreditation_body_title" id="accreditation_body_title" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_body_title') }}" placeholder="{{ get_phrase('المؤسسة العامة للتدريب التقني والمهني') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_body_subtitle">{{ get_phrase('اسم جهة الاعتماد (إنجليزي)') }}</label>
+                                <input type="text" name="accreditation_body_subtitle" id="accreditation_body_subtitle" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_body_subtitle') }}" placeholder="Technical and Vocational Training Corporation — TVTC" dir="ltr">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('شعار جهة الاعتماد') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="tvtc_logo" class="form-label ol-form-label">{{ get_phrase('شعار TVTC / جهة الاعتماد') }}</label>
+                                <input type="file" name="tvtc_logo" class="form-control ol-form-control" id="tvtc_logo" accept="image/*" />
+                                <small class="ts-size-hint d-block mt-2">
+                                    <i class="fi-rr-picture"></i>
+                                    {{ get_phrase('المقاس المثالي: حتى 400×200 px — PNG شفاف مفضّل') }}
+                                </small>
+                                @if(get_theme_settings('tvtc_logo') && file_exists(public_path(get_theme_settings('tvtc_logo'))))
+                                    <div class="image-preview-container">
+                                        <div class="image-preview">
+                                            <img src="{{ asset(get_theme_settings('tvtc_logo')) }}" alt="TVTC Logo">
+                                            <div class="current-image-text">{{ get_phrase('الشعار الحالي') }}</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-md-6">
+                                <label for="accreditation_document" class="form-label ol-form-label">{{ get_phrase('صورة وثيقة / شهادة الاعتماد') }}</label>
+                                <input type="file" name="accreditation_document" class="form-control ol-form-control" id="accreditation_document" accept="image/*" />
+                                <small class="ts-size-hint d-block mt-2">
+                                    <i class="fi-rr-document"></i>
+                                    {{ get_phrase('صورة واضحة للوثيقة أو الشهادة الرسمية') }}
+                                </small>
+                                @if(get_theme_settings('accreditation_document') && file_exists(public_path(get_theme_settings('accreditation_document'))))
+                                    <div class="image-preview-container">
+                                        <div class="image-preview">
+                                            <img src="{{ asset(get_theme_settings('accreditation_document')) }}" alt="Accreditation Document">
+                                            <div class="current-image-text">{{ get_phrase('الوثيقة الحالية') }}</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('بيانات الاعتماد') }}</h3>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_authority">{{ get_phrase('الجهة المانحة للاعتماد') }}</label>
+                                <input type="text" name="accreditation_authority" id="accreditation_authority" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_authority') }}" placeholder="{{ get_phrase('مثال: المؤسسة العامة للتدريب التقني والمهني') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_number">{{ get_phrase('رقم الاعتماد / الترخيص') }}</label>
+                                <input type="text" name="accreditation_number" id="accreditation_number" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_number') }}" placeholder="TVTC-XXXX-XXXX" dir="ltr">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_date">{{ get_phrase('تاريخ الاعتماد') }}</label>
+                                <input type="text" name="accreditation_date" id="accreditation_date" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_date') }}" placeholder="{{ get_phrase('مثال: 1 يناير 2024') }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="accreditation_status_label">{{ get_phrase('تسمية حالة الاعتماد') }}</label>
+                                <input type="text" name="accreditation_status_label" id="accreditation_status_label" class="form-control ol-form-control" value="{{ get_theme_settings('accreditation_status_label') }}" placeholder="{{ get_phrase('مثال: ساري / معتمد') }}">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="accreditation_description">{{ get_phrase('نبذة عن الاعتماد') }}</label>
+                                <textarea name="accreditation_description" id="accreditation_description" rows="6" class="form-control ol-form-control text_editor">{{ get_theme_settings('accreditation_description') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('الموقع الجغرافي') }}</h3>
+                        <p class="mb-3 text-muted" style="font-size:13px;">{{ get_phrase('هذه الإعدادات مشتركة مع إعدادات الفوتر — التغيير هنا ينعكس على الفوتر وصفحة الاعتمادية') }}</p>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label ol-form-label" for="map_link_accr">{{ get_phrase('رابط خرائط جوجل') }}</label>
+                                <input type="url" name="map_link" id="map_link_accr" class="form-control ol-form-control" value="{{ get_theme_settings('map_link') }}" placeholder="https://maps.app.goo.gl/...">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="map_embed_url_accr">{{ get_phrase('رابط تضمين الخريطة (iframe)') }}</label>
+                                <input type="url" name="map_embed_url" id="map_embed_url_accr" class="form-control ol-form-control" value="{{ get_theme_settings('map_embed_url') }}" placeholder="https://www.google.com/maps/embed?pb=...">
+                                <small class="text-muted d-block mt-1">{{ get_phrase('انسخه من خرائط جوجل: مشاركة ← تضمين خريطة ← انسخ الرابط من src="..."') }}</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-actions">
+                        <button type="submit" class="admin-btn admin-btn--primary">
+                            <i class="fi-rr-disk"></i>
+                            <span>{{ get_phrase('حفظ') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -949,8 +1252,15 @@
                     }
                 });
                 try {
+                    const tabMap = {
+                        '#theme-general': 'general',
+                        '#theme-colors': 'colors',
+                        '#theme-about': 'about',
+                        '#theme-contact': 'contact',
+                        '#theme-accreditation': 'accreditation',
+                    };
                     const url = new URL(window.location.href);
-                    url.searchParams.set('tab', target === '#theme-colors' ? 'colors' : 'general');
+                    url.searchParams.set('tab', tabMap[target] || 'general');
                     window.history.replaceState({}, '', url);
                 } catch (e) {}
             });

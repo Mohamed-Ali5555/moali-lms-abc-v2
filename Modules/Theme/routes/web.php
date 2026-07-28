@@ -12,6 +12,7 @@ use Modules\Theme\App\Http\Controllers\PaymentController;
 
 use Modules\Theme\App\Http\Controllers\Auth\PasswordResetLinkController;
 use Modules\Theme\App\Http\Controllers\Auth\NewPasswordController;
+use Modules\Theme\App\Http\Controllers\ContactController;
 
 
 use Modules\Theme\App\Http\Controllers\student\BecomeInstructorController;
@@ -83,7 +84,17 @@ Route::group(['as'=>'theme.'], function () {
     // end rest password
 
     // terms and conditions
-        Route::get('terms-condition', [HomeController::class, 'termsCondition'])->name('terms.condition');
+    Route::get('terms-condition', [HomeController::class, 'termsCondition'])->name('terms.condition');
+
+    // about us
+    Route::get('about-us', [HomeController::class, 'aboutUs'])->name('about.us');
+
+    // accreditation
+    Route::get('accreditation', [HomeController::class, 'accreditation'])->name('accreditation');
+
+    // contact us
+    Route::get('contact-us', [ContactController::class, 'index'])->name('contact.us');
+    Route::post('contact-us', [ContactController::class, 'store'])->name('contact.store');
 
 });
 
@@ -136,6 +147,8 @@ Route::middleware(['auth'])->as('theme.')->group(function () {
     });
    Route::controller(MyBooksController::class)->group(function () {
         Route::get('mybooks', 'index')->name('my.books');
+        Route::get('mybooks/{id}/view', 'view')->name('my.books.view');
+        Route::get('mybooks/{id}/file', 'file')->name('my.books.file');
     });
     Route::controller(MyPerformanceController::class)->group(function () {
         Route::get('myperformance', 'index')->name('my.performance');

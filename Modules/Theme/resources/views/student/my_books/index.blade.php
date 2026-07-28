@@ -79,9 +79,15 @@
 
                                         <div class="mb-card__body">
                                             <h2 class="mb-card__title">
-                                                <a href="{{ route('theme.book.details', $book->id) }}">
-                                                    {{ $book->title }}
-                                                </a>
+                                                @if ($book->hasReadableContent())
+                                                    <a href="{{ route('theme.my.books.view', $book->id) }}">
+                                                        {{ $book->title }}
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('theme.book.details', $book->id) }}">
+                                                        {{ $book->title }}
+                                                    </a>
+                                                @endif
                                             </h2>
 
                                             <div class="mb-card__meta">
@@ -97,16 +103,29 @@
                                             </div>
 
                                             <div class="mb-card__actions">
-                                                <a href="{{ route('theme.book.details', $book->id) }}"
-                                                    class="mb-btn mb-btn--primary">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                                        stroke-linejoin="round" aria-hidden="true">
-                                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                                        <circle cx="12" cy="12" r="3" />
-                                                    </svg>
-                                                    {{ get_phrase('عرض الكتاب') }}
-                                                </a>
+                                                @if ($book->hasReadableContent())
+                                                    <a href="{{ route('theme.my.books.view', $book->id) }}"
+                                                        class="mb-btn mb-btn--primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" aria-hidden="true">
+                                                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                                        </svg>
+                                                        {{ get_phrase('قراءة الكتاب') }}
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('theme.book.details', $book->id) }}"
+                                                        class="mb-btn mb-btn--primary">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" aria-hidden="true">
+                                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                            <circle cx="12" cy="12" r="3" />
+                                                        </svg>
+                                                        {{ get_phrase('عرض التفاصيل') }}
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </article>

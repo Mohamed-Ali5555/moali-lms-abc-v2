@@ -3,8 +3,10 @@
 namespace Modules\Theme\App\Http\Controllers\student;
 
 use App\Http\Controllers\Controller;
-use App\Models\Enrollment;
 use App\Models\Payment_history;
+use Illuminate\Support\Facades\Auth;
+use Modules\BookStore\App\Models\Book;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class MyBooksController extends Controller
 {
@@ -48,5 +50,62 @@ class MyBooksController extends Controller
             return view('theme::student.my_books.index',compact('books'));
 
 
+    }
+
+
+
+        public function view($id)
+    {
+        $book = Book::where('id', $id)->where('status', 1)->firstOrFail();
+
+        if (!$this->userOwnsBook($book->id)) {
+            abort(403, 'غير مصرح لك بعرض هذا الكتاب');
+        }
+
+        if (!$book->hasReadableContent()) {
+            return redirect()->route('theme.my.books')->with('error', 'لا يوجد ملف لهذا الكتاب حالياً');
+        }
+
+        return view('theme::student.my_books.view', compact('book'));
+    }
+
+    /**
+     * Stream uploaded PDF securely for purchased books only.
+     */
+    public function file($id): BinaryFileResponse
+    {
+        $book = Book::where('id', $id)->where('status', 1)->firstOrFail();
+
+        if (!$this->userOwnsBook($book->id)) {
+            abort(403, 'غير مصرح لك بعرض هذا الكتاب');
+        }
+
+        if ($book->file_type !== 'file' || empty($book->file_path)) {
+            abort(404);
+        }
+
+        $path = public_path($book->file_path);
+        if (!is_file($path)) {
+            abort(404);
+        }
+
+        return response()->file($path, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . basename($path) . '"',
+        ]);
+    }
+
+    protected function userOwnsBook(int $bookId): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return Payment_history::where('user_id', Auth::id())
+            ->whereHas('items', function ($query) use ($bookId) {
+                $query->where('productable_type', Book::class)
+                    ->where('productable_id', $bookId);
+            })
+            ->exists();
     }
 }

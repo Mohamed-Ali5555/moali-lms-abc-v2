@@ -57,6 +57,7 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
     Route::get('bookstore/create', [BookStoreController::class, 'create'])->name('bookstore.create');
     Route::post('bookstore/update/{id}', [BookStoreController::class, 'update'])->name('bookstore.update');
     Route::get('bookstore/delete/{id}', [BookStoreController::class, 'delete'])->name('bookstore.delete');
+    Route::get('bookstore/view/{id}', [BookStoreController::class, 'view'])->name('bookstore.view');
 
     //dashboard
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');

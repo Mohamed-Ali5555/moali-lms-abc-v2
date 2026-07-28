@@ -25,10 +25,33 @@ class Book extends Model
         'sort',
         'discount_price',
         'if_discount',
+        'file_type',
+        'file_path',
+        'file_url',
     ];
+
+
+        public function getContentUrlAttribute(): ?string
+    {
+        if ($this->file_type === 'link' && !empty($this->file_url)) {
+            return $this->file_url;
+        }
+
+        if ($this->file_type === 'file' && !empty($this->file_path)) {
+            return asset($this->file_path);
+        }
+
+        return null;
+    }
+
+   public function hasReadableContent(): bool
+    {
+        return !empty($this->content_url);
+    }
    public function creator() {
         return $this->belongsTo(\App\Models\User::class, 'added_by', 'id');
     }
+
 
 
     public function category(){

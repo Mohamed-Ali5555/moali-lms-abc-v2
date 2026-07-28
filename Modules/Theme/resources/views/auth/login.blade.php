@@ -57,7 +57,7 @@
                 <p class="lg-form__eyebrow">{{ get_phrase('ACCOUNT LOGIN') }}</p>
                 <h2 class="lg-form__title">{{ get_phrase('تسجيل الدخول') }}</h2>
                 <p class="lg-form__sub">
-                    {{ get_phrase('ادخل رقم الهاتف وكلمة المرور المسجّل بهم مسبقاً للوصول إلى حسابك.') }}
+                    {{ get_phrase('ادخل البريد الالكتروني وكلمة المرور المسجّل بهم مسبقاً للوصول إلى حسابك.') }}
                 </p>
 
                 @if ($errors->any())
@@ -71,16 +71,15 @@
                     <input type="hidden" name="device" id="device" value="">
 
                     <div class="lg-field">
-                        <label for="email">{{ get_phrase('رقم الهاتف') }}</label>
-                        <div class="lg-input">
+                    <label for="email">{{ get_phrase('البريد الالكتروني') }}</label>                        <div class="lg-input">
                             <i class="fa-solid fa-phone lg-input__icon"></i>
                             <input
                                 type="text"
                                 id="email"
                                 name="email"
                                 value="{{ old('email') }}"
-                                placeholder="01XXXXXXXXX"
-                                autocomplete="username"
+                                placeholder="acb@mail"
+                          
                                 required
                             >
                         </div>

@@ -67,4 +67,18 @@ class HomeController extends Controller
 
         return view('theme::termsCondition.terms_condition', $page_data);
     }
+
+    public function aboutUs()
+    {
+        if (get_theme_settings('about_status') === '0') {
+            abort(404);
+        }
+
+        return view('theme::about.index');
+    }
+
+    public function accreditation()
+    {
+        return view('theme::accreditation.index');
+    }
 }

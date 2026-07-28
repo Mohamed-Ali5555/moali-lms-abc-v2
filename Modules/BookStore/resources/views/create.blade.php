@@ -131,6 +131,30 @@
                 <img src="" alt="{{ get_phrase('Thumbnail') }}" id="thumbnailPreviewImg">
             </div>
         </div>
+
+                <div class="book-form__media">
+ <label class="form-label ol-form-label">{{ get_phrase('Book source') }}<span class="text-danger ms-1">*</span></label>
+                <div class="d-flex gap-4 flex-wrap">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="file_type" id="file_type_file" value="file" checked>
+                        <label class="form-check-label" for="file_type_file">{{ get_phrase('Upload PDF') }}</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="file_type" id="file_type_link" value="link">
+                        <label class="form-check-label" for="file_type_link">{{ get_phrase('External link') }}</label>
+                    </div>
+                </div> </div>
+                   <div class="mb-3" id="book_file_wrap">
+                <label for="book_file" class="form-label ol-form-label">{{ get_phrase('PDF file') }}<span class="text-danger ms-1">*</span></label>
+                <input type="file" name="book_file" class="form-control ol-form-control" id="book_file" accept="application/pdf,.pdf" />
+                <small class="text-muted">{{ get_phrase('Max size 50MB') }}</small>
+            </div>
+
+            <div class="mb-3" id="book_link_wrap" style="display:none;">
+                <label for="file_url" class="form-label ol-form-label">{{ get_phrase('Book link') }}<span class="text-danger ms-1">*</span></label>
+                <input type="url" name="file_url" class="form-control ol-form-control" id="file_url" placeholder="https://..." />
+                <small class="text-muted">{{ get_phrase('Google Drive, Dropbox, or any direct PDF URL') }}</small>
+            </div>
     </div>
 
     <div class="book-form__footer">
@@ -178,6 +202,23 @@
         };
         reader.readAsDataURL(file);
     });
+
+          function toggleBookSource() {
+            if ($('input[name="file_type"]:checked').val() === 'link') {
+                $('#book_file_wrap').hide();
+                $('#book_link_wrap').show();
+                $('#book_file').prop('required', false);
+                $('#file_url').prop('required', true);
+            } else {
+                $('#book_link_wrap').hide();
+                $('#book_file_wrap').show();
+                $('#book_file').prop('required', true);
+                $('#file_url').prop('required', false);
+            }
+        }
+
+        $('input[name="file_type"]').on('change', toggleBookSource);
+        toggleBookSource();
 })();
 </script>
 @include('admin.init')

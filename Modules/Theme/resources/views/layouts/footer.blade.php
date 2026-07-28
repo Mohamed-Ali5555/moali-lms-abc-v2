@@ -4,6 +4,8 @@
     $supportPhone = trim((string) (get_theme_settings('technical') ?: ''));
     $supportEnabled = (string) get_theme_settings('technical_status') !== '0' && $supportPhone !== '';
     $waDigits = preg_replace('/\D+/', '', $supportPhone) ?: '';
+    $mapLink    = trim((string) (get_theme_settings('map_link') ?: ''));
+    $mapAddress = trim((string) (get_theme_settings('map_address') ?: ''));
 @endphp
 
 <footer class="ft site-footer" dir="rtl">
@@ -78,6 +80,38 @@
                             </a>
                         </li>
                     @endauth
+
+                    @if (get_theme_settings('about_status') !== '0')
+                        <li>
+                            <a href="{{ route('theme.about.us') }}">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>{{ get_phrase('من نحن') }}</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if (get_theme_settings('contact_status') !== '0')
+                        <li>
+                            <a href="{{ route('theme.contact.us') }}">
+                                <i class="fa-solid fa-envelope"></i>
+                                <span>{{ get_phrase('تواصل معنا') }}</span>
+                            </a>
+                        </li>
+                    @endif
+
+                    <li>
+                        <a href="{{ $mapLink ?: route('theme.accreditation') }}" @if($mapLink) target="_blank" rel="noopener" @endif>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>{{ get_phrase('موقعنا الجغرافي') }}</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('theme.accreditation') }}">
+                            <i class="fa-solid fa-award"></i>
+                            <span>{{ get_phrase('الاعتمادية') }}</span>
+                        </a>
+                    </li>
+
                     @if (get_theme_settings('terms_status') == 1)
                         <li>
                             <a href="{{ route('theme.terms.condition') }}">
@@ -108,6 +142,25 @@
                     </a>
                 @endif
 
+                @if($mapAddress || $mapLink)
+                    <div class="ft-location">
+                        <div class="ft-location__icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div class="ft-location__body">
+                            @if($mapAddress)
+                                <span class="ft-location__address">{{ $mapAddress }}</span>
+                            @endif
+                            @if($mapLink)
+                                <a href="{{ $mapLink }}" target="_blank" rel="noopener" class="ft-location__link">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                    {{ get_phrase('فتح في خرائط جوجل') }}
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
                 @if ($social->isNotEmpty())
                     <div class="ft-social">
                         @foreach ($social as $row)
@@ -131,16 +184,17 @@
     <div class="ft-bottom">
         <div class="container">
             <div class="ft-bottom__row">
-                <p class="ft-copy">
-                    &copy; {{ date('Y') }}
-                    {{ get_phrase('جميع الحقوق محفوظة لـ') }}
-                    <a href="https://wa.me/201044445330" target="_blank" rel="noopener">Arkan</a>
-                </p>
+                @if (get_theme_settings('copyright_status') != 0)
+                    <p class="ft-copy">&copy; <span>
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
+                        </span> {{ get_theme_settings('copyright_prefix') ?: 'جميع الحقوق محفوظة لـ' }} <a href="{{ get_theme_settings('copyright_url') ?: 'https://wa.me/+201044445330' }}" target="_blank" rel="noopener">{{ get_theme_settings('copyright_text') ?: 'Arkan' }}</a>
+                    </p>
+                @endif
 
                 @if (get_theme_settings('terms_status') == 1)
-                    <a class="ft-legal" href="{{ route('theme.terms.condition') }}">
-                        {{ get_phrase('الشروط والأحكام وسياسة الخصوصية') }}
-                    </a>
+                    <a class="ft-legal" href="{{ route('theme.terms.condition') }}">الشروط والأحكام وسياسة الخصوصية</a>
                 @endif
             </div>
         </div>

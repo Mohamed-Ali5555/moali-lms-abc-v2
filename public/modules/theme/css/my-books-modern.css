@@ -381,3 +381,212 @@
         height: 44px;
     }
 }
+
+/* =========================================================
+   Book Viewer (Student)
+   ========================================================= */
+
+.mb-viewer-page .mb-viewer {
+    animation: mb-fade-up 0.45s var(--mb-ease) both;
+}
+
+.mb-viewer__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem 1.1rem;
+    background: var(--mb-card);
+    border: 1px solid var(--mb-border);
+    border-radius: var(--mb-radius);
+    box-shadow: var(--mb-shadow);
+}
+
+.mb-viewer__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.mb-viewer__back {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--mb-text);
+    background: #f1f5f9;
+    border: 1px solid var(--mb-border);
+    text-decoration: none !important;
+    transition: background 0.2s var(--mb-ease), color 0.2s var(--mb-ease);
+}
+
+.mb-viewer__back:hover {
+    background: rgba(var(--mb-accent-rgb), 0.1);
+    color: rgb(var(--mb-accent-rgb));
+}
+
+.mb-viewer__back svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mb-viewer__cover {
+    width: 52px;
+    height: 68px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+    border: 1px solid var(--mb-border);
+}
+
+.mb-viewer__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.mb-viewer__info {
+    min-width: 0;
+}
+
+.mb-viewer__eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: rgb(var(--mb-accent-rgb));
+    margin-bottom: 0.2rem;
+    letter-spacing: 0.02em;
+}
+
+.mb-viewer__title {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 800;
+    color: var(--mb-text);
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.mb-viewer__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.mb-viewer__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--mb-muted);
+    background: #f8fafc;
+    border: 1px solid var(--mb-border);
+}
+
+.mb-viewer__tag svg {
+    width: 12px;
+    height: 12px;
+}
+
+.mb-viewer__tag--owned {
+    color: #047857;
+    background: rgba(16, 185, 129, 0.08);
+    border-color: rgba(16, 185, 129, 0.18);
+}
+
+.mb-viewer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.mb-btn--ghost {
+    color: var(--mb-text) !important;
+    background: #fff;
+    border: 1px solid var(--mb-border);
+    box-shadow: none;
+}
+
+.mb-btn--ghost:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+    color: rgb(var(--mb-accent-rgb)) !important;
+}
+
+.mb-viewer__frame {
+    background: #0f172a;
+    border-radius: var(--mb-radius);
+    overflow: hidden;
+    min-height: min(78vh, 900px);
+    box-shadow: var(--mb-shadow-hover);
+    border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+.mb-viewer__frame iframe {
+    width: 100%;
+    height: min(78vh, 900px);
+    border: 0;
+    display: block;
+    background: #fff;
+}
+
+.mb-viewer__empty {
+    min-height: min(78vh, 900px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    color: #e2e8f0;
+}
+
+.mb-viewer__empty-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+}
+
+.mb-viewer__empty-icon svg {
+    width: 28px;
+    height: 28px;
+}
+
+.mb-viewer__empty p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+@media (max-width: 767.98px) {
+    .mb-viewer__toolbar {
+        align-items: flex-start;
+    }
+
+    .mb-viewer__actions {
+        width: 100%;
+    }
+
+    .mb-viewer__actions .mb-btn {
+        flex: 1;
+    }
+}

@@ -10,7 +10,7 @@
         <span class="fi-rr-cross"></span>
     </button>
 </div>
-<h3 class="sidebar-title fs-14px px-30px pb-20px text-uppercase mt-4">{{ get_phrase('Main Menu') }}</h3>
+<h3 class="sidebar-title fs-14px px-30px pb-20px mt-4">{{ get_phrase('القائمة الرئيسية') }}</h3>
 <div class="sidebar-nav-area">
     <nav class="sidebar-nav">
         <ul class="px-14px pb-24px">
@@ -20,7 +20,7 @@
                     <a href="{{ route('admin.dashboard') }}">
                         <span class="icon fi-rr-house-blank"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Dashboard') }}</span>
+                            <span>{{ get_phrase('لوحة التحكم') }}</span>
                         </div>
                     </a>
                 </li>
@@ -32,7 +32,7 @@
                     <a href="{{ route('admin.categories') }}">
                         <span class="icon fi-rr-apps"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Category') }}</span>
+                            <span>{{ get_phrase('التصنيفات') }}</span>
                         </div>
                     </a>
                 </li>
@@ -43,7 +43,7 @@
                     <a href="{{ route('admin.bookstore') }}">
                         <span class="icon fi-rr-book"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Books') }}</span>
+                            <span>{{ get_phrase('الكتب') }}</span>
                         </div>
                     </a>
                 </li>
@@ -62,26 +62,26 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi fi-rr-e-learning"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Course') }}</span>
+                            <span>{{ get_phrase('الدورات') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
-                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('Course') }}</li>
+                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('الدورات') }}</li>
 
                         @if (has_permission('admin.courses'))
                             <li class="sidebar-second-li @if ($current_route == 'admin.courses' ||   $current_route == 'admin.course.show_users' ||
                             $current_route == 'admin.course.edit') active @endif">
-                                <a href="{{ route('admin.courses') }}">{{ get_phrase('Manage Courses') }}</a>
+                                <a href="{{ route('admin.courses') }}">{{ get_phrase('إدارة الدورات') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.course.create'))
                             <li class="sidebar-second-li @if ($current_route == 'admin.course.create') active @endif">
-                                <a href="{{ route('admin.course.create') }}">{{ get_phrase('Add New Course') }}</a>
+                                <a href="{{ route('admin.course.create') }}">{{ get_phrase('إضافة دورة جديدة') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.coupons'))
                             <li class="sidebar-second-li @if ($current_route == 'admin.coupons' || $current_route == 'admin.coupon.users_coupon') active @endif">
-                                <a href="{{ route('admin.coupons') }}">{{ get_phrase('Coupons') }}</a>
+                                <a href="{{ route('admin.coupons') }}">{{ get_phrase('أكواد الخصم') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -96,23 +96,23 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi-rr-clipboard-list-check"></span>
                         <div class="text">
-                            <span>{{ get_phrase('bank questions') }}</span>
+                            <span>{{ get_phrase('بنك الأسئلة') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
                         @if (has_permission('admin.category.bank.questions.index'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.category.bank.questions.index' ? 'active' : '' }}">
-                                <a href="{{ route('admin.category.bank.questions.index') }}">{{ get_phrase('Category') }}</a>
+                                <a href="{{ route('admin.category.bank.questions.index') }}">{{ get_phrase('التصنيفات') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.bank.quizs.index'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.bank.quizs.index' ? 'active' : '' }}">
-                                <a href="{{ route('admin.bank.quizs.index') }}">{{ get_phrase('Bank Quizs') }}</a>
+                                <a href="{{ route('admin.bank.quizs.index') }}">{{ get_phrase('اختبارات البنك') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.bank.question.index'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.bank.question.index' ? 'active' : '' }}"><a
-                                    href="{{ route('admin.bank.question.index') }}">{{ get_phrase('bank question List') }}</a>
+                                    href="{{ route('admin.bank.question.index') }}">{{ get_phrase('قائمة أسئلة البنك') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -126,21 +126,21 @@
                 <a href="javascript:void(0);">
                     <span class="icon fi-rr-wallet"></span>
                         <div class="text">
-                        <span>{{ get_phrase('wallet') }}</span>
+                        <span>{{ get_phrase('المحفظة') }}</span>
                     </div>
                 </a>
                 <ul class="first-sub-menu">
-                    <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('wallet') }}</li>
+                    <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('المحفظة') }}</li>
 
                     @if (has_permission('admin.wallet.index'))
                         <li class="sidebar-second-li @if ($current_route == 'admin.wallet.index' || $current_route == 'admin.course.edit') active @endif">
-                            <a href="{{ route('admin.wallet.index') }}">{{ get_phrase('Manage wallet') }}</a>
+                            <a href="{{ route('admin.wallet.index') }}">{{ get_phrase('إدارة المحفظة') }}</a>
                         </li>
                     @endif
 
                     @if (has_permission('admin.wallet_category.index'))
                         <li class="sidebar-second-li @if ($current_route == 'admin.wallet_category.index') active @endif">
-                            <a href="{{ route('admin.wallet_category.index') }}">{{ get_phrase('wallet-category') }}</a>
+                            <a href="{{ route('admin.wallet_category.index') }}">{{ get_phrase('تصنيفات المحفظة') }}</a>
                         </li>
                     @endif
 
@@ -183,7 +183,7 @@
                         @if (has_permission('admin.bootcamp.categories'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.bootcamp.categories' ? 'active' : '' }}">
-                                <a href="{{ route('admin.bootcamp.categories') }}">{{ get_phrase('Category') }}</a>
+                                <a href="{{ route('admin.bootcamp.categories') }}">{{ get_phrase('التصنيفات') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -240,29 +240,29 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi-rr-user-add"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Student enrollment') }}</span>
+                            <span>{{ get_phrase('تسجيل الطلاب') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
-                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('Course enrollment') }}</li>
+                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('تسجيل الدورات') }}</li>
 
                         @if (has_permission('admin.enroll.history'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.enroll.history' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.enroll.history') }}">{{ get_phrase('Enrollment History') }}</a>
+                                    href="{{ route('admin.enroll.history') }}">{{ get_phrase('سجل التسجيل') }}</a>
                             </li>
                         @endif
 
                         @if (has_permission('admin.student.enroll'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.student.enroll' ? 'active' : '' }}">
-                                <a href="{{ route('admin.student.enroll') }}">{{ get_phrase('Enroll student') }}</a>
+                                <a href="{{ route('admin.student.enroll') }}">{{ get_phrase('تسجيل طالب') }}</a>
                             </li>
                         @endif
 
                         @if (has_permission('admin.student.not_enroll'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.student.not_enroll' ? 'active' : '' }}">
-                                <a href="{{ route('admin.student.not_enroll') }}">{{ get_phrase('Student Not Enroll ') }}</a>
+                                <a href="{{ route('admin.student.not_enroll') }}">{{ get_phrase('الطلاب غير المسجلين') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -281,11 +281,11 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi-rr-chart-histogram"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Payment Report') }}</span>
+                            <span>{{ get_phrase('تقارير الدفع') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
-                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('Payment Report') }}</li>
+                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('تقارير الدفع') }}</li>
 
                         {{-- @if (has_permission('admin.offline.payments'))
                             <li
@@ -310,7 +310,7 @@
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.purchase.history' || $current_route == 'admin.purchase.history.invoice' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.purchase.history') }}">{{ get_phrase('Payment History course') }}</a>
+                                    href="{{ route('admin.purchase.history') }}">{{ get_phrase('سجل مدفوعات الدورات') }}</a>
                             </li>
                         @endif
 
@@ -319,7 +319,7 @@
                         <li
                             class="sidebar-second-li {{ $current_route == 'admin.purchase.history_book' || $current_route == 'admin.purchase.history.invoice' ? 'active' : '' }}">
                             <a
-                                href="{{ route('admin.purchase.history_book') }}">{{ get_phrase('Payment History book') }}</a>
+                                href="{{ route('admin.purchase.history_book') }}">{{ get_phrase('سجل مدفوعات الكتب') }}</a>
                         </li>
                     @endif
 
@@ -356,11 +356,11 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi-rr-users"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Users') }}</span>
+                            <span>{{ get_phrase('المستخدمون') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
-                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('Users') }}</li>
+                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('المستخدمون') }}</li>
                         @if (has_permission('admin.admins.index'))
                             <li
                                 class="sidebar-second-li second-li-have-sub @if (
@@ -368,18 +368,18 @@
                                         $current_route == 'admin.admins.create' ||
                                         $current_route == 'admin.admins.edit' ||
                                         $current_route == 'admin.admins.permission') active @endif">
-                                <a href="javascript:void(0);">{{ get_phrase('Employee') }}</a>
+                                <a href="javascript:void(0);">{{ get_phrase('الموظفون') }}</a>
                                 <ul class="second-sub-menu">
                                     <li class="sidebar-third-li @if (
                                         $current_route == 'admin.admins.index' ||
                                             $current_route == 'admin.admins.permission' ||
                                             $current_route == 'admin.admins.edit') active @endif">
                                         <a
-                                            href="{{ route('admin.admins.index') }}">{{ get_phrase('Manage Employee') }}</a>
+                                            href="{{ route('admin.admins.index') }}">{{ get_phrase('إدارة الموظفين') }}</a>
                                     </li>
                                     <li class="sidebar-third-li @if ($current_route == 'admin.admins.create') active @endif">
                                         <a
-                                            href="{{ route('admin.admins.create') }}">{{ get_phrase('Add New Employee') }}</a>
+                                            href="{{ route('admin.admins.create') }}">{{ get_phrase('إضافة موظف جديد') }}</a>
                                     </li>
                                 </ul>
                             </li>
@@ -427,19 +427,19 @@
                                     $current_route == 'admin.student.view_course' ||
                                     $current_route == 'admin.student.edit' ||
                                     $current_route == 'admin.student.create') active @endif">
-                                <a href="javascript:void(0);">{{ get_phrase('Student') }}</a>
+                                <a href="javascript:void(0);">{{ get_phrase('الطلاب') }}</a>
                                 <ul class="second-sub-menu">
 
                                 @if (has_permission('admin.student.index'))
                                     <li class="sidebar-third-li @if ($current_route == 'admin.student.index' || $current_route == 'admin.student.edit' || $current_route == 'admin.student.view_course') active @endif">
                                         <a
-                                            href="{{ route('admin.student.index') }}">{{ get_phrase('Manage Students') }}</a>
+                                            href="{{ route('admin.student.index') }}">{{ get_phrase('إدارة الطلاب') }}</a>
                                     </li>
                                 @endif
                                   @if (has_permission('admin.student.create'))
                                         <li class="sidebar-third-li @if ($current_route == 'admin.student.create') active @endif">
                                             <a
-                                                href="{{ route('admin.student.create') }}">{{ get_phrase('Add new Student') }}</a>
+                                                href="{{ route('admin.student.create') }}">{{ get_phrase('إضافة طالب جديد') }}</a>
                                         </li>
                                     @endif
                                 </ul>
@@ -497,19 +497,19 @@
                     <a href="javascript:void(0);">
                         <span class="icon fi-rr-clipboard-list"></span>
                         <div class="text">
-                            <span>{{ get_phrase('Exams') }}</span>
+                            <span>{{ get_phrase('الاختبارات') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
                         @if (has_permission('admin.exams.list'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.exams.list' ? 'active' : '' }}"><a
-                                    href="{{ route('admin.exams.list') }}">{{ get_phrase('Quizs') }}</a>
+                                    href="{{ route('admin.exams.list') }}">{{ get_phrase('الاختبارات القصيرة') }}</a>
                             </li>
                         @endif
 
                         @if (has_permission('admin.assignments.list'))
                             <li class="sidebar-second-li {{ $current_route == 'admin.assignments.list' ? 'active' : '' }}"><a
-                                    href="{{ route('admin.assignments.list') }}">{{ get_phrase('Assignments') }}</a>
+                                    href="{{ route('admin.assignments.list') }}">{{ get_phrase('الواجبات') }}</a>
                             </li>
                         @endif
                     </ul>
@@ -555,7 +555,7 @@
                         @if (has_permission('admin.blog.category'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.blog.category' ? 'active' : '' }}">
-                                <a href="{{ route('admin.blog.category') }}">{{ get_phrase('Category') }}</a>
+                                <a href="{{ route('admin.blog.category') }}">{{ get_phrase('التصنيفات') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.blog.settings'))
@@ -585,23 +585,23 @@
             has_permission('admin.wapilot.settings'))
 
         <nav class="sidebar-nav">
-            <h3 class="sidebar-title fs-12px px-30px text-uppercase pb-3">{{ get_phrase('Settings') }}</h3>
+            <h3 class="sidebar-title fs-12px px-30px pb-3">{{ get_phrase('الإعدادات') }}</h3>
             <ul class="px-14px pb-24px mb-5 pb-5">
                 <li
                     class="sidebar-first-li first-li-have-sub {{ $current_route == 'admin.system.settings' || $current_route == 'admin.website.settings' || $current_route == 'admin.language.phrase.edit' || $current_route == 'admin.payment.settings' || $current_route == 'admin.manage.language' || $current_route == 'admin.notification.settings' || $current_route == 'admin.live.class.settings' || $current_route == 'admin.live.class.settings' || $current_route == 'admin.certificate.settings' || $current_route == 'admin.player.settings' || $current_route == 'admin.open.ai.settings' || $current_route == 'admin.seo.settings' || $current_route == 'admin.wapilot.settings' || $current_route == 'admin.theme.social'  || $current_route == 'admin.theme.feature' || $current_route == 'admin.theme.settings' || $current_route == 'admin.theme.legal' ? 'active' : '' }}">
                     <a href="javascript:void(0);">
                         <span class="icon fi fi-rr-settings"></span>
                         <div class="text">
-                            <span>{{ get_phrase('System Settings') }}</span>
+                            <span>{{ get_phrase('إعدادات النظام') }}</span>
                         </div>
                     </a>
                     <ul class="first-sub-menu">
-                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('System Settings') }}</li>
+                        <li class="first-sub-menu-title fs-14px mb-18px">{{ get_phrase('إعدادات النظام') }}</li>
                         @if (has_permission('admin.system.settings'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.system.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.system.settings') }}">{{ get_phrase('System Settings') }}</a>
+                                    href="{{ route('admin.system.settings') }}">{{ get_phrase('إعدادات النظام') }}</a>
                             </li>
                         @endif
 
@@ -616,21 +616,21 @@
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.website.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.website.settings') }}">{{ get_phrase('Website Settings') }}</a>
+                                    href="{{ route('admin.website.settings') }}">{{ get_phrase('إعدادات الموقع') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.payment.settings'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.payment.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.payment.settings') }}">{{ get_phrase('Payment Settings') }}</a>
+                                    href="{{ route('admin.payment.settings') }}">{{ get_phrase('إعدادات الدفع') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.manage.language'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.manage.language' || $current_route == 'admin.language.phrase.edit' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.manage.language') }}">{{ get_phrase('Manage Language') }}</a>
+                                    href="{{ route('admin.manage.language') }}">{{ get_phrase('إدارة اللغات') }}</a>
                             </li>
                         @endif
                         {{-- @if (has_permission('admin.live.class.settings'))
@@ -644,14 +644,14 @@
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.notification.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.notification.settings') }}">{{ get_phrase('SMTP Settings') }}</a>
+                                    href="{{ route('admin.notification.settings') }}">{{ get_phrase('إعدادات البريد الإلكتروني') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.wapilot.settings'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.wapilot.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.wapilot.settings') }}">{{ get_phrase('WaPilot Integration') }}</a>
+                                    href="{{ route('admin.wapilot.settings') }}">{{ get_phrase('تكامل WaPilot') }}</a>
                             </li>
                         @endif
                         {{-- @if (has_permission('admin.certificate.settings'))
@@ -665,21 +665,21 @@
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.player.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.player.settings') }}">{{ get_phrase('Player Settings') }}</a>
+                                    href="{{ route('admin.player.settings') }}">{{ get_phrase('إعدادات المشغّل') }}</a>
                             </li>
                         @endif
                         @if (has_permission('admin.open.ai.settings'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.open.ai.settings' ? 'active' : '' }}">
                                 <a
-                                    href="{{ route('admin.open.ai.settings') }}">{{ get_phrase('Open AI Settings') }}</a>
+                                    href="{{ route('admin.open.ai.settings') }}">{{ get_phrase('إعدادات الذكاء الاصطناعي') }}</a>
                             </li>
                         @endif
 
                         @if (has_permission('admin.seo.settings'))
                             <li
                                 class="sidebar-second-li {{ $current_route == 'admin.seo.settings' ? 'active' : '' }}">
-                                <a href="{{ route('admin.seo.settings') }}">{{ get_phrase('SEO Settings') }}</a>
+                                <a href="{{ route('admin.seo.settings') }}">{{ get_phrase('إعدادات تحسين محركات البحث') }}</a>
                             </li>
                         @endif
 
@@ -691,7 +691,7 @@
                         <a href="{{ route('admin.manage.profile') }}">
                             <span class="icon fi-rr-circle-user"></span>
                         <div class="text">
-                                <span>{{ get_phrase('Manage Profile') }}</span>
+                                <span>{{ get_phrase('إدارة الملف الشخصي') }}</span>
                             </div>
                         </a>
                     </li>

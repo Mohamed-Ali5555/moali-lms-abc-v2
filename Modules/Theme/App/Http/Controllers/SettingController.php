@@ -110,6 +110,69 @@ class SettingController extends Controller
             Session::flash('tab', 'colors');
         }
 
+        if ($param1 == 'theme_about') {
+            $allowed = ['about_subtitle', 'about_us', 'about_status'];
+            foreach ($allowed as $key) {
+                theme_setting::updateOrCreate(
+                    ['type' => $key],
+                    ['description' => $request->input($key) ?? '']
+                );
+            }
+            clear_lms_cache('theme_settings');
+            Session::flash('success', get_phrase('تم حفظ إعدادات صفحة من نحن بنجاح'));
+            Session::flash('tab', 'about');
+        }
+
+        if ($param1 == 'theme_contact') {
+            $allowed = ['contact_subtitle', 'contact_intro', 'contact_email', 'contact_phone', 'contact_address', 'contact_hours', 'contact_status'];
+            foreach ($allowed as $key) {
+                theme_setting::updateOrCreate(
+                    ['type' => $key],
+                    ['description' => $request->input($key) ?? '']
+                );
+            }
+            clear_lms_cache('theme_settings');
+            Session::flash('success', get_phrase('تم حفظ إعدادات صفحة التواصل بنجاح'));
+            Session::flash('tab', 'contact');
+        }
+
+        if ($param1 == 'theme_accreditation') {
+            $request->validate([
+                'tvtc_logo'              => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
+                'accreditation_document' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
+            ]);
+
+            $textFields = [
+                'accreditation_status', 'accreditation_subtitle',
+                'accreditation_body_title', 'accreditation_body_subtitle',
+                'accreditation_description', 'accreditation_authority',
+                'accreditation_number', 'accreditation_date',
+                'accreditation_status_label', 'map_embed_url', 'map_link',
+            ];
+            foreach ($textFields as $key) {
+                theme_setting::updateOrCreate(
+                    ['type' => $key],
+                    ['description' => $request->input($key) ?? '']
+                );
+            }
+
+            foreach (['tvtc_logo', 'accreditation_document'] as $key) {
+                if ($request->hasFile($key)) {
+                    $file     = $request->file($key);
+                    $filePath = 'uploads/theme-thumbnail/' . nice_file_name($key, $file->extension());
+                    FileUploader::upload($file, $filePath);
+                    theme_setting::updateOrCreate(
+                        ['type' => $key],
+                        ['description' => $filePath]
+                    );
+                }
+            }
+
+            clear_lms_cache('theme_settings');
+            Session::flash('success', get_phrase('تم حفظ إعدادات الاعتمادية بنجاح'));
+            Session::flash('tab', 'accreditation');
+        }
+
         if ($request->ajax()) {
             return response()->json([
                 'status' => 'success',
