@@ -18,8 +18,8 @@
                         <i class="fi-rr-chalkboard-user"></i>
                         {{ get_phrase('Instructors') }}
                     </div>
-                    <h1 class="tf-hero__title">{{ get_phrase('Edit Instructor') }}</h1>
-                    <p class="tf-hero__desc">{{ get_phrase('Update instructor profile and login credentials.') }}</p>
+                    <h1 class="tf-hero__title">{{ get_phrase('تعديل بيانات المدرس') }}</h1>
+                    <p class="tf-hero__desc">{{ get_phrase('تحديث البيانات الأساسية وبيانات الدخول') }}</p>
                 </div>
                 <div class="tf-hero__actions">
                     <a href="{{ route('admin.instructor.index') }}" class="tf-btn tf-btn--ghost">
@@ -61,28 +61,20 @@
                         </div>
                         <div class="tab-content w-100" id="myv-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-tab1" role="tabpanel" aria-labelledby="v-pills-tab1-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.edit_instructor_basic')
-                                </div>
+                                @include('admin.instructor.edit_instructor_basic')
                             </div>
                             <div class="tab-pane fade" id="v-pills-tab2" role="tabpanel" aria-labelledby="v-pills-tab2-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.edit_login')
-                                </div>
+                                @include('admin.instructor.edit_login')
                             </div>
                             {{-- <div class="tab-pane fade" id="v-pills-tab3" role="tabpanel" aria-labelledby="v-pills-tab3-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.edit_payment')
-                                </div>
+                                @include('admin.instructor.edit_payment')
                             </div>
                             <div class="tab-pane fade" id="v-pills-tab4" role="tabpanel" aria-labelledby="v-pills-tab4-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.edit_social')
-                                </div>
+                                @include('admin.instructor.edit_social')
                             </div> --}}
 
                             <button type="submit" class="tf-btn tf-btn--primary mt-3">
-                                <span>{{ get_phrase('Update Instructor') }}</span>
+                                <span>{{ get_phrase('تحديث') }}</span>
                             </button>
                         </div>
                     </div>

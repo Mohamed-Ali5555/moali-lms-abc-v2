@@ -36,7 +36,7 @@ class PaymobService
             "auth_token" => $token,
             "delivery_needed" => false,
             "amount_cents" => $totalPrice * 100, // تحويل المبلغ إلى سنتات
-            "currency" => 'EGP',
+            "currency" => currency_code(),
             "items" => []
         ]);
 

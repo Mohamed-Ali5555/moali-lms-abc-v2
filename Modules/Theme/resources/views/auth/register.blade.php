@@ -169,7 +169,7 @@ $regions = [
                     </div>
 
 
-                    {{-- رقم الهوية الوطنية --}}
+                    {{-- رقم الإقامة --}}
                     <div class="rg-field rg-span-2">
 
                         @php
@@ -178,7 +178,7 @@ $regions = [
 
                         <label for="national_id">
 
-                            {{ get_phrase('رقم الهوية الوطنية') }}
+                            {{ get_phrase('رقم الإقامة') }}
 
                             @if ($nationalIdRequired)
                                 <span class="req">*</span>
@@ -201,7 +201,8 @@ $regions = [
                                 value="{{ old('national_id') }}"
                                 maxlength="10"
                                 minlength="10"
-                                placeholder="رقم الهوية الوطنية"
+                                pattern="[12][0-9]{9}"
+                                placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
                                 onkeypress="validateNumberInput(event)"
                                 class="@error('national_id') is-invalid @enderror"
                                 @if ($nationalIdRequired) required @endif>
@@ -212,7 +213,7 @@ $regions = [
                         @enderror
 
                         <span class="rg-hint custom_input_message">
-                            {{ get_phrase('أدخل رقم الهوية الوطنية المكوّن من 10 أرقام') }}
+                            {{ get_phrase('رقم الإقامة أو الهوية الوطنية — 10 أرقام') }}
                         </span>
 
                     </div>
@@ -968,7 +969,7 @@ $regions = [
                     !nationalId.value.trim())
             ) {
 
-                errors.push('يرجى إدخال رقم الهوية الوطنية');
+                errors.push('يرجى إدخال رقم الإقامة');
 
                 if (!firstErrorField) {
                     firstErrorField = nationalId;
@@ -978,11 +979,11 @@ $regions = [
                 nationalId &&
                 nationalId.value &&
                 nationalId.value.trim() &&
-                nationalId.value.length !== 10
+                !/^[12]\d{9}$/.test(nationalId.value)
             ) {
 
                 errors.push(
-                    'رقم الهوية الوطنية يجب أن يتكون من 10 أرقام'
+                    'رقم الإقامة يجب أن يبدأ بـ 1 أو 2 ويتكون من 10 أرقام'
                 );
 
                 if (!firstErrorField) {

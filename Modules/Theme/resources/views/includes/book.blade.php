@@ -51,7 +51,7 @@
                                         @else
                                             <span class="book-stage__price-now">{{ $book->price }}</span>
                                         @endif
-                                        <span class="book-stage__currency">جنيهًا</span>
+                                        <span class="book-stage__currency">{{ currency_symbol() }}</span>
                                     </div>
 
                                     <button

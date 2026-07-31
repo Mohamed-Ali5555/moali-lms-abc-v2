@@ -70,8 +70,10 @@
 
 
                         <div class="form-group mb-5">
-                            <label for="" class="form-label">{{ get_phrase('national-id') }}</label>
-                            <input type="number" min="1" name="national_id" class="form-control" placeholder="Your national-id">
+                            <label for="" class="form-label">{{ get_phrase('رقم الإقامة') }}</label>
+                            <input type="text" name="national_id" class="form-control"
+                                placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
+                                maxlength="10" inputmode="numeric" pattern="[12][0-9]{9}" required>
 
                             @error('national_id')
                                 <small class="text-danger">{{ $message }}</small>
@@ -93,36 +95,12 @@
                         </div>
                         {{-- goverment --}}
                         <div class="form-group mb-5">
-                            <label for="" class="form-label">{{ get_phrase('goverment') }}</label>
+                            <label for="" class="form-label">{{ get_phrase('المنطقة') }}</label>
                             <select class="ol-select2 form-control ol-select2-multiple" id="goverment" name="goverment" required>
-                                <option value="" disabled>اختر المحافظة</option>
-                                <option value="القاهرة">القاهرة</option>
-                                <option value="الجيزة">الجيزة</option>
-                                <option value="الإسكندرية">الإسكندرية</option>
-                                <option value="الشرقية">الشرقية</option>
-                                <option value="الدقهلية">الدقهلية</option>
-                                <option value="القليوبية">القليوبية</option>
-                                <option value="الغربية">الغربية</option>
-                                <option value="المنوفية">المنوفية</option>
-                                <option value="البحيرة">البحيرة</option>
-                                <option value="كفر الشيخ">كفر الشيخ</option>
-                                <option value="دمياط">دمياط</option>
-                                <option value="بورسعيد">بورسعيد</option>
-                                <option value="الإسماعيلية">الإسماعيلية</option>
-                                <option value="السويس">السويس</option>
-                                <option value="مطروح">مطروح</option>
-                                <option value="الفيوم">الفيوم</option>
-                                <option value="بني سويف">بني سويف</option>
-                                <option value="المنيا">المنيا</option>
-                                <option value="أسيوط">أسيوط</option>
-                                <option value="سوهاج">سوهاج</option>
-                                <option value="قنا">قنا</option>
-                                <option value="الأقصر">الأقصر</option>
-                                <option value="أسوان">أسوان</option>
-                                <option value="البحر الأحمر">البحر الأحمر</option>
-                                <option value="الوادي الجديد">الوادي الجديد</option>
-                                <option value="شمال سيناء">شمال سيناء</option>
-                                <option value="جنوب سيناء">جنوب سيناء</option>
+                                <option value="" disabled>{{ get_phrase('اختر المنطقة') }}</option>
+                                @foreach (get_saudi_regions() as $region)
+                                    <option value="{{ $region }}">{{ $region }}</option>
+                                @endforeach
                             </select>
                             @error('goverment')
                                 <small class="text-danger">{{ $message }}</small>

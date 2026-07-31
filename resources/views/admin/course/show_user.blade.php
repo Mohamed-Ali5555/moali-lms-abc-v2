@@ -69,7 +69,7 @@
                                         <th scope="col">{{ get_phrase('Parent Phone') }}</th>
                                         <th scope="col">{{ get_phrase('category') }}</th>
                                         <th scope="col">{{ get_phrase('goverment') }}</th>
-                                        <th scope="col">{{ get_phrase('national-id') }}</th>
+                                        <th scope="col">{{ get_phrase('رقم الإقامة') }}</th>
                                         <th scope="col">{{ get_phrase('address') }}</th>
                                         <th scope="col">{{ get_phrase('Wallet balane') }}</th>
 

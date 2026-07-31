@@ -964,12 +964,52 @@ if (!function_exists('date_formatter')) {
     }
 }
 
+if (!function_exists('currency_code')) {
+    function currency_code(): string
+    {
+        $code = get_theme_settings('currency_code');
+        if ($code) {
+            return strtoupper((string) $code);
+        }
+
+        $system = get_settings('system_currency');
+
+        return $system ? strtoupper((string) $system) : 'EGP';
+    }
+}
+
+if (!function_exists('currency_symbol')) {
+    function currency_symbol(): string
+    {
+        $symbol = get_theme_settings('currency_symbol');
+        if ($symbol) {
+            return (string) $symbol;
+        }
+
+        $fromDb = DB::table('currencies')->where('code', currency_code())->value('symbol');
+
+        return $fromDb ?: 'ج.م';
+    }
+}
+
+if (!function_exists('currency_position')) {
+    function currency_position(): string
+    {
+        $position = get_theme_settings('currency_position');
+        if ($position) {
+            return (string) $position;
+        }
+
+        return get_settings('currency_position') ?: 'right-space';
+    }
+}
+
 if (!function_exists('currency')) {
     function currency($price = false)
     {
-        $price    = max(0, round(floatval($price), 2));
-        $pattern  = get_settings('currency_position');
-        $symbol   = DB::table('currencies')->where('code', get_settings('system_currency'))->value('symbol');
+        $price     = max(0, round(floatval($price), 2));
+        $pattern   = currency_position();
+        $symbol    = currency_symbol();
         $formatted = number_format($price, 2);
 
         if ($pattern == 'right') {
@@ -2237,5 +2277,200 @@ if(!function_exists('check_recaptcha')){
         } else {
             return false;
         }
+    }
+}
+
+if (!function_exists('get_saudi_regions')) {
+    function get_saudi_regions(): array
+    {
+        return [
+            'الرياض',
+            'مكة المكرمة',
+            'المدينة المنورة',
+            'القصيم',
+            'المنطقة الشرقية',
+            'عسير',
+            'تبوك',
+            'حائل',
+            'الحدود الشمالية',
+            'جازان',
+            'نجران',
+            'الباحة',
+            'الجوف',
+        ];
+    }
+}
+
+if (!function_exists('iqama_validation_rules')) {
+    function iqama_validation_rules(?int $exceptUserId = null, bool $required = true): array
+    {
+        $uniqueRule = $exceptUserId
+            ? 'unique:users,national_id,' . $exceptUserId
+            : 'unique:users,national_id';
+
+        return [
+            $required ? 'required' : 'nullable',
+            'numeric',
+            'digits:10',
+            'regex:/^[12]\d{9}$/',
+            $uniqueRule,
+        ];
+    }
+}
+
+if (!function_exists('iqama_validation_messages')) {
+    function iqama_validation_messages(): array
+    {
+        return [
+            'national_id.required' => 'رقم الإقامة مطلوب.',
+            'national_id.numeric'  => 'يجب أن يكون رقم الإقامة أرقامًا فقط.',
+            'national_id.digits'   => 'يجب أن يكون رقم الإقامة مكونًا من 10 أرقام.',
+            'national_id.regex'    => 'رقم الإقامة يجب أن يبدأ بـ 1 أو 2 ويتكون من 10 أرقام.',
+            'national_id.unique'   => 'رقم الإقامة مستخدم بالفعل.',
+            'goverment.required'   => 'المنطقة مطلوبة.',
+        ];
+    }
+}
+
+if (!function_exists('saudi_phone_validation_rules')) {
+    function saudi_phone_validation_rules(bool $required = true): array
+    {
+        return [
+            $required ? 'required' : 'nullable',
+            'numeric',
+            'digits:10',
+            'regex:/^05\d{8}$/',
+        ];
+    }
+}
+
+if (!function_exists('saudi_phone_validation_messages')) {
+    function saudi_phone_validation_messages(): array
+    {
+        return [
+            'phone.required'        => 'رقم الجوال مطلوب.',
+            'phone.numeric'         => 'يجب أن يكون رقم الجوال أرقامًا فقط.',
+            'phone.digits'          => 'يجب أن يكون رقم الجوال مكونًا من 10 أرقام.',
+            'phone.regex'           => 'رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.',
+            'phone.different'       => 'يجب أن يكون رقم الجوال مختلفًا عن رقم ولي الأمر.',
+            'parent_phone.required' => 'رقم جوال ولي الأمر مطلوب.',
+            'parent_phone.numeric'  => 'يجب أن يكون رقم جوال ولي الأمر أرقامًا فقط.',
+            'parent_phone.digits'   => 'يجب أن يكون رقم جوال ولي الأمر مكونًا من 10 أرقام.',
+            'parent_phone.regex'    => 'رقم جوال ولي الأمر يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.',
+        ];
+    }
+}
+
+if (!function_exists('get_all_admin_permission_keys')) {
+    function get_all_admin_permission_keys(): array
+    {
+        return Cache::remember('admin.permission.keys.all', 3600, function () {
+            $path = resource_path('views/admin/admin/permission.blade.php');
+            if (!is_readable($path)) {
+                return [];
+            }
+
+            preg_match_all("/'admin\\.[^']+'/", file_get_contents($path), $matches);
+            $keys = array_map(static fn ($key) => trim($key, "'"), $matches[0] ?? []);
+
+            $exclude = [
+                'admin.admins.permission.preset',
+                'admin.admins.permission.store',
+            ];
+
+            return array_values(array_unique(array_diff($keys, $exclude)));
+        });
+    }
+}
+
+if (!function_exists('get_admin_permission_presets')) {
+    function get_admin_permission_presets(): array
+    {
+        return [
+            'full_access' => [
+                'label' => 'صلاحيات كاملة',
+                'description' => 'عرض كامل القائمة الجانبية مثل الأدمن الأساسي',
+                'permissions' => get_all_admin_permission_keys(),
+            ],
+            'reception' => [
+                'label' => 'موظف استقبال',
+                'description' => 'لوحة التحكم، الطلاب، والاشتراكات',
+                'permissions' => [
+                    'admin.dashboard',
+                    'admin.dashboard.index',
+                    'admin.manage.profile',
+                    'admin.student.index',
+                    'admin.student.search',
+                    'admin.student.export',
+                    'admin.enroll.history',
+                    'admin.enroll.history.search',
+                    'admin.student.enroll',
+                    'admin.student.get',
+                    'admin.student.post',
+                ],
+            ],
+            'content' => [
+                'label' => 'مدير محتوى',
+                'description' => 'الكورسات، التصنيفات، المنهج، والاختبارات',
+                'permissions' => [
+                    'admin.dashboard',
+                    'admin.dashboard.index',
+                    'admin.categories',
+                    'admin.category.create',
+                    'admin.category.edit',
+                    'admin.category.delete',
+                    'admin.sub_categories.create',
+                    'admin.sub_categories.edit',
+                    'admin.sub_categories.delete',
+                    'admin.courses',
+                    'admin.course.create',
+                    'admin.course.edit',
+                    'admin.course.delete',
+                    'admin.course.status',
+                    'admin.course.draft',
+                    'admin.course.approval',
+                    'admin.course.search',
+                    'admin.course.filter',
+                    'admin.course.export',
+                    'admin.course.view_on_front',
+                    'admin.course.course_playing',
+                    'admin.section.create',
+                    'admin.section.edit',
+                    'admin.section.delete',
+                    'admin.section.sort',
+                    'admin.lesson.create',
+                    'admin.lesson.edit',
+                    'admin.lesson.delete',
+                    'admin.lesson.sort',
+                    'admin.lesson.copy_move',
+                    'admin.quiz.create',
+                    'admin.quiz.choose',
+                    'admin.assingemnt.choose',
+                    'admin.exams.list',
+                    'admin.assignments.list',
+                    'admin.bank.question.index',
+                    'admin.category.bank.questions.index',
+                    'admin.bank.quizs.index',
+                ],
+            ],
+            'instructor_manager' => [
+                'label' => 'مشرف مدرسين',
+                'description' => 'إدارة المدرسين والكورسات',
+                'permissions' => [
+                    'admin.dashboard',
+                    'admin.dashboard.index',
+                    'admin.instructor.index',
+                    'admin.instructor.create',
+                    'admin.instructor.edit',
+                    'admin.instructor.course',
+                    'admin.courses',
+                    'admin.course.create',
+                    'admin.course.edit',
+                    'admin.course.approval',
+                    'admin.course.search',
+                    'admin.course.filter',
+                ],
+            ],
+        ];
     }
 }

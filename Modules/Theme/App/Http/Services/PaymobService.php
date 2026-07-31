@@ -106,7 +106,7 @@ class PaymobService
                 'auth_token' => $token,
                 'delivery_needed' => false,
                 'amount_cents' => $totalPrice * 100,
-                'currency' => 'EGP',
+                'currency' => currency_code(),
                 'items' => [],
             ]);
 
@@ -179,7 +179,7 @@ class PaymobService
                 'expiration'           => 3600,
                 'order_id'             => $orderId,
                 'billing_data'         => $billingData,
-                'currency'             => 'EGP',
+                'currency'             => currency_code(),
                 'integration_id'       => $this->integrationId,
                 'lock_order_when_paid' => false,
             ]);

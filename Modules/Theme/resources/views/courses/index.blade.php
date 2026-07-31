@@ -642,7 +642,7 @@
             <div class="cd-hero__desc">
                 {!! $course->description !!}
             </div>
-
+<!-- 
             <div class="cd-stats">
                 <div class="cd-stat">
                     <span class="cd-stat__icon"><i class="fa-solid fa-play"></i></span>
@@ -672,7 +672,7 @@
                         <span>ملفات</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="cd-meta">
                 <div class="cd-chip">
@@ -829,13 +829,13 @@
                                     @if ($course->discount_flag == 1)
                                         <div class="cd-price__main">
                                             {{ $course->discount_price }}
-                                            <small>جنيهًا</small>
+                                            <small>{{ currency_symbol() }}</small>
                                         </div>
-                                        <div class="cd-price__old">{{ $course->price }} جنيهًا</div>
+                                        <div class="cd-price__old">{{ currency($course->price) }}</div>
                                     @else
                                         <div class="cd-price__main">
                                             {{ number_format((float) $course->price, 2) }}
-                                            <small>جنيهًا</small>
+                                            <small>{{ currency_symbol() }}</small>
                                         </div>
                                     @endif
                                 </div>

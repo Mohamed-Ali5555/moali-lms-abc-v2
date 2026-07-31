@@ -49,7 +49,7 @@
                     <span class="wl-balance__label">{{ get_phrase('الرصيد الحالي') }}</span>
                     <div class="wl-balance__amount">
                         <strong>{{ number_format($wallet_balance ?? auth()->user()->wallet ?? 0, 0) }}</strong>
-                        <span>{{ get_phrase('جنيه') }}</span>
+                        <span>{{ currency_symbol() }}</span>
                     </div>
                     <div class="wl-balance__actions">
                         <button type="button" class="wl-balance__btn" id="wallet_charging_cta">
@@ -171,7 +171,7 @@
                                         <div class="wl-card__side">
                                             <div class="wl-card__amount {{ $isDebit ? 'is-debit' : 'is-credit' }}">
                                                 {{ $isDebit ? '-' : '+' }}{{ number_format($log->balance, 0) }}
-                                                <small>{{ get_phrase('جنيه') }}</small>
+                                                <small>{{ currency_symbol() }}</small>
                                             </div>
                                         </div>
                                     </article>

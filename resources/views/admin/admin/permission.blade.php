@@ -156,10 +156,6 @@
             'admin.instructor.payout.invoice' => 'فاتورة المدفوعات',
             'admin.instructor.payment' => 'دفع للمدرس',
             'admin.instructor.setting' => 'إعدادات المدرسين',
-            'admin.instructor.application' => 'عرض طلبات الانضمام',
-            'admin.instructor.application.approve' => 'اعتماد طلب انضمام',
-            'admin.instructor.application.delete' => 'حذف طلب انضمام',
-            'admin.instructor.application.download' => 'تحميل مستند الطلب',
         ],
         'bank_questions_category' => [
             'admin.category.bank.questions.index' => 'عرض تصنيفات بنك الأسئلة',
@@ -414,6 +410,7 @@
         }
     }
     $adminPhoto = !empty($admin->photo) ? get_image($admin->photo) : asset('assets/backend/images/default.jpg');
+    $permissionPresets = get_admin_permission_presets();
 @endphp
 
 @section('content')
@@ -837,6 +834,35 @@
         transform: translateY(0);
     }
 
+    .perm-presets {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .perm-preset {
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 8px 24px rgba(15,23,42,.04);
+    }
+
+    .perm-preset strong {
+        display: block;
+        font-size: 14px;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+
+    .perm-preset p {
+        margin: 0 0 12px;
+        font-size: 12px;
+        color: #64748b;
+        line-height: 1.6;
+    }
+
     @media (max-width: 991px) {
         .perm-layout { grid-template-columns: 1fr; }
         .perm-nav { position: static; max-height: none; display: flex; gap: 6px; overflow-x: auto; padding: 10px; }
@@ -880,6 +906,19 @@
             <strong>{{ count($allRoutes) }}</strong>
             <span>{{ get_phrase('أقسام النظام') }}</span>
         </div>
+    </div>
+
+    <div class="perm-presets">
+        @foreach ($permissionPresets as $presetKey => $preset)
+            <div class="perm-preset">
+                <strong>{{ get_phrase($preset['label']) }}</strong>
+                <p>{{ get_phrase($preset['description']) }}</p>
+                <button type="button" class="admin-btn admin-btn--primary w-100" onclick="applyPermissionPreset('{{ $presetKey }}')">
+                    <i class="fi-rr-magic-wand"></i>
+                    <span>{{ get_phrase('تطبيق القالب') }}</span>
+                </button>
+            </div>
+        @endforeach
     </div>
 
     <div class="perm-toolbar">
@@ -1044,6 +1083,43 @@
                         success("{{ get_phrase('تم تحديث الصلاحية') }}");
                     }
                 }
+            }
+        });
+    }
+
+    function applyPermissionPreset(presetKey) {
+        if (!confirm('{{ get_phrase('سيتم استبدال الصلاحيات الحالية بقالب جديد. هل تريد المتابعة؟') }}')) {
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ route('admin.admins.permission.preset', ['user_id' => $admin->id]) }}",
+            data: {
+                preset: presetKey,
+            },
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function (response) {
+                if (!response || !response.success) {
+                    showPermToast('{{ get_phrase('تعذر تطبيق القالب') }}');
+                    return;
+                }
+
+                document.querySelectorAll('.permission-checkbox').forEach(function (checkbox) {
+                    const routeName = checkbox.getAttribute('data-route-name');
+                    const isOn = response.permissions.indexOf(routeName) !== -1;
+                    checkbox.checked = isOn;
+                    const item = checkbox.closest('.perm-item');
+                    if (item) item.classList.toggle('is-on', isOn);
+                });
+
+                refreshPermCounters();
+                showPermToast(response.message || '{{ get_phrase('تم تطبيق القالب') }}');
+            },
+            error: function () {
+                showPermToast('{{ get_phrase('تعذر تطبيق القالب') }}');
             }
         });
     }

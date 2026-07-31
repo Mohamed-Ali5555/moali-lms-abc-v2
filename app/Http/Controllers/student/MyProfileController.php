@@ -27,15 +27,18 @@ class MyProfileController extends Controller
         $rules = [
             'name'            => 'required',
             'email'           => 'required|email|unique:users,email,' . $user_id,
-            'national_id'     => 'required|numeric|digits:14|unique:users,national_id,' . $user_id,
+            'national_id'     => iqama_validation_rules((int) $user_id),
             'category'        => 'required',
             'goverment'       => 'required',
-            'phone'           => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'], 
-            'parent_phone'    => ['required' , 'numeric','digits_between:10,14'],
+            'phone'           => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone'    => saudi_phone_validation_rules(),
             'old_password'    => 'required_with:new_password',
             'new_password'    => 'nullable',
         ];
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules, array_merge(
+            iqama_validation_messages(),
+            saudi_phone_validation_messages()
+        ));
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

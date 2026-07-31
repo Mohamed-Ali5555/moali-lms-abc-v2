@@ -2,6 +2,7 @@
 
 namespace Modules\Theme\App\Http\Controllers;
 use App\Models\FileUploader;
+use App\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Theme\App\Models\theme_setting;
@@ -17,7 +18,13 @@ class SettingController extends Controller
   // start settings section
    public function settings()
     {
-        return view('theme::setting.theme_setting');
+        $allowedCurrencies = ['EGP', 'SAR', 'AED', 'USD', 'EUR'];
+        $currencies = DB::table('currencies')
+            ->whereIn('code', $allowedCurrencies)
+            ->orderByRaw("FIELD(code, 'EGP', 'SAR', 'AED', 'USD', 'EUR')")
+            ->get(['code', 'name', 'symbol']);
+
+        return view('theme::setting.theme_setting', compact('currencies'));
     }
     public function settings_store(Request $request, $param1 = '', $id = '')
     {
@@ -54,6 +61,27 @@ class SettingController extends Controller
                         );
                     }
                 }
+            }
+
+            if ($request->filled('currency_code')) {
+                $currencyCode = strtoupper((string) $request->input('currency_code'));
+                if (! in_array($currencyCode, ['EGP', 'SAR', 'AED', 'USD', 'EUR'], true)) {
+                    return redirect()->back()->withErrors(['currency_code' => get_phrase('العملة غير مدعومة')]);
+                }
+
+                Setting::updateOrCreate(
+                    ['type' => 'system_currency'],
+                    ['description' => $currencyCode]
+                );
+                clear_lms_cache('settings');
+            }
+
+            if ($request->filled('currency_position')) {
+                Setting::updateOrCreate(
+                    ['type' => 'currency_position'],
+                    ['description' => (string) $request->input('currency_position')]
+                );
+                clear_lms_cache('settings');
             }
 
             clear_lms_cache('theme_settings');
@@ -147,8 +175,57 @@ class SettingController extends Controller
                 'accreditation_body_title', 'accreditation_body_subtitle',
                 'accreditation_description', 'accreditation_authority',
                 'accreditation_number', 'accreditation_date',
-                'accreditation_status_label', 'map_embed_url', 'map_link',
+                'accreditation_status_label', 'map_embed_url', 'map_link', 'map_address',
+                // Ticker section settings (accreditations.blade.php)
+                'accr_status', 'accr_eyebrow', 'accr_title', 'accr_desc',
             ];
+
+            // Save badges JSON
+            if ($request->has('accr_badges')) {
+                $badgesRaw = $request->input('accr_badges');
+                $badgesArr = json_decode($badgesRaw, true);
+                if (is_array($badgesArr)) {
+                    $cleanBadges = array_values(array_filter(array_map(function ($b) {
+                        if (!is_array($b)) {
+                            return null;
+                        }
+                        $name = substr(strip_tags((string) ($b['name'] ?? '')), 0, 100);
+                        $sub  = substr(strip_tags((string) ($b['sub'] ?? '')), 0, 100);
+                        if ($name === '' && $sub === '') {
+                            return null;
+                        }
+                        return [
+                            'name' => $name,
+                            'sub'  => $sub,
+                            'icon' => preg_replace('/[^a-z0-9\-]/', '', (string) ($b['icon'] ?? 'fa-award')),
+                        ];
+                    }, $badgesArr)));
+                    theme_setting::updateOrCreate(
+                        ['type' => 'accr_badges'],
+                        ['description' => json_encode($cleanBadges, JSON_UNESCAPED_UNICODE)]
+                    );
+                }
+            }
+
+            // Save location info cards JSON
+            if ($request->filled('loc_info_cards')) {
+                $cardsRaw = $request->input('loc_info_cards');
+                $cardsArr = json_decode($cardsRaw, true);
+                if (is_array($cardsArr)) {
+                    $cleanCards = array_values(array_filter(array_map(function ($c) {
+                        if (!is_array($c)) return null;
+                        $label = substr(strip_tags((string) ($c['label'] ?? '')), 0, 80);
+                        $text  = substr(strip_tags((string) ($c['text'] ?? '')), 0, 300);
+                        $icon  = preg_replace('/[^a-z0-9\-]/', '', (string) ($c['icon'] ?? 'fa-circle-info'));
+                        if ($label === '' && $text === '') return null;
+                        return compact('label', 'text', 'icon');
+                    }, $cardsArr)));
+                    theme_setting::updateOrCreate(
+                        ['type' => 'loc_info_cards'],
+                        ['description' => json_encode($cleanCards, JSON_UNESCAPED_UNICODE)]
+                    );
+                }
+            }
             foreach ($textFields as $key) {
                 theme_setting::updateOrCreate(
                     ['type' => $key],

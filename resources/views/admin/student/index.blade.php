@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@push('title', get_phrase('Student'))
+@push('title', get_phrase('الطلاب'))
 @push('meta')
 @endpush
 @push('css')
@@ -13,16 +13,16 @@
                 </span>
                 <div>
                     <h1 class="admin-toolbar__title">
-                        {{ get_phrase('Student List') }}
+                        {{ get_phrase('قائمة الطلاب') }}
                     </h1>
-                    <p class="admin-toolbar__desc">{{ get_phrase('View and manage registered students') }}</p>
+                    <p class="admin-toolbar__desc">{{ get_phrase('عرض وإدارة الطلاب المسجلين') }}</p>
                 </div>
             </div>
             <div class="admin-toolbar__actions">
                 @if (has_permission('admin.student.create'))
                     <a href="{{ route('admin.student.create') }}" class="admin-btn admin-btn--primary">
                         <span class="fi-rr-plus"></span>
-                        <span>{{ get_phrase('Add new Student') }}</span>
+                        <span>{{ get_phrase('إضافة طالب جديد') }}</span>
                     </a>
                 @endif
             </div>
@@ -34,7 +34,7 @@
                     <div class="col-md-6  pt-2 pt-md-0">
                         <div class="custom-dropdown">
                             <button class="dropdown-header btn ol-btn-light">
-                                {{ get_phrase('Export') }}
+                                {{ get_phrase('تصدير') }}
                                 <i class="fi-rr-file-export ms-2"></i>
                             </button>
                             <ul class="dropdown-list">
@@ -45,7 +45,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="#" onclick="window.print();"><i
-                                            class="fi-rr-print"></i> {{ get_phrase('Print') }}</a>
+                                            class="fi-rr-print"></i> {{ get_phrase('طباعة') }}</a>
                                 </li>
                             </ul>
                         </div>
@@ -57,11 +57,11 @@
                             <div class="row row-gap-3">
                                 <div class="col-md-9">
                                     <input type="text" class="form-control ol-form-control" name="search"
-                                        value="{{ request('search') }}" placeholder="{{ get_phrase('Search user') }}" />
+                                        value="{{ request('search') }}" placeholder="{{ get_phrase('البحث عن طالب') }}" />
                                 </div>
                                 <div class="col-md-3">
                                     <button type="submit" class="btn ol-btn-primary w-100" id="submit-button">
-                                        {{ get_phrase('Search') }}</button>
+                                        {{ get_phrase('بحث') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -76,7 +76,7 @@
                         <div
                             class="admin-tInfo-pagi d-flex justify-content-between justify-content-center align-items-center flex-wrap gr-15">
                             <p class="admin-tInfo">
-                                {{ get_phrase('Showing') . ' ' . count($students) . ' ' . get_phrase('of') . ' ' . $students->total() . ' ' . get_phrase('data') }}
+                                {{ get_phrase('عرض') . ' ' . count($students) . ' ' . get_phrase('من') . ' ' . $students->total() . ' ' . get_phrase('سجل') }}
                             </p>
                         </div>
                         <div class="table-responsive course_list" id="course_list">
@@ -84,18 +84,18 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">{{ get_phrase('Name') }}</th>
-                                        <th scope="col">{{ get_phrase('Phone') }}</th>
-                                        <th scope="col">{{ get_phrase('Parent Phone') }}</th>
-                                        <th scope="col">{{ get_phrase('category') }}</th>
-                                        <th scope="col">{{ get_phrase('goverment') }}</th>
-                                        <th scope="col">{{ get_phrase('national-id') }}</th>
-                                        <th scope="col">{{ get_phrase('address') }}</th>
+                                        <th scope="col">{{ get_phrase('الاسم') }}</th>
+                                        <th scope="col">{{ get_phrase('رقم الجوال') }}</th>
+                                        <th scope="col">{{ get_phrase('رقم جوال ولي الأمر') }}</th>
+                                        <th scope="col">{{ get_phrase('المرحلة الدراسية') }}</th>
+                                        <th scope="col">{{ get_phrase('المنطقة') }}</th>
+                                        <th scope="col">{{ get_phrase('رقم الإقامة') }}</th>
+                                        <th scope="col">{{ get_phrase('العنوان') }}</th>
 
-                                        <th scope="col">{{ get_phrase('Enrolled Course') }}</th>
-                                        <th scope="col">{{ get_phrase('Wallet balane') }}</th>
+                                        <th scope="col">{{ get_phrase('الدورات المسجلة') }}</th>
+                                        <th scope="col">{{ get_phrase('رصيد المحفظة') }}</th>
 
-                                        <th class="print-d-none" scope="col">{{ get_phrase('Options') }}</th>
+                                        <th class="print-d-none" scope="col">{{ get_phrase('الخيارات') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -152,7 +152,7 @@
                                                 <a style="color:blue;"
                                                     href="{{ route('admin.student.view_course', $row->id) }}">
                                                     {{ App\Models\Enrollment::where('user_id', $row->id)->count() }}
-                                                    {{ get_phrase('Courses') }}
+                                                    {{ get_phrase('دورات') }}
                                                 </a>
                                             </td>
 
@@ -226,7 +226,7 @@
                         <div
                             class="admin-tInfo-pagi d-flex justify-content-between justify-content-center align-items-center flex-wrap gr-15">
                             <p class="admin-tInfo">
-                                {{ get_phrase('Showing') . ' ' . count($students) . ' ' . get_phrase('of') . ' ' . $students->total() . ' ' . get_phrase('data') }}
+                                {{ get_phrase('عرض') . ' ' . count($students) . ' ' . get_phrase('من') . ' ' . $students->total() . ' ' . get_phrase('سجل') }}
                             </p>
                             {{ $students->links() }}
                         </div>

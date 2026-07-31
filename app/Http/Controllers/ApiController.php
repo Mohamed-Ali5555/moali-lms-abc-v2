@@ -82,9 +82,9 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'name'         => ['required', 'string', 'max:255'],
             'email'        => ['required', 'string', 'email', 'unique:users,email'],
-            'phone'        => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'],
-            'parent_phone' => ['required', 'numeric', 'digits_between:10,14'],
-            'national_id'  => ['required', 'numeric', 'digits:14', 'unique:users,national_id'],
+            'phone'        => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone' => saudi_phone_validation_rules(),
+            'national_id'  => iqama_validation_rules(),
             'category'     => ['required'],
             'gender'       => ['required'],
             'national_image' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'],
@@ -94,17 +94,8 @@ class ApiController extends Controller
             'email.required'        => 'البريد الإلكتروني مطلوب.',
             'email.email'           => 'يجب إدخال بريد إلكتروني صحيح.',
             'email.unique'          => 'هذا البريد الإلكتروني مستخدم بالفعل.',
-            'phone.required'        => 'رقم الهاتف مطلوب.',
-            'phone.numeric'         => 'يجب أن يكون رقم الهاتف رقمًا.',
-            'phone.digits_between'  => 'يجب أن يكون رقم الهاتف بين 10 و 14 رقمًا.',
-            'phone.different'       => 'يجب أن يكون رقم الهاتف مختلفًا عن رقم ولي الأمر.',
-            'parent_phone.required' => 'رقم هاتف ولي الأمر مطلوب.',
-            'parent_phone.numeric'  => 'يجب أن يكون رقم هاتف ولي الأمر رقمًا.',
-            'parent_phone.digits_between' => 'يجب أن يكون رقم هاتف ولي الأمر بين 10 و 14 رقمًا.',
-            'national_id.required'  => 'الرقم القومي مطلوب.',
-            'national_id.numeric'   => 'يجب أن يكون الرقم القومي رقمًا.',
-            'national_id.digits'    => 'يجب أن يكون الرقم القومي مكونًا من 14 رقمًا.',
-            'national_id.unique'    => 'هذا الرقم القومي مستخدم بالفعل.',
+            ...saudi_phone_validation_messages(),
+            ...iqama_validation_messages(),
             'category.required'     => 'التصنيف مطلوب.',
             'gender.required'       => 'النوع مطلوب.',
             'password.required'     => 'كلمة المرور مطلوبة.',
@@ -896,8 +887,9 @@ class ApiController extends Controller
 
         if (isset($token) && $token != '') {
             $response['course_selling_tax'] = get_settings('course_selling_tax');
-            $response['currency_position'] = get_settings('currency_position');
-            $response['currency_symbol'] = DB::table('currencies')->where('code', get_settings('system_currency'))->value('symbol');
+            $response['currency_position'] = currency_position();
+            $response['currency_symbol'] = currency_symbol();
+            $response['currency_code'] = currency_code();
         } else {
             $response['status'] = "Not Authorized Credential";
         }

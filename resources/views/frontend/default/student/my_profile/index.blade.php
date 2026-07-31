@@ -44,29 +44,22 @@
 
                                 <div class="col-lg-6 mb-20">
                                     <div class="form-group">
-                                        <label for="national_id" class="form-label">{{ get_phrase('National Id') }}</label>
-                                        <input type="number" min="1" class="form-control" name="national_id" value="{{ old('national_id',$user_details->national_id) }}" id="national_id">
+                                        <label for="national_id" class="form-label">{{ get_phrase('رقم الإقامة') }}</label>
+                                        <input type="text" class="form-control" name="national_id"
+                                            value="{{ old('national_id',$user_details->national_id) }}" id="national_id"
+                                            maxlength="10" inputmode="numeric" pattern="[12][0-9]{9}" required>
                                     </div>
                                 </div>
 
 
                                <div class="col-lg-6 mb-20">
                                     <div class="form-group">
-                                        <label for="goverment" class="form-label">{{ get_phrase('goverment') }}</label>
+                                        <label for="goverment" class="form-label">{{ get_phrase('المنطقة') }}</label>
                                         <select class="ol-select2 form-control ol-select2-multiple" id="goverment" name="goverment" required>
-                                            <option option value=""disabled>اختر المحافظة</option>
-                                            @php
-                                                $governorates = [
-                                                    'القاهرة', 'الجيزة', 'الإسكندرية', 'الشرقية', 'الدقهلية', 'القليوبية', 'الغربية', 'المنوفية',
-                                                    'البحيرة', 'كفر الشيخ', 'دمياط', 'بورسعيد', 'الإسماعيلية', 'السويس', 'مطروح', 'الفيوم',
-                                                    'بني سويف', 'المنيا', 'أسيوط', 'سوهاج', 'قنا', 'الأقصر', 'أسوان', 'البحر الأحمر',
-                                                    'الوادي الجديد', 'شمال سيناء', 'جنوب سيناء'
-                                                ];
-                                            @endphp
-                            
-                                            @foreach($governorates as $gov)
-                                                <option value="{{ $gov }}" {{ isset($user_details) && $user_details->goverment == $gov ? 'selected' : '' }}>
-                                                    {{ $gov }}
+                                            <option value="" disabled>{{ get_phrase('اختر المنطقة') }}</option>
+                                            @foreach (get_saudi_regions() as $region)
+                                                <option value="{{ $region }}" {{ isset($user_details) && $user_details->goverment == $region ? 'selected' : '' }}>
+                                                    {{ $region }}
                                                 </option>
                                             @endforeach
                                     </select>                     

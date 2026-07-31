@@ -674,6 +674,55 @@
                     </div>
 
                     <div class="ts-section">
+                        <h3 class="ts-section__title">{{ get_phrase('إعدادات العملة') }}</h3>
+                        <p class="mb-3 text-muted" style="font-size: 13px; line-height: 1.7;">
+                            {{ get_phrase('تتحكم في رمز العملة الظاهر في أسعار الكورسات، المحفظة، الدفع، والفواتير في كل المنصة.') }}
+                        </p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="currency_code">{{ get_phrase('العملة') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="currency_code" id="currency_code" required>
+                                    @php
+                                        $activeCurrency = get_theme_settings('currency_code') ?: get_settings('system_currency') ?: 'EGP';
+                                    @endphp
+                                    @foreach ($currencies as $row)
+                                        <option value="{{ $row->code }}"
+                                            data-symbol="{{ $row->symbol }}"
+                                            @if ($activeCurrency == $row->code) selected @endif>
+                                            {{ $row->name }} ({{ $row->code }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="currency_symbol">{{ get_phrase('رمز العملة') }}</label>
+                                <input type="text" name="currency_symbol" id="currency_symbol" class="form-control ol-form-control"
+                                    value="{{ get_theme_settings('currency_symbol') ?: currency_symbol() }}"
+                                    placeholder="{{ get_phrase('مثال: جنيه، ريال') }}" required>
+                                <small class="text-muted d-block mt-1">{{ get_phrase('النص الذي يظهر بجانب الأسعار في الموقع') }}</small>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="currency_position">{{ get_phrase('موضع رمز العملة') }}</label>
+                                @php
+                                    $activePosition = get_theme_settings('currency_position') ?: get_settings('currency_position') ?: 'right-space';
+                                @endphp
+                                <select class="form-control ol-form-control ol-select2" name="currency_position" id="currency_position" required>
+                                    <option value="right-space" @if ($activePosition == 'right-space') selected @endif>{{ get_phrase('بعد المبلغ مع مسافة') }}</option>
+                                    <option value="right" @if ($activePosition == 'right') selected @endif>{{ get_phrase('بعد المبلغ') }}</option>
+                                    <option value="left-space" @if ($activePosition == 'left-space') selected @endif>{{ get_phrase('قبل المبلغ مع مسافة') }}</option>
+                                    <option value="left" @if ($activePosition == 'left') selected @endif>{{ get_phrase('قبل المبلغ') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <div class="alert alert-light border mb-0" style="border-radius: 12px; font-size: 13px;">
+                                    <strong>{{ get_phrase('معاينة') }}:</strong>
+                                    <span id="currencyPreview">{{ currency(150) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ts-section">
                         <h3 class="ts-section__title">{{ get_phrase('Feature Settings') }}</h3>
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -726,7 +775,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label ol-form-label" for="national_id_required">
-                                    {{ get_phrase('الرقم القومي') }}
+                                    {{ get_phrase('رقم الإقامة') }}
                                 </label>
                                 <select class="form-control ol-form-control ol-select2" name="national_id_required" id="national_id_required" required>
                                     <option value="1" @if (get_theme_settings('national_id_required') === false || get_theme_settings('national_id_required') == 1) selected @endif>
@@ -737,7 +786,7 @@
                                     </option>
                                 </select>
                                 <small class="text-muted d-block mt-1">
-                                    {{ get_phrase('يتحكم في إلزام الرقم القومي عند التسجيل وتحديث الحساب') }}
+                                    {{ get_phrase('يتحكم في إلزام رقم الإقامة عند التسجيل وتحديث الحساب') }}
                                 </small>
                             </div>
                             <div class="col-md-6">
@@ -1197,9 +1246,14 @@
                     </div>
 
                     <div class="ts-section">
-                        <h3 class="ts-section__title">{{ get_phrase('الموقع الجغرافي') }}</h3>
-                        <p class="mb-3 text-muted" style="font-size:13px;">{{ get_phrase('هذه الإعدادات مشتركة مع إعدادات الفوتر — التغيير هنا ينعكس على الفوتر وصفحة الاعتمادية') }}</p>
+                        <h3 class="ts-section__title">{{ get_phrase('الموقع الجغرافي (الصفحة الرئيسية)') }}</h3>
+                        <p class="mb-3 text-muted" style="font-size:13px;">{{ get_phrase('يظهر أسفل الصفحة الرئيسية: العنوان أعلى الخريطة، ثم الخريطة، ثم بطاقات البيانات المرتبطة') }}</p>
                         <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label ol-form-label" for="map_address_accr">{{ get_phrase('العنوان (شريط أعلى الخريطة)') }}</label>
+                                <input type="text" name="map_address" id="map_address_accr" class="form-control ol-form-control" value="{{ get_theme_settings('map_address') }}" placeholder="الرياض – حي اشبيلية – طريق الملك عبدالله – عمارة المحمدية الدور الثالث">
+                                <small class="text-muted d-block mt-1">{{ get_phrase('مشترك مع الفوتر — يظهر في شريط أعلى الخريطة') }}</small>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label ol-form-label" for="map_link_accr">{{ get_phrase('رابط خرائط جوجل') }}</label>
                                 <input type="url" name="map_link" id="map_link_accr" class="form-control ol-form-control" value="{{ get_theme_settings('map_link') }}" placeholder="https://maps.app.goo.gl/...">
@@ -1209,6 +1263,138 @@
                                 <input type="url" name="map_embed_url" id="map_embed_url_accr" class="form-control ol-form-control" value="{{ get_theme_settings('map_embed_url') }}" placeholder="https://www.google.com/maps/embed?pb=...">
                                 <small class="text-muted d-block mt-1">{{ get_phrase('انسخه من خرائط جوجل: مشاركة ← تضمين خريطة ← انسخ الرابط من src="..."') }}</small>
                             </div>
+                        </div>
+
+                        @php
+                            $locCardsJson = get_theme_settings('loc_info_cards');
+                            $locCardsDecoded = $locCardsJson ? json_decode($locCardsJson, true) : null;
+                            $locCardsForEdit = (is_array($locCardsDecoded) && count($locCardsDecoded) > 0)
+                                ? $locCardsDecoded
+                                : [
+                                    ['label' => 'العنوان',      'text' => get_theme_settings('map_address') ?: get_theme_settings('contact_address') ?: '', 'icon' => 'fa-location-dot'],
+                                    ['label' => 'أوقات الدوام', 'text' => get_theme_settings('contact_hours') ?: '', 'icon' => 'fa-clock'],
+                                    ['label' => 'للتواصل',      'text' => get_theme_settings('contact_phone') ?: get_settings('site_phone') ?: '', 'icon' => 'fa-phone'],
+                                  ];
+                        @endphp
+                        <input type="hidden" name="loc_info_cards" id="loc_info_cards_input" value="@json($locCardsForEdit)">
+
+                        <h4 class="mt-4 mb-2" style="font-size:14px;font-weight:700;color:#334155;">{{ get_phrase('البيانات المرتبطة (أسفل الخريطة)') }}</h4>
+                        <p class="mb-2 text-muted" style="font-size:12px;">{{ get_phrase('3 بطاقات بأعمدة — يمكنك تعديل العنوان والنص والأيقونة لكل بطاقة') }}</p>
+                        <div class="accr-repeater" id="locCardsRepeater"></div>
+                        <button type="button" class="admin-btn mt-2" id="locAddRow" style="font-size:13px;">
+                            <i class="fi-rr-plus"></i>
+                            <span>{{ get_phrase('إضافة بطاقة') }}</span>
+                        </button>
+                        <div class="alert alert-light border mt-3 mb-0" style="border-radius:12px;font-size:12px;color:#475569;">
+                            <i class="fi-rr-info" style="color:#0d9488;"></i>
+                            {{ get_phrase('أيقونات مقترحة:') }}
+                            <code>fa-location-dot</code>, <code>fa-clock</code>, <code>fa-phone</code>,
+                            <code>fa-envelope</code>, <code>fa-whatsapp</code>, <code>fa-headset</code>
+                        </div>
+                    </div>
+
+                    {{-- ===== شريط الاعتمادات المتحرك ===== --}}
+                    <div class="ts-section">
+                        <h3 class="ts-section__title">
+                            <i class="fi-rr-badge me-1" style="color:#0d9488;"></i>
+                            {{ get_phrase('شريط الاعتمادات المتحرك (الصفحة الرئيسية)') }}
+                        </h3>
+                        <p class="mb-3 text-muted" style="font-size:13px; line-height:1.7;">
+                            {{ get_phrase('يتحكم في قسم') }} <code>accreditations.blade.php</code> {{ get_phrase('في الصفحة الرئيسية — عدّل العناوين وأضف/احذف الشارات ثم اضغط حفظ.') }}
+                        </p>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="accr_status">{{ get_phrase('حالة القسم في الرئيسية') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="accr_status" id="accr_status">
+                                    <option value="1" @if(get_theme_settings('accr_status') != '0') selected @endif>{{ get_phrase('ظاهر') }}</option>
+                                    <option value="0" @if(get_theme_settings('accr_status') == '0') selected @endif>{{ get_phrase('مخفي') }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        {{-- Header fields --}}
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="accr_eyebrow">{{ get_phrase('نص الشارة العلوية') }}</label>
+                                <input type="text" name="accr_eyebrow" id="accr_eyebrow" class="form-control ol-form-control"
+                                    value="{{ get_theme_settings('accr_eyebrow') ?: 'جودة معتمدة' }}"
+                                    placeholder="{{ get_phrase('جودة معتمدة') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="accr_title">{{ get_phrase('العنوان الرئيسي') }}</label>
+                                <input type="text" name="accr_title" id="accr_title" class="form-control ol-form-control"
+                                    value="{{ get_theme_settings('accr_title') ?: 'اعتماداتنا وشراكاتنا' }}"
+                                    placeholder="{{ get_phrase('اعتماداتنا وشراكاتنا') }}">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="accr_desc">{{ get_phrase('النص التوضيحي') }}</label>
+                                <input type="text" name="accr_desc" id="accr_desc" class="form-control ol-form-control"
+                                    value="{{ get_theme_settings('accr_desc') ?: 'نفخر بحصولنا على اعتمادات دولية ومحلية.' }}"
+                                    placeholder="{{ get_phrase('نص قصير توضيحي...') }}">
+                            </div>
+                        </div>
+
+                        {{-- Hidden JSON input --}}
+                        @php
+                            $badgesJson = get_theme_settings('accr_badges');
+                            $badgesDecoded = $badgesJson ? json_decode($badgesJson, true) : null;
+                            $badgesForEdit = (is_array($badgesDecoded) && count($badgesDecoded) > 0)
+                                ? $badgesDecoded
+                                : [
+                                    ['name' => 'وزارة التعليم',          'sub' => 'المملكة العربية السعودية', 'icon' => 'fa-graduation-cap'],
+                                    ['name' => 'الهيئة السعودية للتدريب','sub' => 'اعتماد مؤسسي',            'icon' => 'fa-medal'],
+                                    ['name' => 'ISO 9001:2015',           'sub' => 'جودة المنهج التعليمي',     'icon' => 'fa-shield-halved'],
+                                    ['name' => 'المركز الوطني للتقويم', 'sub' => 'NCAAA معتمد',             'icon' => 'fa-star'],
+                                    ['name' => 'مركز القيادة للتدريب',  'sub' => 'شريك استراتيجي',           'icon' => 'fa-certificate'],
+                                    ['name' => 'هيئة تقويم التعليم',    'sub' => 'Etec اعتماد رسمي',        'icon' => 'fa-book-open'],
+                                    ['name' => 'شراكة أكاديمية',        'sub' => 'مؤسسات تعليمية رائدة',    'icon' => 'fa-handshake'],
+                                    ['name' => 'جائزة التميز التعليمي', 'sub' => 'أفضل مركز تدريبي',        'icon' => 'fa-trophy'],
+                                  ];
+                        @endphp
+                        <input type="hidden" name="accr_badges" id="accr_badges_input" value="@json($badgesForEdit)">
+
+                        {{-- Badges Repeater (server-rendered + JS for add/delete) --}}
+                        <h4 class="mb-2" style="font-size:14px;font-weight:700;color:#334155;">{{ get_phrase('الشارات المتحركة') }}</h4>
+                        <p class="mb-2 text-muted" style="font-size:12px;">{{ get_phrase('كل صف = شارة واحدة في الواجهة — الاسم، النص الفرعي، والأيقونة') }}</p>
+                        <div class="accr-repeater" id="accrRepeater">
+                            @foreach ($badgesForEdit as $idx => $badge)
+                            <div class="accr-row" data-idx="{{ $idx }}">
+                                <div>
+                                    <span class="accr-row__label">{{ get_phrase('الاسم الرئيسي') }}</span>
+                                    <input class="accr-row__input" type="text" placeholder="{{ get_phrase('مثال: وزارة التعليم') }}"
+                                        value="{{ $badge['name'] ?? '' }}" data-field="name">
+                                </div>
+                                <div>
+                                    <span class="accr-row__label">{{ get_phrase('النص الفرعي') }}</span>
+                                    <input class="accr-row__input" type="text" placeholder="{{ get_phrase('مثال: اعتماد رسمي') }}"
+                                        value="{{ $badge['sub'] ?? '' }}" data-field="sub">
+                                </div>
+                                <div>
+                                    <span class="accr-row__label">{{ get_phrase('الأيقونة (FA Solid)') }}</span>
+                                    <input class="accr-row__input" type="text" placeholder="fa-award"
+                                        value="{{ $badge['icon'] ?? 'fa-award' }}" data-field="icon">
+                                </div>
+                                <button type="button" class="accr-row__del" title="{{ get_phrase('حذف') }}">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <button type="button" class="admin-btn mt-2" id="accrAddRow" style="font-size:13px;">
+                            <i class="fi-rr-plus"></i>
+                            <span>{{ get_phrase('إضافة شارة') }}</span>
+                        </button>
+
+                        {{-- Icon picker helper --}}
+                        <div class="alert alert-light border mt-3 mb-0" style="border-radius:12px;font-size:12px;color:#475569;">
+                            <i class="fi-rr-info" style="color:#0d9488;"></i>
+                            {{ get_phrase('أيقونات مقترحة (Font Awesome Solid):') }}
+                            <code>fa-graduation-cap</code>, <code>fa-medal</code>, <code>fa-shield-halved</code>,
+                            <code>fa-star</code>, <code>fa-certificate</code>, <code>fa-book-open</code>,
+                            <code>fa-handshake</code>, <code>fa-trophy</code>, <code>fa-award</code>,
+                            <code>fa-check-circle</code>, <code>fa-university</code>
                         </div>
                     </div>
 
@@ -1283,6 +1469,58 @@
                 reader.readAsDataURL(input.files[0]);
             }
         });
+
+        const currencyCodeEl = document.getElementById('currency_code');
+        const currencySymbolEl = document.getElementById('currency_symbol');
+        const currencyPositionEl = document.getElementById('currency_position');
+        const currencyPreviewEl = document.getElementById('currencyPreview');
+
+        const currencySymbolMap = {
+            EGP: 'جنيه',
+            SAR: 'ريال',
+            AED: 'درهم',
+            KWD: 'دينار',
+            QAR: 'ريال',
+            BHD: 'دينار',
+            OMR: 'ريال',
+            USD: '$',
+            EUR: '€',
+        };
+
+        function formatCurrencyPreview(amount, symbol, position) {
+            const formatted = Number(amount).toFixed(2);
+            if (position === 'right') return formatted + symbol;
+            if (position === 'left') return symbol + formatted;
+            if (position === 'right-space') return formatted + ' ' + symbol;
+            if (position === 'left-space') return symbol + ' ' + formatted;
+            return formatted + ' ' + symbol;
+        }
+
+        function updateCurrencyPreview() {
+            if (!currencyPreviewEl || !currencySymbolEl || !currencyPositionEl) return;
+            currencyPreviewEl.textContent = formatCurrencyPreview(
+                150,
+                currencySymbolEl.value || '',
+                currencyPositionEl.value || 'right-space'
+            );
+        }
+
+        if (currencyCodeEl && currencySymbolEl) {
+            currencyCodeEl.addEventListener('change', function () {
+                const selected = currencyCodeEl.options[currencyCodeEl.selectedIndex];
+                const code = selected.value;
+                const dbSymbol = selected.getAttribute('data-symbol') || '';
+                currencySymbolEl.value = currencySymbolMap[code] || dbSymbol || currencySymbolEl.value;
+                updateCurrencyPreview();
+            });
+        }
+
+        if (currencySymbolEl) {
+            currencySymbolEl.addEventListener('input', updateCurrencyPreview);
+        }
+        if (currencyPositionEl) {
+            currencyPositionEl.addEventListener('change', updateCurrencyPreview);
+        }
 
         const themeInput = document.getElementById('color_theme');
         const customCard = document.getElementById('customColorsCard');
@@ -1409,5 +1647,234 @@
             });
         });
     })();
+</script>
+
+{{-- ===== Accreditation Badges Repeater ===== --}}
+<style>
+.accr-repeater { display: flex; flex-direction: column; gap: 8px; }
+.accr-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr auto;
+    gap: 8px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 10px 12px;
+}
+@media (max-width: 768px) {
+    .accr-row { grid-template-columns: 1fr 1fr; }
+    .accr-row__del { grid-column: span 2; }
+}
+.accr-row__input {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    width: 100%;
+    color: #0f172a;
+    background: #f8fafc;
+    transition: border-color .2s;
+}
+.accr-row__input:focus { outline: none; border-color: #14b8a6; background: #fff; }
+.accr-row__del {
+    width: 34px; height: 34px; min-width: 34px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+    background: #fff5f5;
+    color: #ef4444;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 14px;
+    transition: background .2s;
+}
+.accr-row__del:hover { background: #fee2e2; }
+.accr-row__label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+}
+.accr-row__drag {
+    cursor: grab;
+    color: #94a3b8;
+    font-size: 14px;
+    padding: 0 4px;
+}
+</style>
+<script>
+(function () {
+    function initAccrBadgesRepeater() {
+        const repeater    = document.getElementById('accrRepeater');
+        const hiddenInput = document.getElementById('accr_badges_input');
+        const addBtn      = document.getElementById('accrAddRow');
+        if (!repeater || !hiddenInput || !addBtn) return;
+
+        var badges = [];
+
+        function readBadgesFromDom() {
+            return Array.from(repeater.querySelectorAll('.accr-row')).map(function (row) {
+                return {
+                    name: row.querySelector('[data-field="name"]')?.value || '',
+                    sub:  row.querySelector('[data-field="sub"]')?.value || '',
+                    icon: row.querySelector('[data-field="icon"]')?.value || 'fa-award',
+                };
+            });
+        }
+
+        function syncHidden() {
+            hiddenInput.value = JSON.stringify(badges);
+        }
+
+        function escHtml(str) {
+            return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        }
+
+        function buildRow(idx) {
+            const b   = badges[idx];
+            const row = document.createElement('div');
+            row.className = 'accr-row';
+            row.setAttribute('data-idx', idx);
+            row.innerHTML = `
+                <div>
+                    <span class="accr-row__label">الاسم الرئيسي</span>
+                    <input class="accr-row__input" type="text" placeholder="مثال: وزارة التعليم" value="${escHtml(b.name || '')}" data-field="name">
+                </div>
+                <div>
+                    <span class="accr-row__label">النص الفرعي</span>
+                    <input class="accr-row__input" type="text" placeholder="مثال: اعتماد رسمي" value="${escHtml(b.sub || '')}" data-field="sub">
+                </div>
+                <div>
+                    <span class="accr-row__label">الأيقونة (FA Solid)</span>
+                    <input class="accr-row__input" type="text" placeholder="fa-award" value="${escHtml(b.icon || 'fa-award')}" data-field="icon">
+                </div>
+                <button type="button" class="accr-row__del" title="حذف"><i class="fa-solid fa-trash-can"></i></button>
+            `;
+            bindRow(row, idx);
+            return row;
+        }
+
+        function bindRow(row, idx) {
+            row.querySelectorAll('.accr-row__input').forEach(function (inp) {
+                inp.addEventListener('input', function () {
+                    badges[idx][inp.getAttribute('data-field')] = inp.value;
+                    syncHidden();
+                });
+            });
+            row.querySelector('.accr-row__del').addEventListener('click', function () {
+                badges.splice(idx, 1);
+                renderAll();
+            });
+        }
+
+        function renderAll() {
+            repeater.innerHTML = '';
+            badges.forEach(function (_, i) {
+                repeater.appendChild(buildRow(i));
+            });
+            syncHidden();
+        }
+
+        if (repeater.children.length) {
+            badges = readBadgesFromDom();
+            syncHidden();
+            repeater.querySelectorAll('.accr-row').forEach(function (row, idx) {
+                bindRow(row, idx);
+            });
+        } else {
+            try { badges = JSON.parse(hiddenInput.value) || []; } catch (e) { badges = []; }
+            if (!Array.isArray(badges)) badges = [];
+            renderAll();
+        }
+
+        addBtn.addEventListener('click', function () {
+            badges.push({ name: '', sub: '', icon: 'fa-award' });
+            renderAll();
+            repeater.lastElementChild && repeater.lastElementChild.querySelector('.accr-row__input').focus();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAccrBadgesRepeater);
+    } else {
+        initAccrBadgesRepeater();
+    }
+})();
+
+(function () {
+    function initLocCardsRepeater() {
+    const repeater    = document.getElementById('locCardsRepeater');
+    const hiddenInput = document.getElementById('loc_info_cards_input');
+    const addBtn      = document.getElementById('locAddRow');
+    if (!repeater || !hiddenInput || !addBtn) return;
+
+    var cards = [];
+    try { cards = JSON.parse(hiddenInput.value) || []; } catch (e) { cards = []; }
+    if (!Array.isArray(cards)) cards = [];
+
+    function syncHidden() {
+        hiddenInput.value = JSON.stringify(cards);
+    }
+
+    function escHtml(str) {
+        return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function renderRow(idx) {
+        const c   = cards[idx];
+        const row = document.createElement('div');
+        row.className = 'accr-row';
+        row.setAttribute('data-idx', idx);
+        row.innerHTML = `
+            <div>
+                <span class="accr-row__label">العنوان</span>
+                <input class="accr-row__input" type="text" placeholder="مثال: العنوان" value="${escHtml(c.label || '')}" data-field="label">
+            </div>
+            <div>
+                <span class="accr-row__label">النص / القيمة</span>
+                <input class="accr-row__input" type="text" placeholder="مثال: الرياض – حي..." value="${escHtml(c.text || '')}" data-field="text">
+            </div>
+            <div>
+                <span class="accr-row__label">الأيقونة (FA Solid)</span>
+                <input class="accr-row__input" type="text" placeholder="fa-location-dot" value="${escHtml(c.icon || 'fa-circle-info')}" data-field="icon">
+            </div>
+            <button type="button" class="accr-row__del" title="حذف"><i class="fa-solid fa-trash-can"></i></button>
+        `;
+        row.querySelectorAll('.accr-row__input').forEach(function (inp) {
+            inp.addEventListener('input', function () {
+                cards[idx][inp.getAttribute('data-field')] = inp.value;
+                syncHidden();
+            });
+        });
+        row.querySelector('.accr-row__del').addEventListener('click', function () {
+            cards.splice(idx, 1);
+            renderAll();
+        });
+        return row;
+    }
+
+    function renderAll() {
+        repeater.innerHTML = '';
+        cards.forEach(function (_, i) { repeater.appendChild(renderRow(i)); });
+        syncHidden();
+    }
+
+    addBtn.addEventListener('click', function () {
+        cards.push({ label: '', text: '', icon: 'fa-circle-info' });
+        renderAll();
+        repeater.lastElementChild && repeater.lastElementChild.querySelector('.accr-row__input').focus();
+    });
+
+    renderAll();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLocCardsRepeater);
+    } else {
+        initLocCardsRepeater();
+    }
+})();
 </script>
 @endpush

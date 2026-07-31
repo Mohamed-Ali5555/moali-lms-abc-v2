@@ -17,15 +17,15 @@
                 </span>
                 <div>
                     <h1 class="admin-toolbar__title">
-                        {{ get_phrase('Instructor List') }}
+                        {{ get_phrase('قائمة المدرسين') }}
                     </h1>
-                    <p class="admin-toolbar__desc">{{ get_phrase('View and manage instructors') }}</p>
+                    <p class="admin-toolbar__desc">{{ get_phrase('عرض وإدارة المدرسين — يمكنهم إضافة الكورسات من لوحة المدرس') }}</p>
                 </div>
             </div>
             <div class="admin-toolbar__actions">
                 <a href="{{ route('admin.instructor.create') }}" class="admin-btn admin-btn--primary">
                     <span class="fi-rr-plus"></span>
-                    <span>{{ get_phrase('Add new Instructor') }}</span>
+                    <span>{{ get_phrase('إضافة مدرس جديد') }}</span>
                 </a>
             </div>
         </div>
@@ -37,7 +37,7 @@
                 <div class="col-md-6 pt-2 pt-md-0">
                     <div class="custom-dropdown">
                         <button class="dropdown-header btn ol-btn-light">
-                            {{ get_phrase('Export') }}
+                            {{ get_phrase('تصدير') }}
                             <i class="fi-rr-file-export ms-2"></i>
                         </button>
                         <ul class="dropdown-list">
@@ -45,7 +45,7 @@
                                 <a class="dropdown-item" href="#" onclick="downloadPDF('.print-table', 'instructor-list')"><i class="fi-rr-file-pdf"></i> {{ get_phrase('PDF') }}</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#" onclick="window.print();"><i class="fi-rr-print"></i> {{ get_phrase('Print') }}</a>
+                                <a class="dropdown-item" href="#" onclick="window.print();"><i class="fi-rr-print"></i> {{ get_phrase('طباعة') }}</a>
                             </li>
                         </ul>
                     </div>
@@ -55,10 +55,10 @@
                     <form class="form-inline" action="{{ route('admin.instructor.index') }}" method="get">
                         <div class="row row-gap-3">
                             <div class="col-md-9">
-                                <input type="text" class="form-control ol-form-control" name="search" value="{{ request('search') }}" placeholder="{{ get_phrase('Search user') }}" />
+                                <input type="text" class="form-control ol-form-control" name="search" value="{{ request('search') }}" placeholder="{{ get_phrase('بحث بالاسم، البريد، الجوال، الإقامة، المنطقة') }}" />
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn ol-btn-primary w-100" id="submit-button"> {{ get_phrase('Search') }}</button>
+                                <button type="submit" class="btn ol-btn-primary w-100" id="submit-button"> {{ get_phrase('بحث') }}</button>
                             </div>
                         </div>
                     </form>
@@ -71,7 +71,7 @@
                     @if (count($instructors) > 0)
                         <div class="admin-tInfo-pagi d-flex justify-content-between justify-content-center align-items-center flex-wrap gr-15">
                             <p class="admin-tInfo">
-                                {{ get_phrase('Showing') . ' ' . count($instructors) . ' ' . get_phrase('of') . ' ' . $instructors->total() . ' ' . get_phrase('data') }}
+                                {{ get_phrase('عرض') . ' ' . count($instructors) . ' ' . get_phrase('من') . ' ' . $instructors->total() . ' ' . get_phrase('سجل') }}
                             </p>
                         </div>
                         <div class="table-responsive course_list" id="course_list">
@@ -79,10 +79,12 @@
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">{{ get_phrase('Name') }}</th>
-                                        <th scope="col">{{ get_phrase('Phone') }}</th>
-                                        <th scope="col">{{ get_phrase('Number Of Course') }}</th>
-                                        <th class="print-d-none" scope="col">{{ get_phrase('Options') }}</th>
+                                        <th scope="col">{{ get_phrase('الاسم') }}</th>
+                                        <th scope="col">{{ get_phrase('الجوال') }}</th>
+                                        <th scope="col">{{ get_phrase('رقم الإقامة') }}</th>
+                                        <th scope="col">{{ get_phrase('المنطقة') }}</th>
+                                        <th scope="col">{{ get_phrase('عدد الكورسات') }}</th>
+                                        <th class="print-d-none" scope="col">{{ get_phrase('الخيارات') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -94,7 +96,7 @@
                                             <td>
                                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                                     <div class="dAdmin_profile_img">
-                                                        <img class="img-fluid rounded-circle image-45" width="45" height="45" src="{{ get_image($row->photo) }}" />
+                                                        <img class="img-fluid rounded-circle object-fit-cover" width="45" height="45" src="{{ get_image($row->photo) }}" />
                                                     </div>
                                                     <div class="ms-1">
                                                         <h4 class="title fs-14px">{{ $row->name }}</h4>
@@ -104,12 +106,22 @@
                                             </td>
                                             <td>
                                                 <div class="dAdmin_info_name min-w-150px">
-                                                    <p>{{ $row->phone }}</p>
+                                                    <p>{{ $row->phone ?: '—' }}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="dAdmin_info_name min-w-120px">
+                                                    <p>{{ $row->national_id ?: '—' }}</p>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="dAdmin_info_name min-w-120px">
+                                                    <p>{{ $row->goverment ?: '—' }}</p>
                                                 </div>
                                             </td>
                                             <td>
                                                 {{ App\Models\Course::where('user_id', $row->id)->count() }}
-                                                {{ get_phrase('Courses') }}
+                                                {{ get_phrase('كورس') }}
                                             </td>
                                             <td class="print-d-none">
                                                 <div class="dropdown ol-icon-dropdown ol-icon-dropdown-transparent">
@@ -119,16 +131,16 @@
                                                     <ul class="dropdown-menu">
                                                         <li>
                                                             <a class="dropdown-item"
-                                                                href="{{ route('admin.courses', ['instructor' => $row->id]) }}">{{ get_phrase('View courses') }}</a>
+                                                                href="{{ route('admin.courses', ['instructor' => $row->id]) }}">{{ get_phrase('عرض الكورسات') }}</a>
                                                         </li>
 
                                                         <li>
-                                                            <a class="dropdown-item" href="{{ route('admin.instructor.edit', $row->id) }}">{{ get_phrase('Edit') }}</a>
+                                                            <a class="dropdown-item" href="{{ route('admin.instructor.edit', $row->id) }}">{{ get_phrase('تعديل') }}</a>
                                                         </li>
 
                                                         <li>
                                                             <a class="dropdown-item" onclick="confirmModal('{{ route('admin.instructor.delete', $row->id) }}')"
-                                                                href="javascript:void(0)">{{ get_phrase('Delete') }}</a>
+                                                                href="javascript:void(0)">{{ get_phrase('حذف') }}</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -145,7 +157,7 @@
                     @if (count($instructors) > 0)
                         <div class="admin-tInfo-pagi d-flex justify-content-between justify-content-center align-items-center flex-wrap gr-15">
                             <p class="admin-tInfo">
-                                {{ get_phrase('Showing') . ' ' . count($instructors) . ' ' . get_phrase('of') . ' ' . $instructors->total() . ' ' . get_phrase('data') }}
+                                {{ get_phrase('عرض') . ' ' . count($instructors) . ' ' . get_phrase('من') . ' ' . $instructors->total() . ' ' . get_phrase('سجل') }}
                             </p>
                             {{ $instructors->links() }}
                         </div>

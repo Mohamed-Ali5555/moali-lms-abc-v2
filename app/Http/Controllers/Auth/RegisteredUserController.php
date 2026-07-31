@@ -45,15 +45,15 @@ class RegisteredUserController extends Controller
         $validator = Validator::make($request->all(), [
             'name'         => ['required', 'string', 'max:255'],
             'email'        => ['required', 'string', 'email', 'unique:users,email'],
-            'phone'        => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'], 
-            'parent_phone' => ['required' , 'numeric','digits_between:10,14'],
-            'national_id'  => ['required', 'numeric', 'digits:14', 'unique:users,national_id'],
+            'phone'        => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone' => saudi_phone_validation_rules(),
+            'national_id'  => iqama_validation_rules(),
             'category'     => student_grade_category_rule(),
             'goverment'    => ['required'],
             'address'      => ['required', 'string', 'max:255'],
 
             'password'     => ['required', Rules\Password::defaults()],
-        ]);
+        ], array_merge(iqama_validation_messages(), saudi_phone_validation_messages()));
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

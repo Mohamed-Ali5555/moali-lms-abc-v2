@@ -201,14 +201,14 @@
                                                         <span class="cat-card__price-free">{{ get_phrase('مجاني') }}</span>
                                                     @elseif ($hasDiscount)
                                                         <span class="cat-card__price-now">
-                                                            {{ $course->discount_price }} {{ get_phrase('جنيهًا') }}
+                                                            {{ currency($course->discount_price) }}
                                                         </span>
                                                         <span class="cat-card__price-old">
-                                                            {{ $course->price }} {{ get_phrase('جنيهًا') }}
+                                                            {{ currency($course->price) }}
                                                         </span>
                                                     @else
                                                         <span class="cat-card__price-now">
-                                                            {{ $course->price }} {{ get_phrase('جنيهًا') }}
+                                                            {{ currency($course->price) }}
                                                         </span>
                                                     @endif
                                                 </div>

@@ -162,16 +162,12 @@ class AuthController extends Controller
             ? ['required', 'string', 'email', 'unique:users,email']
             : ['nullable', 'string', 'email', 'unique:users,email'];
 
-        $nationalIdRule = is_national_id_required()
-            ? ['required', 'numeric', 'digits:14', 'unique:users,national_id']
-            : ['nullable', 'numeric', 'digits:14', 'unique:users,national_id'];
-
         $validator = Validator::make($request->all(), [
             'name'         => ['required', 'string', 'max:255'],
             'email'        => $emailRule,
-            'phone'        => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'],
-            'parent_phone' => ['required', 'numeric', 'digits_between:10,14'],
-            'national_id'  => $nationalIdRule,
+            'phone'        => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone' => saudi_phone_validation_rules(),
+            'national_id'  => iqama_validation_rules(null, is_national_id_required()),
             'category'     => student_grade_category_rule(),
             'gender'       => ['required'],
             'national_image' => $nationalImageRule,
@@ -185,19 +181,8 @@ class AuthController extends Controller
             'email.email'           => 'يجب إدخال بريد إلكتروني صحيح.',
             'email.unique'          => 'هذا البريد الإلكتروني مستخدم بالفعل.',
 
-            'phone.required'        => 'رقم الهاتف مطلوب.',
-            'phone.numeric'         => 'يجب أن يكون رقم الهاتف رقمًا.',
-            'phone.digits_between'  => 'يجب أن يكون رقم الهاتف بين 10 و 14 رقمًا.',
-            'phone.different'       => 'يجب أن يكون رقم الهاتف مختلفًا عن رقم ولي الأمر.',
-
-            'parent_phone.required' => 'رقم هاتف ولي الأمر مطلوب.',
-            'parent_phone.numeric'  => 'يجب أن يكون رقم هاتف ولي الأمر رقمًا.',
-            'parent_phone.digits_between' => 'يجب أن يكون رقم هاتف ولي الأمر بين 10 و 14 رقمًا.',
-
-            'national_id.required'  => 'الرقم القومي مطلوب.',
-            'national_id.numeric'   => 'يجب أن يكون الرقم القومي رقمًا.',
-            'national_id.digits'    => 'يجب أن يكون الرقم القومي مكونًا من 14 رقمًا.',
-            'national_id.unique'    => 'هذا الرقم القومي مستخدم بالفعل.',
+            ...saudi_phone_validation_messages(),
+            ...iqama_validation_messages(),
 
             'category.required'     => 'التصنيف مطلوب.',
             'gender.required'     => 'النوع مطلوب.',

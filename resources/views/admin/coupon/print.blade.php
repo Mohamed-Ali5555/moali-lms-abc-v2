@@ -457,7 +457,7 @@
                 <div class="coupon-body">
                     <div class="coupon-value">
                         <span>{{ $coupon->value }}</span>
-                        {{ get_phrase('EGP') }}
+                        {{ currency_code() }}
                     </div>
                     <div class="coupon-code">
                         {{ $coupon->code }}

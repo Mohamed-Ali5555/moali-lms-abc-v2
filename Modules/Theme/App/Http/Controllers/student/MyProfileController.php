@@ -29,12 +29,12 @@ class MyProfileController extends Controller
         $rules = [
             'name'            => 'required',
             'email'           => (is_email_required() ? 'required' : 'nullable') . '|email|unique:users,email,' . $user_id,
-            'national_id'     => (is_national_id_required() ? 'required' : 'nullable') . '|numeric|digits:14|unique:users,national_id,' . $user_id,
+            'national_id'     => iqama_validation_rules((int) $user_id, is_national_id_required()),
             'category'        => student_grade_category_rule(),
             'goverment'       => 'required',
             'gender'          =>'required',
-            'phone'           => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'],
-            'parent_phone'    => ['required' , 'numeric','digits_between:10,14'],
+            'phone'           => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone'    => saudi_phone_validation_rules(),
             'old_password'    => 'required_with:new_password',
             'new_password'    => 'nullable',
             'national_image'  => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'],
@@ -45,7 +45,10 @@ class MyProfileController extends Controller
             $rules['national_image'] = ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'];
         }
 
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules, array_merge(
+            iqama_validation_messages(),
+            saudi_phone_validation_messages()
+        ));
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

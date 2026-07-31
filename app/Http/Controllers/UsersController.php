@@ -40,7 +40,9 @@ class UsersController extends Controller
             $query->where(function($q) use($search){
                 $q->where('name', 'LIKE', '%' . $search . '%')
                     ->orWhere('phone', 'LIKE', '%' . $search . '%')
-                    ->orWhere('email', 'LIKE', '%' . $search. '%');
+                    ->orWhere('email', 'LIKE', '%' . $search. '%')
+                    ->orWhere('national_id', 'LIKE', '%' . $search . '%')
+                    ->orWhere('goverment', 'LIKE', '%' . $search . '%');
             });
          }
 
@@ -77,16 +79,23 @@ class UsersController extends Controller
     {
 
         $validated = $request->validate([
-            'name'     => "required",
-            'email'    => 'required|email|unique:users',
-            'password' => "required|min:8",
-        ]);
+            'name'        => 'required|max:255',
+            'email'       => 'required|email|unique:users',
+            'password'    => 'required|min:8',
+            'goverment'   => 'required|in:' . implode(',', get_saudi_regions()),
+            'national_id' => iqama_validation_rules(),
+            'gender'      => 'nullable|in:1,2',
+            'phone'       => 'nullable|regex:/^05\d{8}$/',
+        ], iqama_validation_messages());
 
-        $data['name']     = $request->name;
-        $data['phone']    = $request->phone;
-        $data['address']  = $request->address;
-        $data['email']    = $request->email;
-        $data['password'] = Hash::make($request->password);
+        $data['name']        = $request->name;
+        $data['phone']       = $request->phone;
+        $data['address']     = $request->address;
+        $data['goverment']   = $request->goverment;
+        $data['national_id'] = $request->national_id;
+        $data['gender']      = $request->gender;
+        $data['email']       = $request->email;
+        $data['password']    = Hash::make($request->password);
 
         $data['role']     = 'admin';
         $data['status']     = '1';
@@ -102,9 +111,11 @@ class UsersController extends Controller
         if ($done) {
             $admin_id = User::latest('id')->first();
             Permission::insert(['admin_id' => $admin_id->id]);
+            Session::flash('success', get_phrase('تم إضافة الموظف بنجاح — يمكنك الآن تعيين الصلاحيات'));
+            return redirect()->route('admin.admins.permission', ['user_id' => $admin_id->id]);
         }
-        Session::flash('success', get_phrase('Admin add successfully'));
-        return redirect()->route('admin.admins.index');
+        Session::flash('error', get_phrase('حدث خطأ أثناء إضافة الموظف'));
+        return redirect()->back()->withInput();
     }
 
     public function admin_edit($id)
@@ -116,15 +127,22 @@ class UsersController extends Controller
     {
 
         $validated = $request->validate([
-            'name'  => 'required|max:255',
-            'email' => "required|email|unique:users,email,$id",
-        ]);
+            'name'        => 'required|max:255',
+            'email'       => "required|email|unique:users,email,$id",
+            'goverment'   => 'required|in:' . implode(',', get_saudi_regions()),
+            'national_id' => iqama_validation_rules((int) $id),
+            'gender'      => 'nullable|in:1,2',
+            'phone'       => 'nullable|regex:/^05\d{8}$/',
+        ], iqama_validation_messages());
 
-        $data['name']     = $request->name;
-        $data['about']    = $request->about;
-        $data['phone']    = $request->phone;
-        $data['address']  = $request->address;
-        $data['email']    = $request->email;
+        $data['name']        = $request->name;
+        $data['about']       = $request->about;
+        $data['phone']       = $request->phone;
+        $data['address']     = $request->address;
+        $data['goverment']   = $request->goverment;
+        $data['national_id'] = $request->national_id;
+        $data['gender']      = $request->gender;
+        $data['email']       = $request->email;
         $data['facebook'] = $request->facebook;
         $data['twitter']  = $request->twitter;
         $data['website']  = $request->website;
@@ -196,6 +214,35 @@ class UsersController extends Controller
         }
     }
 
+    public function admin_permission_preset(Request $request, $user_id)
+    {
+        $presetKey = $request->input('preset');
+        $presets = get_admin_permission_presets();
+
+        if (!isset($presets[$presetKey])) {
+            return response()->json(['success' => false, 'message' => 'قالب الصلاحيات غير موجود'], 422);
+        }
+
+        $permissions = $presetKey === 'full_access'
+            ? get_all_admin_permission_keys()
+            : array_values(array_unique($presets[$presetKey]['permissions']));
+        $permission = Permission::where('admin_id', $user_id)->first();
+
+        if ($permission) {
+            Permission::where('admin_id', $user_id)->update(['permissions' => json_encode($permissions)]);
+        } else {
+            Permission::insert(['admin_id' => $user_id, 'permissions' => json_encode($permissions)]);
+        }
+
+        clear_lms_cache('permissions');
+
+        return response()->json([
+            'success' => true,
+            'permissions' => $permissions,
+            'message' => 'تم تطبيق قالب: ' . $presets[$presetKey]['label'],
+        ]);
+    }
+
     public function instructor_index(Request $request)
     {
         $query = User::where('role', 'instructor');
@@ -203,7 +250,10 @@ class UsersController extends Controller
             $search = $request->search;
             $query->where(function($q) use($search){
                 $q->where('name', 'LIKE', '%' . $search . '%')
-                ->orWhere('email', 'LIKE', '%' . $search . '%');
+                ->orWhere('email', 'LIKE', '%' . $search . '%')
+                ->orWhere('phone', 'LIKE', '%' . $search . '%')
+                ->orWhere('national_id', 'LIKE', '%' . $search . '%')
+                ->orWhere('goverment', 'LIKE', '%' . $search . '%');
             });
         }
 
@@ -223,10 +273,14 @@ class UsersController extends Controller
     public function instructor_store(Request $request, $id = '')
     {
         $validated = $request->validate([
-            'name'     => "required|max:255",
-            'email'    => 'required|email|unique:users',
-            'password' => "required|min:8",
-        ]);
+            'name'        => 'required|max:255',
+            'email'       => 'required|email|unique:users',
+            'password'    => 'required|min:8',
+            'goverment'   => 'required|in:' . implode(',', get_saudi_regions()),
+            'national_id' => iqama_validation_rules(),
+            'gender'      => 'nullable|in:1,2',
+            'phone'       => 'nullable|regex:/^05\d{8}$/',
+        ], iqama_validation_messages());
 
         if(get_settings('student_email_verification') != 1){
             $data['email_verified_at'] = date('Y-m-d H:i:s');
@@ -236,6 +290,9 @@ class UsersController extends Controller
         $data['about']       = $request->about;
         $data['phone']       = $request->phone;
         $data['address']     = $request->address;
+        $data['goverment']   = $request->goverment;
+        $data['national_id'] = $request->national_id;
+        $data['gender']      = $request->gender;
         $data['email']       = $request->email;
         $data['facebook']    = $request->facebook;
         $data['twitter']     = $request->twitter;
@@ -267,20 +324,35 @@ class UsersController extends Controller
     {
 
         $validated = $request->validate([
-            'name'  => 'required|max:255',
-            'email' => "required|email|unique:users,email,$id",
-        ]);
+            'name'        => 'required|max:255',
+            'email'       => "required|email|unique:users,email,$id",
+            'goverment'   => 'required|in:' . implode(',', get_saudi_regions()),
+            'national_id' => iqama_validation_rules((int) $id),
+            'gender'      => 'nullable|in:1,2',
+            'phone'       => 'nullable|regex:/^05\d{8}$/',
+        ], iqama_validation_messages());
 
         $data['name']        = $request->name;
         $data['about']       = $request->about;
         $data['phone']       = $request->phone;
         $data['address']     = $request->address;
+        $data['goverment']   = $request->goverment;
+        $data['national_id'] = $request->national_id;
+        $data['gender']      = $request->gender;
         $data['email']       = $request->email;
         $data['facebook']    = $request->facebook;
         $data['twitter']     = $request->twitter;
         $data['website']     = $request->website;
         $data['linkedin']    = $request->linkedin;
         $data['paymentkeys'] = json_encode($request->paymentkeys);
+
+        if ($request->filled('new_password')) {
+            $user = User::where('id', $id)->first();
+            if (!Hash::check($request->old_password, $user->password)) {
+                return redirect()->back()->with('error', 'Old password does not match')->withInput();
+            }
+            $data['password'] = Hash::make($request->new_password);
+        }
 
         if (isset($request->photo) && $request->hasFile('photo')) {
             remove_file(User::where('id', $id)->first()->photo);
@@ -519,15 +591,15 @@ class UsersController extends Controller
 
         $validated = $request->validate([
             'name'            => 'required|max:255',
-            'national_id'     => 'required|numeric|digits:14|unique:users,national_id',
+            'national_id'     => iqama_validation_rules(),
             'category'        => student_grade_category_rule(),
             'goverment'       => 'required',
             'gender'          => 'required|in:1,2',
-            'phone'           => ['required', 'numeric', 'digits_between:10,14', 'different:parent_phone'],
-            'parent_phone'    => ['required' , 'numeric','digits_between:10,14'],
+            'phone'           => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone'    => saudi_phone_validation_rules(),
             'email'           => 'required|email|unique:users',
             'password'        => 'required',
-        ]);
+        ], array_merge(iqama_validation_messages(), saudi_phone_validation_messages()));
 
         if(get_settings('student_email_verification') != 1){
             $data['email_verified_at'] = date('Y-m-d H:i:s');
@@ -568,16 +640,16 @@ class UsersController extends Controller
     {
         $validated = $request->validate([
             'name'             => 'required|max:255',
-            'national_id'      => "required|numeric|digits:14|unique:users,national_id,$id",
+            'national_id'      => iqama_validation_rules((int) $id),
             'category'         => student_grade_category_rule(),
             'goverment'        => 'required',
-            'phone'            => 'required|min:11',
-            'parent_phone'     => 'required|min:11',
+            'phone'            => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
+            'parent_phone'     => saudi_phone_validation_rules(),
             'email'            => "required|email|unique:users,email,$id",
             'gender'          => 'required|in:1,2',
             // 'old_password'    => 'required_with:new_password',
             'new_password'    => 'nullable',
-        ]);
+        ], array_merge(iqama_validation_messages(), saudi_phone_validation_messages()));
        $user = User::find($id);
 
         $data['name']            = $request->name;

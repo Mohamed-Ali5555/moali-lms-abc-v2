@@ -89,12 +89,12 @@
                                                 </span>
                                             @elseif ($hasDiscount)
                                                 <span class="hc-card__price-now">
-                                                    {{ $course->discount_price }} {{ get_phrase('جنيهًا') }}
+                                                    {{ currency($course->discount_price) }}
                                                 </span>
-                                                <del class="hc-card__price-old">{{ $course->price }}</del>
+                                                <del class="hc-card__price-old">{{ currency($course->price) }}</del>
                                             @else
                                                 <span class="hc-card__price-now">
-                                                    {{ $course->price }} {{ get_phrase('جنيهًا') }}
+                                                    {{ currency($course->price) }}
                                                 </span>
                                             @endif
                                         </div>

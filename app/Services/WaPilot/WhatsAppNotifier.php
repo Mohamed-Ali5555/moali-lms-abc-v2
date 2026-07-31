@@ -298,7 +298,7 @@ class WhatsAppNotifier
     {
         $this->notifyUser('enrollment_confirmed', $user, [
             'course_title' => $course->title,
-            'amount' => $amount === null || $amount === '' ? 'مجاني / حسب الفاتورة' : ((string) $amount . ' جنيه'),
+            'amount' => $amount === null || $amount === '' ? 'مجاني / حسب الفاتورة' : currency($amount),
         ]);
     }
 

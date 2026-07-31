@@ -10,12 +10,7 @@
     @php
         $categoryTitle = optional($categories->firstWhere('id', $user_details->category))->title;
         $genderLabel = $user_details->gender == 1 ? get_phrase('ذكر') : ($user_details->gender == 2 ? get_phrase('أنثى') : null);
-        $governorates = [
-            'القاهرة', 'الجيزة', 'الإسكندرية', 'الشرقية', 'الدقهلية', 'القليوبية', 'الغربية', 'المنوفية',
-            'البحيرة', 'كفر الشيخ', 'دمياط', 'بورسعيد', 'الإسماعيلية', 'السويس', 'مطروح', 'الفيوم',
-            'بني سويف', 'المنيا', 'أسيوط', 'سوهاج', 'قنا', 'الأقصر', 'أسوان', 'البحر الأحمر',
-            'الوادي الجديد', 'شمال سيناء', 'جنوب سيناء',
-        ];
+        $governorates = get_saudi_regions();
     @endphp
 
     <section class="course-content main_content pf-page" dir="rtl">
@@ -141,20 +136,22 @@
                                         </div>
 
                                         <div class="pf-field">
-                                            <label for="phone">{{ get_phrase('رقم الهاتف') }}</label>
-                                            <input type="number" class="form-control @error('phone') is-invalid @enderror"
-                                                name="phone" value="{{ old('phone', $user_details->phone) }}" id="phone" required>
+                                            <label for="phone">{{ get_phrase('رقم الجوال') }}</label>
+                                            <input type="text" class="form-control @error('phone') is-invalid @enderror"
+                                                name="phone" value="{{ old('phone', $user_details->phone) }}" id="phone"
+                                                maxlength="10" inputmode="numeric" placeholder="05XXXXXXXX" required>
                                             @error('phone')
                                                 <span class="pf-error">{{ $message }}</span>
                                             @enderror
                                         </div>
 
                                         <div class="pf-field">
-                                            <label for="parent_phone">{{ get_phrase('رقم هاتف ولى الأمر') }}</label>
-                                            <input type="number" class="form-control @error('parent_phone') is-invalid @enderror"
+                                            <label for="parent_phone">{{ get_phrase('رقم جوال ولي الأمر') }}</label>
+                                            <input type="text" class="form-control @error('parent_phone') is-invalid @enderror"
                                                 name="parent_phone"
                                                 value="{{ old('parent_phone', $user_details->parent_phone) }}"
-                                                id="parent_phone" required>
+                                                id="parent_phone" maxlength="10" inputmode="numeric"
+                                                placeholder="05XXXXXXXX" required>
                                             @error('parent_phone')
                                                 <span class="pf-error">{{ $message }}</span>
                                             @enderror
@@ -163,16 +160,18 @@
                                         <div class="pf-field">
                                             @php $nationalIdRequired = is_national_id_required(); @endphp
                                             <label for="national_id">
-                                                {{ get_phrase('الرقم القومى') }}
+                                                {{ get_phrase('رقم الإقامة') }}
                                                 @if ($nationalIdRequired)
                                                     <span class="text-danger">*</span>
                                                 @endif
                                             </label>
-                                            <input type="number" min="1"
+                                            <input type="text"
                                                 class="form-control @error('national_id') is-invalid @enderror"
                                                 name="national_id"
                                                 value="{{ old('national_id', $user_details->national_id) }}"
                                                 id="national_id"
+                                                maxlength="10" inputmode="numeric" pattern="[12][0-9]{9}"
+                                                placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
                                                 @if ($nationalIdRequired) required @endif>
                                             @error('national_id')
                                                 <span class="pf-error">{{ $message }}</span>
@@ -221,17 +220,17 @@
                                     </div>
                                     <div>
                                         <h3 class="pf-section__title">{{ get_phrase('البيانات الأكاديمية') }}</h3>
-                                        <p class="pf-section__desc">{{ get_phrase('الصف والمحافظة المرتبطة بحسابك') }}</p>
+                                        <p class="pf-section__desc">{{ get_phrase('الصف والمنطقة المرتبطة بحسابك') }}</p>
                                     </div>
                                 </div>
                                 <div class="pf-section__body">
                                     <div class="pf-grid">
                                         <div class="pf-field">
-                                            <label for="goverment">{{ get_phrase('المحافظة') }}</label>
+                                            <label for="goverment">{{ get_phrase('المنطقة') }}</label>
                                             <select class="form-control @error('goverment') is-invalid @enderror"
                                                 id="goverment" name="goverment" required>
                                                 <option value="" disabled {{ old('goverment', $user_details->goverment) ? '' : 'selected' }}>
-                                                    {{ get_phrase('اختر المحافظة') }}
+                                                    {{ get_phrase('اختر المنطقة') }}
                                                 </option>
                                                 @foreach ($governorates as $gov)
                                                     <option value="{{ $gov }}"

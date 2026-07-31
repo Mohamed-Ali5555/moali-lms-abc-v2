@@ -165,8 +165,8 @@ class PurchaseController extends Controller
             }
 
             $digits = preg_replace('/\D+/', '', $giftPhone) ?: '';
-            if (strlen($digits) < 10 || strlen($digits) > 14) {
-                Session::flash('error', get_phrase('رقم الهاتف يجب أن يكون بين 10 و 14 رقمًا.'));
+            if (!preg_match('/^05\d{8}$/', $digits)) {
+                Session::flash('error', get_phrase('رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.'));
                 return redirect()->back();
             }
 

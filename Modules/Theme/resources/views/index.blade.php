@@ -96,6 +96,12 @@
 
   @include('theme::includes.book')
 
+  {{-- ===== قسم الاعتماديات (شريط متحرك) ===== --}}
+  @include('theme::includes.accreditations')
+
+  {{-- ===== قسم الموقع الجغرافي (خريطة) ===== --}}
+  @include('theme::includes.location_map')
+
     <script>
       document.addEventListener("DOMContentLoaded", function () {
 

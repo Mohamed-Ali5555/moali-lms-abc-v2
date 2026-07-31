@@ -161,6 +161,7 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
 
         Route::get('admin/permissions/{user_id}', 'admin_permission')->name('admins.permission');
         Route::any('admin/permissions/store/{user_id?}', 'admin_permission_store')->name('admins.permission.store');
+        Route::post('admin/permissions/preset/{user_id}', 'admin_permission_preset')->name('admins.permission.preset');
 
         //manage profile
         Route::get('manage_profile', 'manage_profile')->name('manage.profile');

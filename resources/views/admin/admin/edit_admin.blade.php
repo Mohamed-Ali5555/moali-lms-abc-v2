@@ -18,8 +18,8 @@
                         <i class="fi-rr-shield"></i>
                         {{ get_phrase('Admins') }}
                     </div>
-                    <h1 class="tf-hero__title">{{ get_phrase('Edit Admin') }}</h1>
-                    <p class="tf-hero__desc">{{ get_phrase('Update admin profile and login credentials.') }}</p>
+                    <h1 class="tf-hero__title">{{ get_phrase('تعديل بيانات الموظف') }}</h1>
+                    <p class="tf-hero__desc">{{ get_phrase('تحديث البيانات الأساسية وبيانات الدخول') }}</p>
                 </div>
                 <div class="tf-hero__actions">
                     <a href="{{ route('admin.admins.index') }}" class="tf-btn tf-btn--ghost">
@@ -74,7 +74,7 @@
                             </div> --}}
 
                             <button type="submit" class="tf-btn tf-btn--primary mt-3">
-                                <span>{{ get_phrase('Update') }}</span>
+                                <span>{{ get_phrase('تحديث') }}</span>
                             </button>
                         </div>
                     </div>

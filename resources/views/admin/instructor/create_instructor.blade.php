@@ -18,8 +18,8 @@
                         <i class="fi-rr-chalkboard-user"></i>
                         {{ get_phrase('Instructors') }}
                     </div>
-                    <h1 class="tf-hero__title">{{ get_phrase('Create Instructor') }}</h1>
-                    <p class="tf-hero__desc">{{ get_phrase('Add basic details and login credentials for the new instructor.') }}</p>
+                    <h1 class="tf-hero__title">{{ get_phrase('إضافة مدرس جديد') }}</h1>
+                    <p class="tf-hero__desc">{{ get_phrase('أدخل البيانات الأساسية وبيانات الدخول — المدرس يستطيع إضافة الكورسات من لوحة المدرس') }}</p>
                 </div>
                 <div class="tf-hero__actions">
                     <a href="{{ route('admin.instructor.index') }}" class="tf-btn tf-btn--ghost">
@@ -61,28 +61,20 @@
                         </div>
                         <div class="tab-content w-100" id="myv-pills-tabContent">
                             <div class="tab-pane fade show active" id="v-pills-tab1" role="tabpanel" aria-labelledby="v-pills-tab1-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.create_instructor_basic')
-                                </div>
+                                @include('admin.instructor.create_instructor_basic')
                             </div>
                             <div class="tab-pane fade" id="v-pills-tab2" role="tabpanel" aria-labelledby="v-pills-tab2-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.create_login')
-                                </div>
+                                @include('admin.instructor.create_login')
                             </div>
                             {{-- <div class="tab-pane fade" id="v-pills-tab3" role="tabpanel" aria-labelledby="v-pills-tab3-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.create_payment')
-                                </div>
+                                @include('admin.instructor.create_payment')
                             </div>
                             <div class="tab-pane fade" id="v-pills-tab4" role="tabpanel" aria-labelledby="v-pills-tab4-tab" tabindex="0">
-                                <div class="dashboard-tab-conTent">
-                                    @include('admin.instructor.create_social')
-                                </div>
+                                @include('admin.instructor.create_social')
                             </div> --}}
 
                             <button type="submit" class="tf-btn tf-btn--primary mt-3">
-                                <span>{{ get_phrase('Create Instructor') }}</span>
+                                <span>{{ get_phrase('إضافة مدرس') }}</span>
                             </button>
                         </div>
                     </div>
