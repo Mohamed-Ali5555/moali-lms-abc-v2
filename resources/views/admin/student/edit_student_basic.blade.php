@@ -121,7 +121,7 @@ $regions = [
 
 <div class="row mb-3">
     <label for="national-id"
-        class="form-label ol-form-label col-sm-2 col-form-label">{{ get_phrase('رقم الإقامة') }}<span class="text-danger ms-1">*</span></label>
+        class="form-label ol-form-label col-sm-2 col-form-label">{{ get_phrase('رقم الهوية') }}<span class="text-danger ms-1">*</span></label>
     <div class="col-sm-8">
         <input type="text" name="national_id" class="form-control ol-form-control @error('national_id') is-invalid @enderror" id="national-id"
             placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"

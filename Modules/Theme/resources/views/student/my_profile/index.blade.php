@@ -160,7 +160,7 @@
                                         <div class="pf-field">
                                             @php $nationalIdRequired = is_national_id_required(); @endphp
                                             <label for="national_id">
-                                                {{ get_phrase('رقم الإقامة') }}
+                                                {{ get_phrase('رقم الهوية') }}
                                                 @if ($nationalIdRequired)
                                                     <span class="text-danger">*</span>
                                                 @endif

@@ -154,9 +154,9 @@ class AuthController extends Controller
 
 
 
-        $nationalImageRule = is_national_image_required()
-            ? ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200']
-            : ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'];
+        // $nationalImageRule = is_national_image_required()
+        //     ? ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200']
+        //     : ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'];
 
         $emailRule = is_email_required()
             ? ['required', 'string', 'email', 'unique:users,email']
@@ -170,7 +170,7 @@ class AuthController extends Controller
             'national_id'  => iqama_validation_rules(null, is_national_id_required()),
             'category'     => student_grade_category_rule(),
             'gender'       => ['required'],
-            'national_image' => $nationalImageRule,
+            // 'national_image' => $nationalImageRule,
 
             // 'address'      => ['required', 'string', 'max:255'],
             'password'     => ['required', 'confirmed', Rules\Password::defaults()],
@@ -189,10 +189,10 @@ class AuthController extends Controller
 
             'password.required'     => 'كلمة المرور مطلوبة.',
             'password.confirmed'    => 'يجب تأكيد كلمة المرور.',
-            'national_image.required' => 'صورة البطاقة مطلوبة.',
-            'national_image.image'    => 'يجب أن يكون الملف صورة.',
-            'national_image.mimes'    => 'يجب أن تكون الصورة بصيغة: jpeg, png, jpg, webp.',
-            'national_image.max'      => 'أقصى حجم مسموح للصورة هو 50 ميجا.',
+            // 'national_image.required' => 'صورة البطاقة مطلوبة.',
+            // 'national_image.image'    => 'يجب أن يكون الملف صورة.',
+            // 'national_image.mimes'    => 'يجب أن تكون الصورة بصيغة: jpeg, png, jpg, webp.',
+            // 'national_image.max'      => 'أقصى حجم مسموح للصورة هو 50 ميجا.',
 
         ]);
 
@@ -232,14 +232,14 @@ class AuthController extends Controller
             'role'     => $user_data['role'],
 
         ]);
-        if (isset($request->national_image)) {
-             Log::info('Uploading national image', [
-                'user_name' => $request->name,
-                'file_size' => $request->national_image->getSize(),
-            ]);
-            $user_data['national_image'] = "uploads/user-national_image/" . nice_file_name($request->name, $request->national_image->extension());
-            FileUploader::upload($request->national_image, $user_data['national_image'], 500, null, 200, 200);
-        }
+        // if (isset($request->national_image)) {
+        //      Log::info('Uploading national image', [
+        //         'user_name' => $request->name,
+        //         'file_size' => $request->national_image->getSize(),
+        //     ]);
+        //     $user_data['national_image'] = "uploads/user-national_image/" . nice_file_name($request->name, $request->national_image->extension());
+        //     FileUploader::upload($request->national_image, $user_data['national_image'], 500, null, 200, 200);
+        // }
 
 
         if (get_settings('student_email_verification') != 1) {

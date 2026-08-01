@@ -169,7 +169,7 @@ $regions = [
                     </div>
 
 
-                    {{-- رقم الإقامة --}}
+                    {{-- رقم الهوية --}}
                     <div class="rg-field rg-span-2">
 
                         @php
@@ -178,7 +178,7 @@ $regions = [
 
                         <label for="national_id">
 
-                            {{ get_phrase('رقم الإقامة') }}
+                            {{ get_phrase('رقم الهوية') }}
 
                             @if ($nationalIdRequired)
                                 <span class="req">*</span>
@@ -202,7 +202,6 @@ $regions = [
                                 maxlength="10"
                                 minlength="10"
                                 pattern="[12][0-9]{9}"
-                                placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
                                 onkeypress="validateNumberInput(event)"
                                 class="@error('national_id') is-invalid @enderror"
                                 @if ($nationalIdRequired) required @endif>
@@ -412,7 +411,7 @@ $regions = [
 
 
                     {{-- صورة الهوية --}}
-                    <div class="rg-field rg-span-2">
+                    <!-- <div class="rg-field rg-span-2">
 
                         @php
                             $nationalImageRequired = is_national_image_required();
@@ -478,7 +477,7 @@ $regions = [
                             jpeg, png, jpg, webp — بحد أقصى 50 ميجابايت
                         </span>
 
-                    </div>
+                    </div> -->
 
 
                     {{-- كلمة المرور --}}
@@ -1121,69 +1120,69 @@ $regions = [
 
             // صورة الهوية
 
-            const nationalImage =
-                document.getElementById('national_image');
+            // const nationalImage =
+            //     document.getElementById('national_image');
 
-            const nationalImageRequired =
-                {{ is_national_image_required() ? 'true' : 'false' }};
+            // const nationalImageRequired =
+            //     {{ is_national_image_required() ? 'true' : 'false' }};
 
-            if (
-                nationalImageRequired &&
-                (!nationalImage ||
-                    !nationalImage.files ||
-                    nationalImage.files.length === 0)
-            ) {
+            // if (
+            //     nationalImageRequired &&
+            //     (!nationalImage ||
+            //         !nationalImage.files ||
+            //         nationalImage.files.length === 0)
+            // ) {
 
-                errors.push(
-                    'يرجى رفع صورة الهوية الوطنية'
-                );
+            //     errors.push(
+            //         'يرجى رفع صورة الهوية الوطنية'
+            //     );
 
-                if (!firstErrorField) {
-                    firstErrorField = nationalImage;
-                }
+            //     if (!firstErrorField) {
+            //         firstErrorField = nationalImage;
+            //     }
 
-            } else if (
-                nationalImage &&
-                nationalImage.files &&
-                nationalImage.files.length > 0
-            ) {
+            // } else if (
+            //     nationalImage &&
+            //     nationalImage.files &&
+            //     nationalImage.files.length > 0
+            // ) {
 
-                const file = nationalImage.files[0];
+            //     const file = nationalImage.files[0];
 
-                if (file) {
+            //     if (file) {
 
-                    const allowedTypes = [
-                        'image/jpeg',
-                        'image/png',
-                        'image/jpg',
-                        'image/webp'
-                    ];
+            //         const allowedTypes = [
+            //             'image/jpeg',
+            //             'image/png',
+            //             'image/jpg',
+            //             'image/webp'
+            //         ];
 
-                    const maxSize =
-                        50 * 1024 * 1024;
+            //         const maxSize =
+            //             50 * 1024 * 1024;
 
-                    if (!allowedTypes.includes(file.type)) {
+            //         if (!allowedTypes.includes(file.type)) {
 
-                        errors.push(
-                            'يجب أن تكون الصورة بصيغة jpeg أو png أو jpg أو webp'
-                        );
+            //             errors.push(
+            //                 'يجب أن تكون الصورة بصيغة jpeg أو png أو jpg أو webp'
+            //             );
 
-                        if (!firstErrorField) {
-                            firstErrorField = nationalImage;
-                        }
+            //             if (!firstErrorField) {
+            //                 firstErrorField = nationalImage;
+            //             }
 
-                    } else if (file.size > maxSize) {
+            //         } else if (file.size > maxSize) {
 
-                        errors.push(
-                            'أقصى حجم مسموح للصورة هو 50 ميجابايت'
-                        );
+            //             errors.push(
+            //                 'أقصى حجم مسموح للصورة هو 50 ميجابايت'
+            //             );
 
-                        if (!firstErrorField) {
-                            firstErrorField = nationalImage;
-                        }
-                    }
-                }
-            }
+            //             if (!firstErrorField) {
+            //                 firstErrorField = nationalImage;
+            //             }
+            //         }
+            //     }
+            // }
 
 
             // كلمة المرور

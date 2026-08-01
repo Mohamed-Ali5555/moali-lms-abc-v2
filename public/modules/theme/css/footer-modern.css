@@ -153,11 +153,55 @@ body[data-theme="dark"] .ft-gridline {
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr) minmax(0, 1fr);
     gap: 0;
     padding: 2.25rem 0 2.5rem;
-    align-items: start;
+    align-items: stretch;
 }
 
 .ft-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
     padding-inline-end: 2.5rem;
+    min-height: 100%;
+}
+
+.ft-brand:has(.ft-brand__visual) {
+    display: grid;
+    grid-template-columns: minmax(200px, 1.2fr) minmax(0, 0.8fr);
+    grid-template-rows: 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+}
+
+.ft-brand__content {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+}
+
+.ft-brand__visual {
+    grid-column: 1;
+    grid-row: 1;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: clamp(1rem, 2vw, 1.75rem) clamp(1.25rem, 2.5vw, 2rem);
+    border-radius: 18px;
+    border: 1px solid var(--ft-chip-border);
+    background: var(--ft-chip-bg);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 12px 32px -20px rgba(var(--ft-accent-rgb), 0.45);
+}
+
+.ft-brand__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: min(320px, 100%);
+    object-fit: contain;
+    object-position: center;
 }
 
 .ft-links,
@@ -499,6 +543,27 @@ body[data-theme="dark"] .ft-legal:hover {
         border-bottom: 1px solid var(--ft-line);
     }
 
+    .ft-brand:has(.ft-brand__visual) {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .ft-brand__content,
+    .ft-brand__visual {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .ft-brand__visual {
+        width: 100%;
+        min-height: clamp(140px, 28vw, 220px);
+    }
+
+    .ft-brand__visual img {
+        max-height: clamp(120px, 24vw, 200px);
+    }
+
     .ft-links {
         padding-inline: 0;
         border-inline-start: none;
@@ -536,6 +601,15 @@ body[data-theme="dark"] .ft-legal:hover {
 
     .ft-brand {
         padding-bottom: 1.25rem;
+    }
+
+    .ft-brand__visual {
+        width: 100%;
+        min-height: 160px;
+    }
+
+    .ft-brand__visual img {
+        max-height: 180px;
     }
 
     .ft-brand__quote {

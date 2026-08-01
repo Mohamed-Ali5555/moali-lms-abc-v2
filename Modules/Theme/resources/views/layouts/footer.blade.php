@@ -21,20 +21,28 @@
         <span class="ft-gridline"></span>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="ft-main">
             <div class="ft-brand">
-                <a href="{{ route('theme.home') }}" class="ft-brand__logo" aria-label="{{ $siteName }}">
-                    <img src="{{ asset(get_theme_settings('logo') ?? '') }}" alt="{{ $siteName }}" class="logo light">
-                    <img src="{{ asset(get_theme_settings('dark_logo') ?? '') }}" alt="{{ $siteName }}" class="logo dark">
-                </a>
-
-                @if ($siteName !== '')
-                    <p class="ft-brand__name">{{ $siteName }}</p>
+                @if (get_theme_settings('footer_image'))
+                    <div class="ft-brand__visual" aria-label="{{ get_phrase('الاعتمادية') }}">
+                        <img src="{{ asset(get_theme_settings('footer_image')) }}" alt="{{ $siteName }}" loading="lazy">
+                    </div>
                 @endif
 
-                <div class="ft-brand__quote">
-                    {!! get_theme_settings('footer_description') !!}
+                <div class="ft-brand__content">
+                    <a href="{{ route('theme.home') }}" class="ft-brand__logo" aria-label="{{ $siteName }}">
+                        <img src="{{ asset(get_theme_settings('logo') ?? '') }}" alt="{{ $siteName }}" class="logo light">
+                        <img src="{{ asset(get_theme_settings('dark_logo') ?? '') }}" alt="{{ $siteName }}" class="logo dark">
+                    </a>
+
+                    @if ($siteName !== '')
+                        <p class="ft-brand__name">{{ $siteName }}</p>
+                    @endif
+
+                    <div class="ft-brand__quote">
+                        {!! get_theme_settings('footer_description') !!}
+                    </div>
                 </div>
             </div>
 

@@ -850,6 +850,19 @@
                                 <textarea name="footer_description" rows="4" class="form-control ol-form-control text_editor" id="footer_description" required>{{ get_theme_settings('footer_description') }}</textarea>
                             </div>
                             <div class="col-md-6">
+                                <label for="footer_image" class="form-label ol-form-label">{{ get_phrase('صورة الفوتر') }}</label>
+                                <input type="file" name="footer_image" class="form-control ol-form-control" id="footer_image" accept="image/*" />
+                                <small class="text-muted d-block mt-1">{{ get_phrase('تظهر أسفل وصف الفوتر في عمود الشعار') }}</small>
+                                @if(get_theme_settings('footer_image'))
+                                    <div class="image-preview-container">
+                                        <div class="image-preview">
+                                            <img src="{{ asset(get_theme_settings('footer_image')) }}" alt="Footer Image">
+                                            <div class="current-image-text">{{ get_phrase('الصورة الحالية') }}</div>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="col-md-6">
                                 <label class="form-label ol-form-label" for="map_link">{{ get_phrase('رابط خرائط جوجل') }}</label>
                                 <input type="url" name="map_link" id="map_link" class="form-control ol-form-control" value="{{ get_theme_settings('map_link') }}" placeholder="https://maps.app.goo.gl/...">
                                 <small class="text-muted d-block mt-1">{{ get_phrase('يظهر في الفوتر وصفحة الاعتمادية') }}</small>

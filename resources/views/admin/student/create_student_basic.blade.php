@@ -137,13 +137,13 @@ $regions = [
 
 <div class="row mb-3">
     <label for="national-id"
-        class="form-label ol-form-label col-sm-2 col-form-label">{{ get_phrase('رقم الإقامة') }}<span class="text-danger ms-1">*</span></label>
+        class="form-label ol-form-label col-sm-2 col-form-label">{{ get_phrase('رقم الهوية') }}<span class="text-danger ms-1">*</span></label>
     <div class="col-sm-8">
         <input type="text" name="national_id" class="form-control ol-form-control @error('national_id') is-invalid @enderror" id="national-id"
             placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
             maxlength="10" inputmode="numeric" pattern="[12][0-9]{9}" required
             @isset($student->national_id) value="{{ old('national_id', isset($student) ? $student->national_id : '') }}" @endisset>
-        <small class="text-muted">{{ get_phrase('رقم الإقامة أو الهوية الوطنية — 10 أرقام') }}</small>
+        <small class="text-muted">{{ get_phrase('رقم الهوية أو الهوية الوطنية — 10 أرقام') }}</small>
         @error('national_id')
             <div class="invalid-feedback d-block">{{ $message }}</div>
         @enderror

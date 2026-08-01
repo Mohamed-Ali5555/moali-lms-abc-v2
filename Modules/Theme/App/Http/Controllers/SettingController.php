@@ -37,11 +37,12 @@ class SettingController extends Controller
                 'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
                 'dark_thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
                 'dark_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
+                'footer_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
                 'name' => 'required|string|max:255'
             ]);
             foreach ($data as $key => $item) {
                 // Handle file uploads for theme settings
-                if (in_array($key, ['thumbnail', 'logo', 'dark_thumbnail', 'dark_logo']) && $request->hasFile($key)) {
+                if (in_array($key, ['thumbnail', 'logo', 'dark_thumbnail', 'dark_logo', 'footer_image']) && $request->hasFile($key)) {
                     $file = $request->file($key);
                     $filePath = "uploads/theme-thumbnail/" . nice_file_name($request->input('name'), $file->extension());
 
