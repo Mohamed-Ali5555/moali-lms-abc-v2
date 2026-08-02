@@ -143,7 +143,7 @@ $regions = [
             placeholder="{{ get_phrase('10 أرقام — يبدأ بـ 1 أو 2') }}"
             maxlength="10" inputmode="numeric" pattern="[12][0-9]{9}" required
             @isset($student->national_id) value="{{ old('national_id', isset($student) ? $student->national_id : '') }}" @endisset>
-        <small class="text-muted">{{ get_phrase('رقم الهوية أو الهوية الوطنية — 10 أرقام') }}</small>
+        <small class="text-muted">{{ get_phrase('رقم الهوية ') }}</small>
         @error('national_id')
             <div class="invalid-feedback d-block">{{ $message }}</div>
         @enderror

@@ -65,12 +65,12 @@
 @media all and (max-width: 991px){
     /* Sidebar */
     .ol-sidebar{
-        width: 262px;
-        left: -262px;
+        width: 268px;
+        left: -268px;
         box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.10);
     }
     .ol-sidebar.hide{
-        width: 262px;
+        width: 268px;
         left: 0;
     }
     .ol-sidebar.hide .sidebar-logo-lg{
@@ -92,12 +92,32 @@
         height: auto;
     }
     .ol-sidebar.hide ~ .ol-sidebar-content{
-        left: 0px;
-        width: 100%;
+        left: 0px !important;
+        right: 0 !important;
+        width: 100% !important;
     }
     .ol-sidebar-content{
-        left: 0px;
-        width: 100%;
+        left: 0px !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100vw;
+    }
+
+    html[dir="rtl"] .ol-sidebar{
+        left: auto !important;
+        right: -268px;
+    }
+
+    html[dir="rtl"] .ol-sidebar.hide{
+        left: auto !important;
+        right: 0;
+    }
+
+    html[dir="rtl"] .ol-sidebar.hide ~ .ol-sidebar-content,
+    html[dir="rtl"] .ol-sidebar-content{
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
     }
     /* Message Page */
     .messenger-body {

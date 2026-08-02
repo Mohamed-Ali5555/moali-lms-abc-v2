@@ -49,6 +49,7 @@
         <div class="ol-sidebar">
             @include('admin.navigation')
         </div>
+        <div class="ol-sidebar-backdrop" aria-hidden="true"></div>
 
         <div class="ol-sidebar-content">
             @include('admin.header')

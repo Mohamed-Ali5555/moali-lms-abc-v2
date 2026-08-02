@@ -239,6 +239,10 @@
     <script>
         "use strict";
 
+        const isMobileDash = window.matchMedia('(max-width: 767.98px)').matches;
+        const axisTickSize = isMobileDash ? 9 : 11;
+        const axisMaxRotation = isMobileDash ? 40 : 0;
+
         const chartTooltip = {
             backgroundColor: '#0f172a',
             titleFont: { family: 'Plus Jakarta Sans', weight: '600' },
@@ -295,7 +299,10 @@
                             },
                             ticks: {
                                 color: '#94a3b8',
-                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                                font: { family: 'Plus Jakarta Sans', size: axisTickSize },
+                                maxRotation: axisMaxRotation,
+                                autoSkip: true,
+                                maxTicksLimit: isMobileDash ? 6 : 12
                             }
                         },
                         y: {
@@ -306,7 +313,9 @@
                             },
                             ticks: {
                                 color: '#94a3b8',
-                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                                font: { family: 'Plus Jakarta Sans', size: axisTickSize },
+                                autoSkip: true,
+                                maxTicksLimit: isMobileDash ? 5 : 8
                             }
                         }
                     }
@@ -384,10 +393,10 @@
                             grid: { display: false },
                             ticks: {
                                 color: '#94a3b8',
-                                font: { family: 'Plus Jakarta Sans', size: 11 },
-                                maxRotation: 0,
+                                font: { family: 'Plus Jakarta Sans', size: axisTickSize },
+                                maxRotation: axisMaxRotation,
                                 autoSkip: true,
-                                maxTicksLimit: 6
+                                maxTicksLimit: isMobileDash ? 5 : 6
                             }
                         },
                         y: {
@@ -395,7 +404,7 @@
                             ticks: {
                                 precision: 0,
                                 color: '#94a3b8',
-                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                                font: { family: 'Plus Jakarta Sans', size: axisTickSize }
                             },
                             grid: {
                                 color: 'rgba(226, 232, 240, 0.9)',
@@ -459,13 +468,16 @@
                         ],
                         borderRadius: 8,
                         borderSkipped: false,
-                        barThickness: 22
+                        barThickness: isMobileDash ? 16 : 22
                     }]
                 },
                 options: {
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: isMobileDash ? { left: 0, right: 4 } : undefined
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: chartTooltip
@@ -476,7 +488,7 @@
                             ticks: {
                                 precision: 0,
                                 color: '#94a3b8',
-                                font: { family: 'Plus Jakarta Sans', size: 11 }
+                                font: { family: 'Plus Jakarta Sans', size: axisTickSize }
                             },
                             grid: {
                                 color: 'rgba(226, 232, 240, 0.9)',
@@ -487,7 +499,19 @@
                             grid: { display: false },
                             ticks: {
                                 color: '#334155',
-                                font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' }
+                                font: {
+                                    family: 'Plus Jakarta Sans',
+                                    size: isMobileDash ? 10 : 12,
+                                    weight: '600'
+                                },
+                                autoSkip: false,
+                                callback: function(value) {
+                                    const label = this.getLabelForValue(value);
+                                    if (!isMobileDash || label.length <= 18) {
+                                        return label;
+                                    }
+                                    return label.slice(0, 16) + '…';
+                                }
                             }
                         }
                     }

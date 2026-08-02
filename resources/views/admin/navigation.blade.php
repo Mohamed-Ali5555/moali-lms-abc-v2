@@ -1,13 +1,13 @@
 @php $current_route = Route::currentRouteName(); @endphp
 
 <div class="sidebar-logo-area">
-    <a href="{{route('admin.dashboard')}}" class="sidebar-logos">
-        <img class="sidebar-logo-lg" height="50px" src="{{ get_image(get_theme_settings('logo') ?? '') }}"
-            alt="mohamed">
-        <img class="sidebar-logo-sm" height="40px" src="{{ get_image(get_frontend_settings('favicon')) }}" alt="">
+    <a href="{{ route('admin.dashboard') }}" class="sidebar-logos">
+        <img class="sidebar-logo-lg" height="50" src="{{ get_image(get_theme_settings('logo') ?? '') }}"
+            alt="{{ get_settings('system_title') }}">
+        <img class="sidebar-logo-sm" height="40" src="{{ get_image(get_frontend_settings('favicon')) }}" alt="">
     </a>
-    <button class="sidebar-cross menu-toggler d-block d-lg-none">
-        <span class="fi-rr-cross"></span>
+    <button type="button" class="sidebar-cross menu-toggler d-flex d-lg-none" aria-label="{{ get_phrase('Close menu') }}">
+        <span class="fi-rr-cross" aria-hidden="true"></span>
     </button>
 </div>
 <h3 class="sidebar-title fs-14px px-30px pb-20px mt-4">{{ get_phrase('القائمة الرئيسية') }}</h3>
@@ -726,6 +726,27 @@
         // Save scroll position before page unload
         window.addEventListener('beforeunload', function() {
             localStorage.setItem('navScrollPos', sidebarNavArea.scrollTop);
+        });
+
+        // Close mobile sidebar after navigating to a page link
+        document.querySelectorAll(
+            '.sidebar-first-li:not(.first-li-have-sub) > a[href]:not([href="javascript:void(0);"]), ' +
+            '.sidebar-second-li > a[href]:not([href="javascript:void(0);"]), ' +
+            '.sidebar-third-li > a[href]:not([href="javascript:void(0);"])'
+        ).forEach(function(link) {
+            link.addEventListener('click', function() {
+                if (!window.matchMedia('(max-width: 991.98px)').matches) {
+                    return;
+                }
+                const sidebar = document.querySelector('.ol-sidebar');
+                const backdrop = document.querySelector('.ol-sidebar-backdrop');
+                sidebar?.classList.remove('hide');
+                document.body.classList.remove('sidebar-open');
+                backdrop?.classList.remove('active');
+                document.querySelectorAll('.menu-toggler').forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+            });
         });
     });
 </script>
