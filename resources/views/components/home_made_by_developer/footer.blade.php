@@ -22,11 +22,7 @@
                         <li><a href="{{ get_frontend_settings('facebook') }}"><i class="fa-brands fa-facebook-f"></i></a></li>
                         <li><a href="{{ get_frontend_settings('linkedin') }}"><i class="fa-brands fa-linkedin-in"></i></a></li>
                     </ul>
-                    <!-- <div class="gradient-border2">
-                        <a href="{{ route('contact.us') }}" class="gradient-border-btn">
-                            {{ get_phrase('Contact with Us') }}
-                            <i class="fa-solid fa-arrow-right-long ms-2"></i></a>
-                    </div> -->
+                 
                 </div>
             </div>
             <div class="col-lg-8 col-md-8">
@@ -94,14 +90,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <!-- <ul class="footer-policy">
-                        <li><a href="{{ route('about.us') }}">{{ get_phrase('About Us') }}</a></li>
-                        <li><a href="{{ route('privacy.policy') }}">{{ get_phrase('Privacy Policy') }}</a></li>
-                        <li><a href="{{ route('terms.condition') }}">{{ get_phrase('Terms And Use') }}</a></li>
-                        <li><a href="{{ route('refund.policy') }}">{{ get_phrase('Sales and Refunds') }}</a></li>
-                        <li><a href="{{ route('cookie.policy') }}">{{ get_phrase('Cookie Policy') }}</a></li>
-                        <li><a href="{{ route('faq') }}">{{ get_phrase('FAQ') }}</a></li>
-                    </ul> -->
+                    
                 </div>
                 <div class="col-lg-4">
                     <div class="copyright-text">
