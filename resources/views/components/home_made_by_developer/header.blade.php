@@ -51,7 +51,7 @@
                                             <li>
                                                 <a href="{{ route('courses') }}">
                                                     <span class="me-3"><i class="fas fa-list-ul"></i></span>
-                                                    <span class="me-auto">{{ get_phrase('All Courses') }}</span>
+                                                    <span class="me-auto">{{ get_phrase('All Courseses') }}</span>
                                                 </a>
                                             </li>
                                         </ul>
