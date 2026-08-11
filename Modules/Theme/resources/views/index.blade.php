@@ -2,10 +2,7 @@
 @section('content')
 @include('theme::includes.banner')
 
-  <!-- Start Features Section -->
-  @include('theme::includes.features',['features'=>$features])
-  <!-- End Features Section -->
-
+  
     <section class="academic-years-tilt-section" id="years-section" dir="rtl">
         <div class="section-bg-shapes" aria-hidden="true">
             <div class="shape-1"></div>
@@ -95,6 +92,9 @@
   @include('theme::includes.home_courses_sidebar')
 
   @include('theme::includes.book')
+<!-- Start Features Section -->
+@include('theme::includes.features',['features'=>$features])
+  <!-- End Features Section -->
 
   {{-- ===== قسم الاعتماديات (شريط متحرك) ===== --}}
   @include('theme::includes.accreditations')
