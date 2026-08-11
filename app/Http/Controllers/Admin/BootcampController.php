@@ -37,13 +37,13 @@ class BootcampController extends Controller
         }
 
         if (request()->has('status') && request()->query('status') != 'all') {
-            $status = request()->query('status') == 'active' ? 1 : 0;
+            $status = request()->query('status') == '1' ? 1 : 0;
             $query  = $query->where('bootcamps.status', $status);
         }
 
-        if (request()->has('instructor') && request()->query('instructor') != 'all') {
-            $query = $query->where('bootcamps.user_id', request()->query('instructor'));
-        }
+        // if (request()->has('instructor') && request()->query('instructor') != 'all') {
+        //     $query = $query->where('bootcamps.user_id', request()->query('instructor'));
+        // }
 
         if (request()->has('price') && request()->query('price') != 'all') {
             $price = request()->query('price');
@@ -85,12 +85,15 @@ class BootcampController extends Controller
     {
         $rules = [
             'title'            => 'required|string',
-            'description'      => 'required|string',
+            'description'      => 'nullable|string',
             'category_id'      => 'required',
             'is_paid'          => Rule::in(['0', '1']),
             'price'            => 'required_if:is_paid,1|min:1|nullable|numeric',
             'discount_flag'    => Rule::in(['', '1']),
-            'discount_price' => 'required_if:discount_flag,1|min:1|nullable|numeric',
+            'discount_price'   => 'required_if:discount_flag,1|min:1|nullable|numeric',
+            'thumbnail'        =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:47048',
+            'publish_date'     => 'required|date',
+
         ];
         $validator = Validator::make($request->all(), $rules);
 
@@ -107,21 +110,20 @@ class BootcampController extends Controller
         $data['user_id']           = auth()->user()->id;
         $data['title']             = $request->title;
         $data['slug']              = slugify($request->title);
-        $data['short_description'] = $request->short_description;
         $data['description']       = $request->description;
         $data['publish_date']      = strtotime($request->publish_date);
         $data['category_id']       = $request->category_id;
         $data['is_paid']           = $request->is_paid;
         $data['price']             = $request->price;
         $data['discount_flag']     = $request->discount_flag;
-        $data['discount_price']  = $request->discount_price;
-        $data['status']            = 1;
+        $data['discount_price']    = $request->discount_price;
+        $data['status']            = $request->status;
 
         if ($request->thumbnail) {
             $data['thumbnail'] = "uploads/bootcamp/thumbnail/" . nice_file_name($request->title, $request->thumbnail->extension());
             FileUploader::upload($request->thumbnail, $data['thumbnail']);
         }
-
+        // return $data;
         $insert_id = Bootcamp::insertGetId($data);
 
         Session::flash('success', get_phrase('Bootcamp has been created.'));
@@ -153,14 +155,14 @@ class BootcampController extends Controller
         $rules = $data = [];
         if ($request->tab == 'basic') {
             $rules = [
-                'title'       => 'required|string',
-                'description' => 'required|string',
-                'category_id' => 'required',
+                'title'        => 'required|string',
+                'description'  => 'required|string',
+                'category_id'  => 'required',
+                'publish_date' => 'required|date',
             ];
 
             $data['title']             = $request->title;
             $data['slug']              = slugify($request->title);
-            $data['short_description'] = $request->short_description;
             $data['description']       = $request->description;
             $data['publish_date']      = strtotime($request->publish_date);
             $data['category_id']       = $request->category_id;
@@ -171,6 +173,11 @@ class BootcampController extends Controller
             if ($title) {
                 Session::flash('error', get_phrase('This title has been taken.'));
                 return redirect()->back();
+            }
+          if ($request->thumbnail) {
+                $data['thumbnail'] = "uploads/bootcamp/thumbnail/" . nice_file_name($request->title, $request->thumbnail->extension());
+                FileUploader::upload($request->thumbnail, $data['thumbnail']);
+                remove_file($query->first()->thumbnail);
             }
 
         } elseif ($request->tab == 'pricing') {
@@ -184,76 +191,8 @@ class BootcampController extends Controller
             $data['is_paid']          = $request->is_paid;
             $data['price']            = $request->price;
             $data['discount_flag']    = $request->discount_flag;
-            $data['discount_price'] = $request->discount_price;
+            $data['discount_price']   = $request->discount_price;
 
-        } elseif ($request->tab == 'info') {
-            $rules = [
-                'requirements' => 'array',
-                'outcomes'     => 'array',
-                'faqs'         => 'array',
-            ];
-
-            //Remove empty value by using array filter function
-            $data['requirements'] = json_encode(array_filter($request->requirements, fn($value) => ! is_null($value) && $value !== ''));
-            $data['outcomes']     = json_encode(array_filter($request->outcomes, fn($value) => ! is_null($value) && $value !== ''));
-
-            $faqs = [];
-            foreach ($request->faq_title as $key => $title) {
-                if ($title != '') {
-                    $faqs[] = ['title' => $title, 'description' => $request->faq_description[$key]];
-                }
-            }
-            $data['faqs'] = json_encode($faqs);
-        } elseif ($request->tab == 'media') {
-            if ($request->thumbnail) {
-                $data['thumbnail'] = "uploads/bootcamp/thumbnail/" . nice_file_name($request->title, $request->thumbnail->extension());
-                FileUploader::upload($request->thumbnail, $data['thumbnail']);
-                remove_file($query->first()->thumbnail);
-            }
-
-        } elseif ($request->tab == 'seo') {
-            $bootcamp_details = $query->first();
-            $SeoField         = SeoField::where('bootcamp_id', $bootcamp_details->id)->first();
-
-            $seo_data['bootcamp_id']        = $id;
-            $seo_data['route']            = 'Bootcamp Details';
-            $seo_data['name_route']       = 'bootcamp.details';
-            $seo_data['meta_title']       = $request->meta_title;
-            $seo_data['meta_description'] = $request->meta_description;
-            $seo_data['meta_robot']       = $request->meta_robot;
-            $seo_data['canonical_url']    = $request->canonical_url;
-            $seo_data['custom_url']       = $request->custom_url;
-            $seo_data['json_ld']          = $request->json_ld;
-            $seo_data['og_title']         = $request->og_title;
-            $seo_data['og_description']   = $request->og_description;
-            $seo_data['created_at']       = date('Y-m-d H:i:s');
-            $seo_data['updated_at']       = date('Y-m-d H:i:s');
-
-            $meta_keywords_arr = json_decode($request->meta_keywords, true);
-            $meta_keywords     = '';
-            if (is_array($meta_keywords_arr)) {
-                foreach ($meta_keywords_arr as $arr_key => $arr_val) {
-                    $meta_keywords .= $meta_keywords == '' ? $arr_val['value'] : ', ' . $arr_val['value'];
-                }
-                $seo_data['meta_keywords'] = $meta_keywords;
-            }
-
-            if ($request->og_image) {
-                $originalFileName = $bootcamp_details->id . '-' . $request->og_image->getClientOriginalName();
-                $destinationPath  = 'uploads/seo-og-images/' . $originalFileName;
-                // Move the file to the destination path
-                FileUploader::upload($request->og_image, $destinationPath, 600);
-                $seo_data['og_image'] = $destinationPath;
-            }
-
-            if ($SeoField) {
-                if ($request->og_image) {
-                    remove_file($SeoField->og_image);
-                }
-                SeoField::where('bootcamp_id', $bootcamp_details->id)->update($seo_data);
-            } else {
-                SeoField::insert($seo_data);
-            }
         }
 
         //For ajax form submission
@@ -273,26 +212,26 @@ class BootcampController extends Controller
         return redirect()->back();
     }
 
-    public function duplicate($id)
-    {
-        $bootcamp = Bootcamp::where('id', $id);
-        if ($bootcamp->doesntExist()) {
-            Session::flash('success', get_phrase('Data not found.'));
-            return redirect()->back();
-        }
+    // public function duplicate($id)
+    // {
+    //     $bootcamp = Bootcamp::where('id', $id);
+    //     if ($bootcamp->doesntExist()) {
+    //         Session::flash('success', get_phrase('Data not found.'));
+    //         return redirect()->back();
+    //     }
 
-        $bootcamp            = $bootcamp->first()->toArray();
-        $bootcamp['title']   = $bootcamp['title'] . ' copy';
-        $bootcamp['slug']    = slugify($bootcamp['title']);
-        $bootcamp['user_id'] = auth()->user()->id;
-        $bootcamp['status']  = 1;
-        unset($bootcamp['id'], $bootcamp['created_at'], $bootcamp['updated_at']);
+    //     $bootcamp            = $bootcamp->first()->toArray();
+    //     $bootcamp['title']   = $bootcamp['title'] . ' copy';
+    //     $bootcamp['slug']    = slugify($bootcamp['title']);
+    //     $bootcamp['user_id'] = auth()->user()->id;
+    //     $bootcamp['status']  = 1;
+    //     unset($bootcamp['id'], $bootcamp['created_at'], $bootcamp['updated_at']);
 
-        $insert_id = Bootcamp::insertGetId($bootcamp);
+    //     $insert_id = Bootcamp::insertGetId($bootcamp);
 
-        Session::flash('success', get_phrase('Bootcamp has been duplicated.'));
-        return redirect()->route('admin.bootcamp.edit', [$insert_id, 'tab' => 'basic']);
-    }
+    //     Session::flash('success', get_phrase('Bootcamp has been duplicated.'));
+    //     return redirect()->route('admin.bootcamp.edit', [$insert_id, 'tab' => 'basic']);
+    // }
 
     public function status($id)
     {

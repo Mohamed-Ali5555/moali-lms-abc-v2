@@ -138,7 +138,17 @@
                             </span>
                         </a>
                     </li>
-
+                    <li class="@if (
+                        $current_route == 'theme.my.bootcamps' ||
+                            $current_route == 'theme.my.bootcamp.details' ||
+                            $current_route == 'theme.my.bootcamp.invoice') active @endif">
+                        <a href="{{ route('theme.my.bootcamps') }}">
+                            <dotlottie-player src="{{ asset('assets/frontend/default/image/icons/bootcamp.json') }}"
+                                background="transparent" speed="1" style="width: 30px; height: 30px;" part="lottie-svg"
+                                loop autoplay @if ($current_route != 'theme.my.bootcamps') hover @endif></dotlottie-player>
+                            <span> معسكراتي </span>
+                        </a>
+                    </li>
                     <li class="ss-nav__divider ss-desktop-only" aria-hidden="true"></li>
 
                     <li class="ss-nav__item is-logout">

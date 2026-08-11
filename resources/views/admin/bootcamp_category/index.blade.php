@@ -31,6 +31,7 @@
                             <p class="title card-title-hover">{{ $category->title }}</p>
                             <p class="sub-title text-12px mt-2">{{ get_phrase('Total bootcamps') }} {{ count_bootcamps_by_category($category->id) }}</p>
                         </div>
+                            <span class="badge badge-danger" style="color:green;font-size: 15px;">{{ $category->parentCategory->title ?? '' }}</span>
 
                         <div class="dropdown ol-icon-dropdown">
                             <button class="btn ol-btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

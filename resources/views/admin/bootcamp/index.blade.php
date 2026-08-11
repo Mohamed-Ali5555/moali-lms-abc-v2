@@ -77,14 +77,14 @@
                                                             <option value="all">{{ get_phrase('All') }}
                                                             </option>
 
-                                                            <option value="active"@if (request('status') == 'active') selected @endif>
+                                                            <option value="1"@if (request('status') == 'active') selected @endif>
                                                                 {{ get_phrase('Active') }} </option>
-                                                            <option value="inactive"@if (request('status') == 'inactive') selected @endif>
+                                                            <option value="0"@if (request('status') == 'inactive') selected @endif>
                                                                 {{ get_phrase('Inactive') }} </option>
                                                         </select>
                                                     </div>
 
-                                                    <div>
+                                                    {{-- <div>
                                                         <label for="eDataList" class="form-label ol-form-label">{{ get_phrase('Instructor') }}</label>
                                                         <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="instructor" class="ol-select-2" data-placeholder="Type to search...">
                                                             <option value="all">{{ get_phrase('All') }}
@@ -95,7 +95,7 @@
                                                                 </option>
                                                             @endforeach
                                                         </select>
-                                                    </div>
+                                                    </div> --}}
                                                     <div>
                                                         <label for="eDataList" class="form-label ol-form-label">{{ get_phrase('Price') }}</label>
                                                         <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="price" class="ol-select-2" data-placeholder="Type to search...">
@@ -240,12 +240,12 @@
                                                             </button>
 
                                                             <ul class="dropdown-menu">
-                                                                @if (has_permission('admin.bootcamp.view_front'))
+                                                                {{-- @if (has_permission('admin.bootcamp.view_front'))
 
                                                                     <li>
                                                                         <a class="dropdown-item" target="_blank" href="{{ route('bootcamp.details', $bootcamp->slug) }}">{{ get_phrase('Frontend View') }}</a>
                                                                     </li>
-                                                                @endif
+                                                                @endif --}}
 
                                                                 @if (has_permission('admin.bootcamp.edit'))
 
@@ -266,11 +266,11 @@
                                                                     @endif
                                                                 @endif
 
-                                                                @if (has_permission('admin.bootcamp.duplicate'))
+                                                                {{-- @if (has_permission('admin.bootcamp.duplicate'))
                                                                     <li>
                                                                         <a class="dropdown-item" onclick="confirmModal('{{ route('admin.bootcamp.duplicate', $bootcamp->id) }}')" href="javascript:void(0)">{{ get_phrase('Duplicate') }}</a>
                                                                     </li>
-                                                                @endif
+                                                                @endif --}}
 
                                                                 @if (has_permission('admin.bootcamp.delete'))
                                                                     <li>

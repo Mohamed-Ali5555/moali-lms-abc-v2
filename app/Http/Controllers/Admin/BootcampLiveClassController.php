@@ -26,6 +26,8 @@ class BootcampLiveClassController extends Controller
             'end_time'    => 'required|string|after:start_time',
             'module_id'   => 'required',
             'description' => 'required',
+            'status'      => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -46,7 +48,7 @@ class BootcampLiveClassController extends Controller
         // $end_timestamp   = strtotime($end);
 
 
-        // new 
+        // new
         date_default_timezone_set('Africa/Cairo'); // تعيين المنطقة الزمنية
 
         $start = $request->date . ' ' . $request->start_time . ':00'; // إضافة الثواني إذا لم تكن موجودة
@@ -91,13 +93,27 @@ class BootcampLiveClassController extends Controller
 
         $joiningData    = ZoomMeetingController::createMeeting($request->title, $start_timestamp);
         // return $joiningData;
+        if (!$joiningData) {
+            return redirect()
+                ->route('admin.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum'])
+                ->with('error', get_phrase('Failed to create Zoom meeting. Please try again.'));
+        }
 
         $joiningInfoArr = json_decode($joiningData, true);
         // return $request->all();
-
-        if (array_key_exists('code', $joiningInfoArr) && $joiningInfoArr) {
-            //return redirect(route('admin.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum']))->with('error', get_phrase($joiningInfoArr['message']));
+        if ($joiningInfoArr === null) {
+            return redirect()
+                ->route('admin.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum'])
+                ->with('error', get_phrase('Zoom response is invalid.'));
         }
+
+
+       if (isset($joiningInfoArr['code'])) {
+            return redirect()
+                ->route('admin.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum'])
+                ->with('error', get_phrase($joiningInfoArr['message'] ?? 'Zoom API error occurred.'));
+        }
+
         $data['provider']     = 'zoom';
         $data['joining_data'] = $joiningData;
 
@@ -115,6 +131,8 @@ class BootcampLiveClassController extends Controller
             'end_time'    => 'required',
             'module_id'   => 'required',
             'description' => 'required',
+            'status'      => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -124,7 +142,7 @@ class BootcampLiveClassController extends Controller
         $class = BootcampLiveClass::join('bootcamp_modules', 'bootcamp_live_classes.module_id', 'bootcamp_modules.id')
             ->join('bootcamps', 'bootcamp_modules.bootcamp_id', 'bootcamps.id')
             ->where('bootcamp_live_classes.id', $id)
-            ->where('bootcamp_live_classes.module_id', $request->module_id)
+            // ->where('bootcamp_live_classes.module_id', $request->module_id)
             ->where('bootcamps.user_id', auth()->user()->id)
             ->select('bootcamp_live_classes.*', 'bootcamp_modules.restriction', 'bootcamp_modules.publish_date', 'bootcamp_modules.expiry_date')
             ->first();
@@ -141,13 +159,13 @@ class BootcampLiveClassController extends Controller
 
 
 
-        date_default_timezone_set('Africa/Cairo'); 
+        date_default_timezone_set('Africa/Cairo');
 
-        $start = $request->date . ' ' . $request->start_time . ':00';   
+        $start = $request->date . ' ' . $request->start_time . ':00';
         $start_datetime = new \DateTime($start);
         $start_timestamp = $start_datetime->getTimestamp();
 
-        $end = $request->date . ' ' . $request->end_time . ':00'; 
+        $end = $request->date . ' ' . $request->end_time . ':00';
         $end_datetime = new \DateTime($end);
         $end_timestamp = $end_datetime->getTimestamp();
 
@@ -205,10 +223,7 @@ class BootcampLiveClassController extends Controller
 
     public function delete($id)
     {
-        $class = BootcampLiveClass::join('bootcamp_modules', 'bootcamp_live_classes.module_id', 'bootcamp_modules.id')
-            ->join('bootcamps', 'bootcamp_modules.bootcamp_id', 'bootcamps.id')
-            ->where('bootcamp_live_classes.id', $id)
-            ->where('bootcamps.user_id', auth()->user()->id)->first();
+        $class = BootcampLiveClass::findOrFail($id);
         if (! $class) {
             Session::flash('error', get_phrase('Data not found.'));
             return redirect()->back();
@@ -235,9 +250,9 @@ class BootcampLiveClassController extends Controller
 
 
 
-            ->where('bootcamp_live_classes.start_time', '<', $current_time)
+            // ->where('bootcamp_live_classes.start_time', '<', $current_time)
 
-            ->where('bootcamp_live_classes.end_time', '>', $current_time)
+            // ->where('bootcamp_live_classes.end_time', '>', $current_time)
 
 
 
@@ -254,12 +269,21 @@ class BootcampLiveClassController extends Controller
             // ->select('bootcamp_live_classes.*', 'bootcamps.id as bootcamp_id', 'bootcamps.user_id as host_id')
             // ->first();
 
-            // return $class;
+            // dd( $class);
         if (! $class) {
             Session::flash('error', get_phrase('Class not found.'));
             return redirect()->back();
         }
+        if ($current_time <  $class->start_time) {
+            Session::flash('error', get_phrase('Class has not started yet.'));
+            return redirect()->back();
+        }
 
+
+        if ($current_time > $class->end_time) {
+            Session::flash('error', get_phrase('Time up! Class is over.'));
+            return redirect()->back();
+        }
         if (get_settings('zoom_web_sdk') == 'active') {
             $page_data['class']   = $class;
             $page_data['user']    = get_user_info($class->host_id);

@@ -35,10 +35,25 @@
 		</div>
 	</div>
 
-	<div class="row mb-3">
+    <div class="row mb-3" id="discount_price_row" style="display: none;">
 		<label for="discount_price" class="form-label ol-form-label col-sm-2 col-form-label">{{get_phrase('Discounted price')}}</label>
 		<div class="col-sm-10">
 			<input type="number" name="discount_price" value="{{$bootcamp_details->discount_price}}" class="form-control ol-form-control" id="discount_price" min="1" step=".01"  placeholder="{{get_phrase('Enter your discount price')}} ({{currency()}})">
 		</div>
 	</div>
 </div>
+<script>
+    $(document).ready(function() {
+        if ($('#discount_flag').is(':checked')) {
+            $('#discount_price_row').show();
+        }
+
+        $('#discount_flag').change(function() {
+            if ($(this).is(':checked')) {
+                $('#discount_price_row').fadeIn();
+            } else {
+                $('#discount_price_row').fadeOut();
+            }
+        });
+    });
+</script>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootcamps</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4895ef;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --success-color: #4cc9f0;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-color);
+            background-color: #f9fafb;
+        }
+
+        .g-title {
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 0;
+        }
+
+        .breadcum-area {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            padding: 30px 0;
+            margin-bottom: 40px;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--gray-color);
+        }
+
+        .showing-text {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            margin-bottom: 30px;
+        }
+
+        .widget-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .widget-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px;
+        }
+
+        .search {
+            position: relative;
+        }
+
+        .search input {
+            border-radius: 50px;
+            padding: 12px 20px;
+            border: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            transition: var(--transition);
+        }
+
+        .search input:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .search .submit {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .search .submit:hover {
+            background: var(--secondary-color);
+        }
+
+        .entry-widget {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .entry-widget li {
+            margin-bottom: 12px;
+        }
+
+        .entry-widget li a {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+
+        .entry-widget li a:hover, .entry-widget li.active a {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .entry-widget li a span:last-child {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .entry-widget li.active a span:last-child {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .down-text {
+            text-align: center;
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+
+        .down-text:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Card Styles */
+        .eBar-card {
+            border: none;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+
+        .eBar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .courses-img {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .courses-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .eBar-card:hover .courses-img img {
+            transform: scale(1.05);
+        }
+
+        .cText {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border-radius: 6px;
+            padding: 5px 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .cText h4 {
+            margin: 0;
+            font-weight: 700;
+            color: var(--success-color);
+            font-size: 1.1rem;
+        }
+
+        .cText h4 del {
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .card-body.entry-details {
+            padding: 20px;
+        }
+
+        .info-card {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .info-card .creator {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        .info-card .creator:hover {
+            color: var(--primary-color);
+        }
+
+        .info-card .creator img {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .info-card .creator h5 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .entry-title h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .entry-title h3 a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .entry-title h3 a:hover {
+            color: var(--primary-color);
+        }
+
+        .info {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .info li {
+            display: flex;
+            align-items: center;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+
+        .info li svg {
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .eBtn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .eBtn.gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+        }
+
+        .eBtn.gradient:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .bootcamp-purchased {
+            background: #e9ecef !important;
+            color: var(--gray-color) !important;
+            cursor: not-allowed;
+        }
+
+        .bootcamp-purchased:hover {
+            box-shadow: none !important;
+            background: #e9ecef !important;
+        }
+
+        /* Pagination */
+        .entry-pagination {
+            margin-top: 50px;
+        }
+
+        .pagination {
+            justify-content: center;
+        }
+
+        .page-link {
+            border: none;
+            color: var(--gray-color);
+            padding: 10px 18px;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .page-link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .sidebar {
+                margin-bottom: 30px;
+            }
+
+            .eBar-card {
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .btns {
+                flex-direction: column;
+            }
+
+            .info {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .bootcamp-grid-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        /* Custom scrollbar for categories */
+        .overlay-content-max-h-400 {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .overlay-content-max-h-400::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .overlay-content-max-h-400::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .overlay-content-max-h-400::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!------------------- Breadcum Area Start  ------>
+    <section class="breadcum-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="eNtry-breadcum">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="#">{{ get_phrase('Home') }}</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ get_phrase('All Bootcamps') }}</li>
+                            </ol>
+                        </nav>
+                        <h3 class="g-title">{{ get_phrase('All Bootcamps') }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center mt-3">
+                <div class="col-lg-8 col-md-6 col-sm-6 col-6">
+                    <p class="showing-text">
+                        {{ get_phrase('Showing') . ' ' . count($bootcamps) . ' ' . get_phrase('of') . ' ' . $bootcamps->total() . ' ' . get_phrase('data') }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!------------------- Breadcum Area End  --------->
+
+    <!-------------- List Item Start   --------------->
+    <div class="eNtery-item">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+                    <div class="sidebar">
+                        <form class="mb-4" action="{{ route('theme.bootcamps', $active_category) }}" method="get">
+                            <div class="widget">
+                                <div class="search">
+                                    <input type="text" class="form-control" name="search" placeholder="{{ get_phrase('Search...') }}"
+                                        value="{{ request('search') }}">
+                                    <button type="submit" class="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!------------------- categories start ------------------->
+                        <div class="widget overlay-content overlay-content-max-h-400">
+                            <h4 class="widget-title">{{ get_phrase('Categories') }}</h4>
+                            <ul class="entry-widget overflow-hidden" id="parent-category">
+                                @foreach ($categories as $category)
+                                    @php $route_queries['category'] = $category->slug; @endphp
+
+                                    <li class="category @if ($category->slug == $active_category) active @endif" id="{{ $category->slud }}">
+                                        <a href="{{ route('theme.bootcamps', $route_queries) }}"
+                                            class="d-flex align-items-center justify-content-between">
+                                            <span>{{ $category->title }}</span>
+                                            <span>{{ count_bootcamps_by_category($category->id) }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <div class="down-text" id="see-more">
+                                {{ get_phrase('Show More') }}
+                            </div>
+                        </div>
+                        <!------------------- categories end ------------------->
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-8">
+                    <div class="row">
+                        @foreach ($bootcamps as $bootcamp)
+                            @php
+                                $review = App\Models\Review::where('course_id', $bootcamp->id)
+                                    ->orderBy('id', 'DESC')
+                                    ->get();
+
+                                $total = $review->count();
+                                $rating = array_sum(array_column($review->toArray(), 'rating'));
+
+                                $average_rating = 0;
+                                if ($total != 0) {
+                                    $average_rating = $rating / $total;
+                                }
+                            @endphp
+
+                            <div class="col-lg-4 col-md-6 col-sm-6 mb-30">
+                                <div class="card Ecard eBar-card bootcamp-grid-card">
+                                    <a href="{{ route('theme.bootcamp.details', $bootcamp->slug) }}">
+                                        <div class="courses-img">
+                                            <img src="{{ get_image($bootcamp->thumbnail) }}" alt="course-thumbnail">
+                                            <div class="cText d-flex">
+                                                <h4>
+                                                    @if ($bootcamp->is_paid == 0)
+                                                        {{ get_phrase('Free') }}
+                                                    @else
+                                                        @if ($bootcamp->discount_flag == 1)
+                                                            @php $discount_price = number_format(($bootcamp->price - $bootcamp->discount_price), 2) @endphp
+                                                            {{ currency($discount_price) }}
+                                                            <del>{{ currency($bootcamp->price, 2) }}</del>
+                                                        @else
+                                                            {{ currency($bootcamp->price, 2) }}
+                                                        @endif
+                                                    @endif
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="card-body entry-details mt-0 pb-0">
+                                        <div class="info-card mb-15">
+                                            <a href="{{ route('instructor.details', [slugify($bootcamp->instructor_name), $bootcamp->user_id]) }}"
+                                                class="creator text-color">
+                                                <img src="{{ get_image($bootcamp->instructor_image) }}" alt="author-image">
+                                                <h5>{{ $bootcamp->instructor_name }}</h5>
+                                            </a>
+                                        </div>
+                                        <div class="entry-title">
+                                            <h3 class="w-100 ellipsis-line-2">
+                                                <a href="{{ route('theme.bootcamp.details', $bootcamp->slug) }}" class="color-2" data-bs-toggle="tooltip"
+                                                    data-bs-placement="bottom" title="{{ $bootcamp->title }}">{{ ucfirst($bootcamp->title) }}</a>
+                                            </h3>
+                                        </div>
+                                        <ul class="info">
+                                            <li>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" class="m-0">
+                                                    <path
+                                                        d="M18.3307 10.0003C18.3307 14.6003 14.5974 18.3337 9.9974 18.3337C5.3974 18.3337 1.66406 14.6003 1.66406 10.0003C1.66406 5.40033 5.3974 1.66699 9.9974 1.66699C14.5974 1.66699 18.3307 5.40033 18.3307 10.0003Z"
+                                                        stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M13.0875 12.65L10.5042 11.1083C10.0542 10.8416 9.6875 10.2 9.6875 9.67497V6.2583"
+                                                        stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                                {{ date('d-M-Y', $bootcamp->publish_date) }}
+                                            </li>
+                                            <li>
+                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg" class="m-0">
+                                                    <path
+                                                        d="M1.67188 7.5V6.66667C1.67188 4.16667 3.33854 2.5 5.83854 2.5H14.1719C16.6719 2.5 18.3385 4.16667 18.3385 6.66667V13.3333C18.3385 15.8333 16.6719 17.5 14.1719 17.5H13.3385"
+                                                        stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M3.07812 9.7583C6.92813 10.25 9.75313 13.0833 10.2531 16.9333" stroke="#6B7385"
+                                                        stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M2.1875 12.5586C5.0125 12.9169 7.08751 15.0003 7.45417 17.8253" stroke="#6B7385"
+                                                        stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                    <path d="M1.65234 15.7168C3.06068 15.9001 4.10235 16.9335 4.28568 18.3501" stroke="#6B7385"
+                                                        stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                                {{ count_bootcamp_classes($bootcamp->id) }}
+                                                {{ get_phrase('Class') }}
+                                            </li>
+                                        </ul>
+                                        <div class="btns">
+                                            <a href="{{ route('theme.bootcamp.details', $bootcamp->slug) }}"
+                                                class="eBtn gradient">{{ get_phrase('View Details') }}</a>
+                                            @php
+                                                $btn['url'] = route('purchase.bootcamp', $bootcamp->id);
+                                                $btn['title'] = get_phrase($bootcamp->is_paid ? 'Buy Now' : 'Enroll Now');
+                                                if (isset(auth()->user()->id)) {
+                                                    $my_bootcamp = App\Models\BootcampPurchase::where('user_id', auth()->user()->id)
+                                                        ->where('bootcamp_id', $bootcamp->id)
+                                                        ->where('status', 1)
+                                                        ->first();
+
+                                                    if ($my_bootcamp) {
+                                                        $btn['title'] = get_phrase('In Collection');
+                                                        $btn['url'] = route('my.bootcamp.details', $bootcamp->slug);
+                                                    }
+
+                                                    $pending_payment = DB::table('offline_payments')
+                                                        ->where('user_id', auth()->user()->id)
+                                                        ->where('item_type', 'bootcamp')
+                                                        ->where('items', $bootcamp->id)
+                                                        ->where('status', 0)
+                                                        ->first();
+
+                                                    if ($pending_payment) {
+                                                        $btn['title'] = get_phrase('Processing');
+                                                        $btn['url'] = 'javascript:void(0);';
+                                                    }
+                                                }
+                                            @endphp
+                                            <a href="{{ $btn['url'] }}"
+                                                class="eBtn gradient @isset($my_bootcamp) bootcamp-purchased @elseif(isset($pending_payment)) bootcamp-purchased @endisset">{{ $btn['title'] }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            @if (count($bootcamps) > 0)
+                <div class="entry-pagination">
+                    <nav aria-label="Page navigation example">
+                        {{ $bootcamps->links() }}
+                    </nav>
+                </div>
+            @endif
+            <!-- Pagination -->
+        </div>
+    </div>
+    <!-------------- List Item End  --------------->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show more/less functionality for categories
+            const seeMoreBtn = document.getElementById('see-more');
+            const categoriesList = document.getElementById('parent-category');
+
+            seeMoreBtn.addEventListener('click', function() {
+                if (categoriesList.classList.contains('overlay-content-max-h-400')) {
+                    categoriesList.classList.remove('overlay-content-max-h-400');
+                    seeMoreBtn.textContent = '{{ get_phrase("Show Less") }}';
+                } else {
+                    categoriesList.classList.add('overlay-content-max-h-400');
+                    seeMoreBtn.textContent = '{{ get_phrase("Show More") }}';
+                }
+            });
+
+            // Initialize tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        });
+    </script>
+</body>
+</html>

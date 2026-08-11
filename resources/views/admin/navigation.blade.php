@@ -148,7 +148,7 @@
             </li>
         @endif
 
-{{--
+
             @if (has_permission('admin.bootcamps'))
                 <li
                     class="sidebar-first-li first-li-have-sub {{ $current_route == 'admin.bootcamps' || $current_route == 'admin.bootcamp.create' || $current_route == 'admin.bootcamp.edit' || $current_route == 'admin.bootcamp.purchase.history' || $current_route == 'admin.bootcamp.purchase.invoice' || $current_route == 'admin.bootcamp.categories' ? 'active' : '' }}">
@@ -188,7 +188,7 @@
                         @endif
                     </ul>
                 </li>
-            @endif --}}
+            @endif
 {{--
             @if (has_permission('admin.team.packages'))
                 <li class="sidebar-first-li first-li-have-sub @if ($current_route == 'admin.team.packages' || $current_route == 'admin.team.packages.create' || $current_route == 'admin.team.packages.edit' || $current_route == 'admin.team.packages.purchase.history' || $current_route == 'admin.team.packages.purchase.invoice') active showMenu @endif">

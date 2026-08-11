@@ -291,7 +291,44 @@
             @endif
         </div>
     </section>
+  <!-- End Courses Section-->
+    <!-- start bootcamp secction -->
+    <section class="academic-years-tilt-section" id="years-section" dir="rtl" style="padding: 0px 0px 70px 0px;">
+        <div class="section-bg-shapes">
+            <div class="shape-1"></div>
+            <div class="shape-2"></div>
+            <div class="shape-3"></div>
+            <div class="shape-4"></div>
+        </div>
+        <div class="container">
+            <h2 class="section-title-modern display-5">المعسكرات  </h2>
 
+
+            <div class="row g-5 justify-content-center">
+                @foreach ($bootcampCategories as $bootcamp_cat)
+
+                    <div class="col-lg-4 col-md-6 ">
+                        <a href="{{ route('theme.bootcamps',$bootcamp_cat->slug) }}" class="year-card-tilt">
+                            <div class="card-inner-content">
+                                <img src="{{ get_image($bootcamp_cat->thumbnail ?? '') }}" class="card-img-top"
+                                    alt=">{{ $bootcamp_cat->title }}" />
+                                <div class="card-content-wrapper">
+                                    <h3 class="year-title">{{ $bootcamp_cat->title }}</h3>
+                                </div>
+                                <span class="btn btn-view-courses">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                    <span>عرض الحصص</span>
+                                </span>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+
+    <!-- end bootcamp section -->
     @include('theme::includes.book')
 @endsection
 

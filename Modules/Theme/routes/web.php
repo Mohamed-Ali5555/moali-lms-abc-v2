@@ -14,6 +14,7 @@ use Modules\Theme\App\Http\Controllers\Auth\PasswordResetLinkController;
 use Modules\Theme\App\Http\Controllers\Auth\NewPasswordController;
 use Modules\Theme\App\Http\Controllers\ContactController;
 
+use Modules\Theme\App\Http\Controllers\BootcampController;
 
 use Modules\Theme\App\Http\Controllers\student\BecomeInstructorController;
 use Modules\Theme\App\Http\Controllers\student\BlogCommentController;
@@ -85,6 +86,9 @@ Route::group(['as'=>'theme.'], function () {
 
     // terms and conditions
     Route::get('terms-condition', [HomeController::class, 'termsCondition'])->name('terms.condition');
+   // bootacmp
+   Route::get('get-bootcamp/{category?}', [BootcampController::class, 'index'])->name('bootcamps');
+   Route::get('get-bootcamp/{slug}', [BootcampController::class, 'show'])->name('bootcamp.details');
 
     // about us
     Route::get('about-us', [HomeController::class, 'aboutUs'])->name('about.us');

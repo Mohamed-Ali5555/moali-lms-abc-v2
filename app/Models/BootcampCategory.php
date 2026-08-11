@@ -12,5 +12,7 @@ class BootcampCategory extends Model
     protected $fillable = [
         'title',
         'slug',
+        'category_id',
+        'thumbnail',
     ];
 }

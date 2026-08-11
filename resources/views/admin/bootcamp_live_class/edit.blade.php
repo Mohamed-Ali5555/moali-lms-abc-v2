@@ -9,24 +9,29 @@
         <input class="form-control ol-form-control" type="text" id="title" name="title" value="{{ $class->title }}"
             required>
     </div>
-    {{$class->start_time}} 
+    {{ $class->start_time }}
     <div class="row mb-3">
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('Date') }}</label>
             <input type="date" class="form-control ol-form-control" name="date"
-                value="{{ date('Y-m-d', $class->start_time) }}"     required />
+                value="{{ date('Y-m-d', $class->start_time) }}" required />
         </div>
+
 
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('Start time') }}</label>
             <input type="time" class="form-control ol-form-control" name="start_time"
-               value="{{ \Carbon\Carbon::createFromTimestamp($class->start_time)->setTimezone('Africa/Cairo')->format('h:i') }}" required />
+                value="{{ \Carbon\Carbon::createFromTimestamp($class->start_time)->setTimezone('Africa/Cairo')->format('H:i') }}"
+                required />
         </div>
 
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('End time') }}</label>
-            <input type="time" class="form-control ol-form-control" name="end_time" value="{{ \Carbon\Carbon::createFromTimestamp($class->end_time)->setTimezone('Africa/Cairo')->format('h:i') }}" required />
+            <input type="time" class="form-control ol-form-control" name="end_time"
+                value="{{ \Carbon\Carbon::createFromTimestamp($class->end_time)->setTimezone('Africa/Cairo')->format('H:i') }}"
+                required />
         </div>
+
     </div>
 
     <div class="row mb-3">
@@ -45,12 +50,12 @@
             <label class="form-label ol-form-label">{{ get_phrase('Status') }}</label>
             <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="status">
                 <option value="">{{ get_phrase('Select an option') }}</option>
-                <option value="upcoming" @if ($class->status == 'upcoming') selected @endif>{{ get_phrase('Upcoming') }}
-                </option>
+                {{-- <option value="upcoming" @if ($class->status == 'upcoming') selected @endif>{{ get_phrase('Upcoming') }}
+                </option> --}}
                 <option value="live" @if ($class->status == 'live') selected @endif>{{ get_phrase('Live') }}
                 </option>
-                <option value="completed" @if ($class->status == 'completed') selected @endif>
-                    {{ get_phrase('Completed') }}</option>
+                {{-- <option value="completed" @if ($class->status == 'completed') selected @endif>
+                    {{ get_phrase('Completed') }}</option> --}}
             </select>
         </div>
     </div>

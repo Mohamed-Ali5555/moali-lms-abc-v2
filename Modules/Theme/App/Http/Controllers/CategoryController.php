@@ -10,7 +10,8 @@ use App\Models\Enrollments;
 use App\Models\Lesson;
 use App\Models\Watch_history;
 use Modules\BookStore\App\Models\Book;
-
+use App\Models\BootcampCategory;
+use App\Models\Bootcamp;
 class CategoryController extends Controller
 {
     public function index($id)
@@ -41,7 +42,8 @@ class CategoryController extends Controller
             ->where('category_id', $category->id)
             ->orderBy('sort', 'asc')
             ->get();
-
+            $bootcampCategories = BootcampCategory::where('category_id',$category->id)->orderBy('id', 'asc')->get();
+            $bootcamps = Bootcamp::where('status',1)->get();
         $enrolledCourseIds = [];
         $playerUrls        = [];
 
@@ -94,6 +96,7 @@ class CategoryController extends Controller
             'mainCategory',
             'cartItems',
             'enrolledCourseIds',
+            'bootcampCategories','bootcamps',
             'playerUrls'
         ));
     }

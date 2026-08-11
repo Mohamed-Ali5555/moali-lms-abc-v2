@@ -36,9 +36,9 @@
             <label class="form-label ol-form-label">{{ get_phrase('Status') }}</label>
             <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="status">
                 <option value="">{{ get_phrase('Select an option') }}</option>
-                <option value="upcoming">{{ get_phrase('Upcoming') }}</option>
+                {{-- <option value="upcoming">{{ get_phrase('Upcoming') }}</option> --}}
                 <option value="live">{{ get_phrase('live') }}</option>
-                <option value="completed">{{ get_phrase('Completed') }}</option>
+                {{-- <option value="completed">{{ get_phrase('Completed') }}</option> --}}
             </select>
         </div>
     </div>
