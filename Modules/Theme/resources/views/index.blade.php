@@ -13,9 +13,9 @@
       <div class="container">
         <div class="ay-head">
             <span class="ay-head__eyebrow">مسارك للتفوق</span>
-            <h2 class="section-title-modern display-5 ay-head__title">السنوات الدراسية</h2>
+            <h2 class="section-title-modern display-5 ay-head__title">الدوارات التدريبية </h2>
             <p class="section-subtitle description-text ay-head__desc">
-              كل ما تحتاجه للتفوق في مكان واحد. اختر سنتك الدراسية وانطلق نحو مستقبل
+              كل ما تحتاجه للتفوق في مكان واحد. اختر  دورتك التدريبية وانطلق نحو مستقبل
               مشرق.
             </p>
         </div>
