@@ -247,7 +247,7 @@
             }
 
             $.ajax({
-                url: "{{ route('payment.show_payment_gateway_by_ajax', '') }}/" + identifier,
+                url: "{{ route('theme.payment.show_payment_gateway_by_ajax', '') }}/" + identifier,
                 success: function(response) {
                     if (response.status == false) {
                         Swal.fire({
@@ -308,7 +308,7 @@
             btn.disabled = true;
             btn.textContent = '{{ get_phrase('جاري التحقق...') }}';
 
-            fetch("{{ route('payment.verify_card') }}", {
+            fetch("{{ route('theme.payment.verify_card') }}", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

@@ -145,17 +145,7 @@
                                             @enderror
                                         </div>
 
-                                        <div class="pf-field">
-                                            <label for="parent_phone">{{ get_phrase('رقم جوال ولي الأمر') }}</label>
-                                            <input type="text" class="form-control @error('parent_phone') is-invalid @enderror"
-                                                name="parent_phone"
-                                                value="{{ old('parent_phone', $user_details->parent_phone) }}"
-                                                id="parent_phone" maxlength="10" inputmode="numeric"
-                                                placeholder="05XXXXXXXX" required>
-                                            @error('parent_phone')
-                                                <span class="pf-error">{{ $message }}</span>
-                                            @enderror
-                                        </div>
+                                  
 
                                         <div class="pf-field">
                                             @php $nationalIdRequired = is_national_id_required(); @endphp

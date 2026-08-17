@@ -91,10 +91,10 @@ class BootcampPurchaseController extends Controller
             'tax'            => 0,
             'coupon'         => null,
             'cancel_url'     => route('bootcamp.details', $bootcamp->slug),
-            'success_url'    => route('payment.success', ''),
+            'success_url'    => route('theme.payment.success', ''),
         ];
 
         Session::put(['payment_details' => $payment_details]);
-        return redirect()->route('payment');
+        return redirect()->route('theme.payment');
     }
 }

@@ -82,8 +82,7 @@ class ApiController extends Controller
         $validator = Validator::make($request->all(), [
             'name'         => ['required', 'string', 'max:255'],
             'email'        => ['required', 'string', 'email', 'unique:users,email'],
-            'phone'        => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
-            'parent_phone' => saudi_phone_validation_rules(),
+            'phone'        => array_merge(saudi_phone_validation_rules()),
             'national_id'  => iqama_validation_rules(),
             'category'     => ['required'],
             'gender'       => ['required'],
@@ -119,7 +118,6 @@ class ApiController extends Controller
             'name'          => $request->name,
             'email'         => $request->email,
             'phone'         => $request->phone,
-            'parent_phone'  => $request->parent_phone,
             'national_id'   => $request->national_id,
             'category'      => $request->category,
             'goverment'     => $request->goverment,

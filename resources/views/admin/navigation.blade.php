@@ -578,6 +578,7 @@
             has_permission('admin.manage.language') ||
             has_permission('admin.notification.settings') ||
             has_permission('admin.live.class.settings') ||
+            has_permission('admin.teams.settings') ||
             has_permission('admin.certificate.settings') ||
             has_permission('admin.player.settings') ||
             has_permission('admin.open.ai.settings') ||
@@ -588,7 +589,7 @@
             <h3 class="sidebar-title fs-12px px-30px pb-3">{{ get_phrase('الإعدادات') }}</h3>
             <ul class="px-14px pb-24px mb-5 pb-5">
                 <li
-                    class="sidebar-first-li first-li-have-sub {{ $current_route == 'admin.system.settings' || $current_route == 'admin.website.settings' || $current_route == 'admin.language.phrase.edit' || $current_route == 'admin.payment.settings' || $current_route == 'admin.manage.language' || $current_route == 'admin.notification.settings' || $current_route == 'admin.live.class.settings' || $current_route == 'admin.live.class.settings' || $current_route == 'admin.certificate.settings' || $current_route == 'admin.player.settings' || $current_route == 'admin.open.ai.settings' || $current_route == 'admin.seo.settings' || $current_route == 'admin.wapilot.settings' || $current_route == 'admin.theme.social'  || $current_route == 'admin.theme.feature' || $current_route == 'admin.theme.settings' || $current_route == 'admin.theme.legal' ? 'active' : '' }}">
+                    class="sidebar-first-li first-li-have-sub {{ $current_route == 'admin.system.settings' || $current_route == 'admin.website.settings' || $current_route == 'admin.language.phrase.edit' || $current_route == 'admin.payment.settings' || $current_route == 'admin.manage.language' || $current_route == 'admin.notification.settings' || $current_route == 'admin.live.class.settings' || $current_route == 'admin.teams.settings' || $current_route == 'admin.certificate.settings' || $current_route == 'admin.player.settings' || $current_route == 'admin.open.ai.settings' || $current_route == 'admin.seo.settings' || $current_route == 'admin.wapilot.settings' || $current_route == 'admin.theme.social'  || $current_route == 'admin.theme.feature' || $current_route == 'admin.theme.settings' || $current_route == 'admin.theme.legal' ? 'active' : '' }}">
                     <a href="javascript:void(0);">
                         <span class="icon fi fi-rr-settings"></span>
                         <div class="text">
@@ -652,6 +653,13 @@
                                 class="sidebar-second-li {{ $current_route == 'admin.wapilot.settings' ? 'active' : '' }}">
                                 <a
                                     href="{{ route('admin.wapilot.settings') }}">{{ get_phrase('تكامل WaPilot') }}</a>
+                            </li>
+                        @endif
+                        @if (has_permission('admin.teams.settings'))
+                            <li
+                                class="sidebar-second-li {{ $current_route == 'admin.teams.settings' ? 'active' : '' }}">
+                                <a
+                                    href="{{ route('admin.teams.settings') }}">{{ get_phrase('تكامل Microsoft Teams') }}</a>
                             </li>
                         @endif
                         {{-- @if (has_permission('admin.certificate.settings'))

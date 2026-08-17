@@ -93,6 +93,16 @@ class MyBootcampsController extends Controller
             return redirect()->back();
         } 
     
+        if ($class->provider == 'teams') {
+            $meeting_info = json_decode($class->joining_data, true);
+            $joinUrl      = $meeting_info['joinWebUrl'] ?? null;
+            if (! $joinUrl) {
+                Session::flash('error', get_phrase('Microsoft Teams join link is not available.'));
+                return redirect()->back();
+            }
+            return redirect($joinUrl);
+        }
+
         if (get_settings('zoom_web_sdk') == 'active') {
             $page_data['class']   = $class;
             $page_data['user']    = get_user_info($class->enrolled_user);

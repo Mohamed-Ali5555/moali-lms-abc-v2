@@ -292,43 +292,54 @@
         </div>
     </section>
   <!-- End Courses Section-->
-    <!-- start bootcamp secction -->
-    <section class="academic-years-tilt-section" id="years-section" dir="rtl" style="padding: 0px 0px 70px 0px;">
-        <div class="section-bg-shapes">
-            <div class="shape-1"></div>
-            <div class="shape-2"></div>
-            <div class="shape-3"></div>
-            <div class="shape-4"></div>
-        </div>
-        <div class="container">
-            <h2 class="section-title-modern display-5">المعسكرات  </h2>
-
-
-            <div class="row g-5 justify-content-center">
-                @foreach ($bootcampCategories as $bootcamp_cat)
-
-                    <div class="col-lg-4 col-md-6 ">
-                        <a href="{{ route('theme.bootcamps',$bootcamp_cat->slug) }}" class="year-card-tilt">
-                            <div class="card-inner-content">
-                                <img src="{{ get_image($bootcamp_cat->thumbnail ?? '') }}" class="card-img-top"
-                                    alt=">{{ $bootcamp_cat->title }}" />
-                                <div class="card-content-wrapper">
-                                    <h3 class="year-title">{{ $bootcamp_cat->title }}</h3>
-                                </div>
-                                <span class="btn btn-view-courses">
-                                    <i class="fa-solid fa-arrow-right"></i>
-                                    <span>عرض الحصص</span>
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
+    @if ($bootcampCategories->isNotEmpty())
+        <section class="academic-years-tilt-section" id="bootcamps-section" dir="rtl" style="padding: 0 0 70px;">
+            <div class="section-bg-shapes" aria-hidden="true">
+                <div class="shape-1"></div>
+                <div class="shape-2"></div>
+                <div class="shape-3"></div>
+                <div class="shape-4"></div>
             </div>
-        </div>
-    </section>
+            <div class="container">
+                <div class="ay-head">
+                    <span class="ay-head__eyebrow">{{ get_phrase('تعلّم مباشر') }}</span>
+                    <h2 class="section-title-modern display-5 ay-head__title">{{ get_phrase('المعسكرات') }}</h2>
+                    <p class="section-subtitle description-text ay-head__desc">
+                        {{ get_phrase('انضم لمعسكراتنا التدريبية المباشرة وطوّر مهاراتك مع أفضل المدربين.') }}
+                    </p>
+                </div>
 
-
-    <!-- end bootcamp section -->
+                <div class="row g-4 g-xl-5 justify-content-center">
+                    @foreach ($bootcampCategories as $bootcamp_cat)
+                        <div class="col-lg-4 col-md-6 card-tilt-wrapper">
+                            <a href="{{ route('theme.bootcamps', $bootcamp_cat->slug) }}" class="year-portal h-100">
+                                <span class="year-portal__shine" aria-hidden="true"></span>
+                                <div class="year-portal__media">
+                                    <img
+                                        src="{{ get_image($bootcamp_cat->thumbnail ?? '') }}"
+                                        class="year-portal__img"
+                                        alt="{{ $bootcamp_cat->title }}"
+                                        loading="lazy"
+                                    />
+                                    <span class="year-portal__veil" aria-hidden="true"></span>
+                                    <span class="year-portal__orbit" aria-hidden="true"></span>
+                                    <span class="year-portal__index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
+                                </div>
+                                <div class="year-portal__body">
+                                    <span class="year-portal__eyebrow">{{ get_phrase('معسكر تدريبي') }}</span>
+                                    <h3 class="year-portal__title">{{ $bootcamp_cat->title }}</h3>
+                                    <span class="year-portal__cta">
+                                        <span>{{ get_phrase('عرض المعسكرات') }}</span>
+                                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+    @endif
     @include('theme::includes.book')
 @endsection
 
@@ -423,6 +434,47 @@
                 // Recheck after fonts/layout settle
                 setTimeout(updateNavArrows, 100);
                 setTimeout(updateNavArrows, 400);
+            }
+
+            const bootcampSection = document.getElementById('bootcamps-section');
+            if (bootcampSection) {
+                const bootcampObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (!entry.isIntersecting) return;
+                        entry.target.querySelectorAll('.card-tilt-wrapper').forEach(function (wrapper, index) {
+                            setTimeout(function () {
+                                wrapper.classList.add('is-visible');
+                            }, index * 150);
+                        });
+                        bootcampObserver.unobserve(entry.target);
+                    });
+                }, { threshold: 0.1 });
+                bootcampObserver.observe(bootcampSection);
+
+                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    bootcampSection.querySelectorAll('.card-tilt-wrapper').forEach(function (wrapper) {
+                        const tiltCard = wrapper.querySelector('.year-portal');
+                        if (!tiltCard) return;
+
+                        wrapper.addEventListener('mousemove', function (e) {
+                            const rect = wrapper.getBoundingClientRect();
+                            const x = e.clientX - rect.left;
+                            const y = e.clientY - rect.top;
+                            const centerX = rect.width / 2;
+                            const centerY = rect.height / 2;
+                            const rotateX = ((y - centerY) / centerY) * -8;
+                            const rotateY = ((x - centerX) / centerX) * 8;
+
+                            tiltCard.style.transform = 'rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-6px)';
+                            tiltCard.style.setProperty('--mouse-x', x + 'px');
+                            tiltCard.style.setProperty('--mouse-y', y + 'px');
+                        });
+
+                        wrapper.addEventListener('mouseleave', function () {
+                            tiltCard.style.transform = 'rotateX(0deg) rotateY(0deg) translateY(0)';
+                        });
+                    });
+                }
             }
         });
     </script>

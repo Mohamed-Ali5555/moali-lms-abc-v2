@@ -1348,6 +1348,32 @@
                             </div>
                         </div>
 
+                        {{-- Video promo --}}
+                        <h4 class="mb-2 mt-2" style="font-size:14px;font-weight:700;color:#334155;">{{ get_phrase('الفيديو التعريفي') }}</h4>
+                        <p class="mb-2 text-muted" style="font-size:12px;">{{ get_phrase('يظهر بين العنوان وشريط الاعتمادات — ارفع صورة غلاف أو اتركها فارغة لاستخدام غلاف يوتيوب تلقائياً.') }}</p>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <label class="form-label ol-form-label" for="accr_video_status">{{ get_phrase('حالة الفيديو') }}</label>
+                                <select class="form-control ol-form-control ol-select2" name="accr_video_status" id="accr_video_status">
+                                    <option value="1" @if(get_theme_settings('accr_video_status') != '0') selected @endif>{{ get_phrase('ظاهر') }}</option>
+                                    <option value="0" @if(get_theme_settings('accr_video_status') == '0') selected @endif>{{ get_phrase('مخفي') }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label ol-form-label" for="accr_video_url">{{ get_phrase('رابط الفيديو (يوتيوب)') }}</label>
+                                <input type="url" name="accr_video_url" id="accr_video_url" class="form-control ol-form-control"
+                                    value="{{ get_theme_settings('accr_video_url') }}"
+                                    placeholder="https://www.youtube.com/watch?v=...">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label ol-form-label" for="accr_video_thumbnail">{{ get_phrase('صورة الغلاف (اختياري)') }}</label>
+                                <input type="file" name="accr_video_thumbnail" id="accr_video_thumbnail" class="form-control ol-form-control" accept="image/*">
+                                @if(get_theme_settings('accr_video_thumbnail'))
+                                    <img src="{{ get_image(get_theme_settings('accr_video_thumbnail')) }}" alt="" class="mt-2" style="max-height:72px;border-radius:8px;">
+                                @endif
+                            </div>
+                        </div>
+
                         {{-- Hidden JSON input --}}
                         @php
                             $badgesJson = get_theme_settings('accr_badges');

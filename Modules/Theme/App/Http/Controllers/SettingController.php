@@ -169,6 +169,8 @@ class SettingController extends Controller
             $request->validate([
                 'tvtc_logo'              => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
                 'accreditation_document' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:48048',
+                'accr_video_thumbnail'   => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:48048',
+                'accr_video_url'         => 'nullable|url|max:500',
             ]);
 
             $textFields = [
@@ -179,6 +181,7 @@ class SettingController extends Controller
                 'accreditation_status_label', 'map_embed_url', 'map_link', 'map_address',
                 // Ticker section settings (accreditations.blade.php)
                 'accr_status', 'accr_eyebrow', 'accr_title', 'accr_desc',
+                'accr_video_status', 'accr_video_url',
             ];
 
             // Save badges JSON
@@ -234,7 +237,7 @@ class SettingController extends Controller
                 );
             }
 
-            foreach (['tvtc_logo', 'accreditation_document'] as $key) {
+            foreach (['tvtc_logo', 'accreditation_document', 'accr_video_thumbnail'] as $key) {
                 if ($request->hasFile($key)) {
                     $file     = $request->file($key);
                     $filePath = 'uploads/theme-thumbnail/' . nice_file_name($key, $file->extension());

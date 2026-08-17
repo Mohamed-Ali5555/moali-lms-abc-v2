@@ -34,6 +34,10 @@ class UsersController extends Controller
     {
         $query = User::where('role', 'admin');
 
+        $super_admin_email = get_super_admin_email();
+        if ($super_admin_email !== '') {
+            $query->whereRaw('LOWER(TRIM(email)) != ?', [$super_admin_email]);
+        }
 
         if(request()->filled('search')){
             $search = $request->search;
@@ -61,7 +65,7 @@ class UsersController extends Controller
                  $query->where(function($q) use($search){
                      $q->where('name', 'LIKE', '%' . $search . '%')
                          ->orWhere('phone', 'LIKE', '%' . $search . '%')
-                         ->orWhere('parent_phone', 'LIKE', '%' . $search . '%')
+                       
                          ->orWhere('national_id', 'LIKE', '%' . $search . '%');
 
                  });
@@ -120,11 +124,20 @@ class UsersController extends Controller
 
     public function admin_edit($id)
     {
+        if (is_super_admin($id)) {
+            Session::flash('error', get_phrase('لا يمكن تعديل هذا الحساب'));
+            return redirect()->route('admin.admins.index');
+        }
+
         $page_data['admin'] = User::where('id', $id)->first();
         return view('admin.admin.edit_admin', $page_data);
     }
     public function admin_update(Request $request, $id)
     {
+        if (is_super_admin($id)) {
+            Session::flash('error', get_phrase('لا يمكن تعديل هذا الحساب'));
+            return redirect()->route('admin.admins.index');
+        }
 
         $validated = $request->validate([
             'name'        => 'required|max:255',
@@ -167,6 +180,11 @@ class UsersController extends Controller
 
     public function admin_delete($id)
     {
+        if (is_super_admin($id)) {
+            Session::flash('error', get_phrase('لا يمكن حذف هذا الحساب'));
+            return redirect()->back();
+        }
+
         $threads = MessageThread::where('contact_one', $id)
                     ->orWhere('contact_two', $id)
                     ->pluck('id');
@@ -186,12 +204,21 @@ class UsersController extends Controller
 
     public function admin_permission($user_id)
     {
+        if (is_super_admin($user_id)) {
+            Session::flash('error', get_phrase('لا يمكن تعديل صلاحيات هذا الحساب'));
+            return redirect()->route('admin.admins.index');
+        }
+
         $page_data['admin'] = User::where('id', $user_id)->firstOrNew();
         return view('admin.admin.permission', $page_data);
     }
     public function admin_permission_store(Request $request)
     {
         $user_id = $request->user_id;
+
+        if (is_super_admin($user_id)) {
+            return false;
+        }
 
         $permission = Permission::where('admin_id', $user_id)->first();
 
@@ -216,6 +243,10 @@ class UsersController extends Controller
 
     public function admin_permission_preset(Request $request, $user_id)
     {
+        if (is_super_admin($user_id)) {
+            return response()->json(['success' => false, 'message' => 'لا يمكن تعديل صلاحيات هذا الحساب'], 403);
+        }
+
         $presetKey = $request->input('preset');
         $presets = get_admin_permission_presets();
 
@@ -565,7 +596,6 @@ class UsersController extends Controller
                 $q->where('name', 'LIKE', '%' . $search . '%')
                 ->orWhere('email', 'LIKE', '%' . $search . '%')
                 ->orWhere('phone', 'LIKE', '%' . $search . '%')
-                ->orWhere('parent_phone', 'LIKE', '%' . $search . '%')
                 ->orWhere('national_id', 'LIKE', '%' . $search. '%');
             });
         }
@@ -595,8 +625,7 @@ class UsersController extends Controller
             'category'        => student_grade_category_rule(),
             'goverment'       => 'required',
             'gender'          => 'required|in:1,2',
-            'phone'           => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
-            'parent_phone'    => saudi_phone_validation_rules(),
+            'phone'           => array_merge(saudi_phone_validation_rules()),
             'email'           => 'required|email|unique:users',
             'password'        => 'required',
         ], array_merge(iqama_validation_messages(), saudi_phone_validation_messages()));
@@ -607,7 +636,6 @@ class UsersController extends Controller
 
         $data['name']            = $request->name;
         $data['phone']           = $request->phone;
-        $data['parent_phone']    = $request->parent_phone;
         $data['category']        = $request->category;
         $data['goverment']       = $request->goverment;
         $data['national_id']     = $request->national_id;
@@ -643,8 +671,7 @@ class UsersController extends Controller
             'national_id'      => iqama_validation_rules((int) $id),
             'category'         => student_grade_category_rule(),
             'goverment'        => 'required',
-            'phone'            => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
-            'parent_phone'     => saudi_phone_validation_rules(),
+            'phone'            => array_merge(saudi_phone_validation_rules()),
             'email'            => "required|email|unique:users,email,$id",
             'gender'          => 'required|in:1,2',
             // 'old_password'    => 'required_with:new_password',
@@ -654,7 +681,6 @@ class UsersController extends Controller
 
         $data['name']            = $request->name;
         $data['phone']           = $request->phone;
-        $data['parent_phone']    = $request->parent_phone;
         $data['category']        = $request->category;
         $data['goverment']       = $request->goverment;
         $data['national_id']     = $request->national_id;

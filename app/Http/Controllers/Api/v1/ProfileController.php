@@ -40,8 +40,7 @@ class ProfileController extends Controller
             'category' => student_grade_category_rule(),
             'goverment' => 'required',
             'gender' => 'required',
-            'phone' => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
-            'parent_phone' => saudi_phone_validation_rules(),
+            'phone' => array_merge(saudi_phone_validation_rules()),
             'old_password' => 'required_with:new_password',
             'new_password' => 'nullable',
             'national_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:51200'],
@@ -72,7 +71,6 @@ class ProfileController extends Controller
             'national_id' => $request->filled('national_id') ? $request->national_id : null,
             'category' => $request->category,
             'goverment' => $request->goverment,
-            'parent_phone' => $request->parent_phone,
             'address' => $request->address,
             'gender' => $request->gender,
         ];

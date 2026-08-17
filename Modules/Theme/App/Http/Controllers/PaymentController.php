@@ -107,7 +107,7 @@ class PaymentController extends Controller
         if($identifier == "Wallet"){
             $identifier = "wallet";
         }
-        return view('payment.' . $identifier . '.index', $page_data);
+        return view('theme::payment-methods.' . $identifier . '.index', $page_data);
     }
 
     public function saveInvoice($identifier){

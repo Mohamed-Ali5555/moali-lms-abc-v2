@@ -35,12 +35,7 @@
 
 
 
-                                <div class="col-lg-6 mb-20">
-                                    <div class="form-group">
-                                        <label for="phone" class="form-label">{{ get_phrase('parent Phone Number') }}</label>
-                                        <input type="tel" class="form-control" name="parent_phone" value="{{ old('parent_phone',$user_details->parent_phone) }}" id="parent_phone">
-                                    </div>
-                                </div>
+                             
 
                                 <div class="col-lg-6 mb-20">
                                     <div class="form-group">

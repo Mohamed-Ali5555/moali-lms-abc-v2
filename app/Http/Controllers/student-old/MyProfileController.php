@@ -30,8 +30,7 @@ class MyProfileController extends Controller
             'national_id'     => iqama_validation_rules((int) $user_id),
             'category'        => 'required',
             'goverment'       => 'required',
-            'phone'           => array_merge(saudi_phone_validation_rules(), ['different:parent_phone']),
-            'parent_phone'    => saudi_phone_validation_rules(),
+            'phone'           => array_merge(saudi_phone_validation_rules()),
             'old_password'    => 'required_with:new_password',
             'new_password'    => 'nullable',
         ];
@@ -58,7 +57,6 @@ class MyProfileController extends Controller
         $data['national_id']      = $request->national_id;
         $data['category']         = $request->category;
         $data['goverment']        = $request->goverment;
-        $data['parent_phone']     = $request->parent_phone;
         $data['address']          = $request->address;
         $data['phone']            = $request->phone;
 

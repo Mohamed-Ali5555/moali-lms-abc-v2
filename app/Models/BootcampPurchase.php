@@ -51,6 +51,6 @@ class BootcampPurchase extends Model
         $remove_session_item[] = 'payment_details';
         Session::forget($remove_session_item);
         Session::flash('success', 'Bootcamp purchased successfully.');
-        return redirect()->route('my.bootcamps');
+        return redirect()->route('theme.my.bootcamps');
     }
 }

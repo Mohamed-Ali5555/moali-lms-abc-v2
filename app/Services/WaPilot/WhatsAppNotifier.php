@@ -198,21 +198,6 @@ class WhatsAppNotifier
                 }
             }
 
-            if ($sendToParent) {
-                $phone = $this->client->normalizePhone($user->parent_phone);
-                if ($phone) {
-                    SendWhatsAppMessageJob::dispatch(
-                        $phone,
-                        $message,
-                        'manual_broadcast',
-                        $user->id,
-                        'parent'
-                    );
-                    $queued++;
-                    $sentAny = true;
-                }
-            }
-
             if (!$sentAny) {
                 $skipped++;
             }
@@ -229,21 +214,17 @@ class WhatsAppNotifier
     {
         $users = $this->resolveAudienceUsers($audienceType, $audienceId);
         $withPhone = 0;
-        $withParentPhone = 0;
 
         foreach ($users as $user) {
             if ($this->client->normalizePhone($user->phone)) {
                 $withPhone++;
             }
-            if ($this->client->normalizePhone($user->parent_phone)) {
-                $withParentPhone++;
-            }
+           
         }
 
         return [
             'students' => $users->count(),
             'with_phone' => $withPhone,
-            'with_parent_phone' => $withParentPhone,
         ];
     }
 
@@ -254,13 +235,13 @@ class WhatsAppNotifier
 
             return User::where('role', 'student')
                 ->whereIn('id', $userIds)
-                ->get(['id', 'name', 'phone', 'parent_phone']);
+                ->get(['id', 'name', 'phone']);
         }
 
         // category (academic year / parent category)
         return User::where('role', 'student')
             ->where('category', $audienceId)
-            ->get(['id', 'name', 'phone', 'parent_phone']);
+            ->get(['id', 'name', 'phone']);
     }
 
     protected function resolveAudienceContext(string $audienceType, int $audienceId): array
@@ -360,18 +341,7 @@ class WhatsAppNotifier
             }
         }
 
-        if ($template->send_to_parent) {
-            $phone = $this->client->normalizePhone($user->parent_phone);
-            if ($phone) {
-                SendWhatsAppMessageJob::dispatch(
-                    $phone,
-                    $message,
-                    $template->event_key,
-                    $user->id,
-                    'parent'
-                );
-            }
-        }
+       
     }
 
     public function render(string $body, array $placeholders): string

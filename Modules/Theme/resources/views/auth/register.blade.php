@@ -250,35 +250,7 @@ $regions = [
                     </div>
 
 
-                    {{-- رقم جوال ولي الأمر --}}
-                    <div class="rg-field">
-
-                        <label for="parent_phone">
-                            {{ get_phrase('رقم جوال ولي الأمر') }}
-                            <span class="req">*</span>
-                        </label>
-
-                        <div class="rg-input">
-                            <i class="fa-solid fa-phone-volume"></i>
-
-                            <input type="text"
-                                inputmode="numeric"
-                                required
-                                id="parent_phone"
-                                name="parent_phone"
-                                value="{{ old('parent_phone') }}"
-                                maxlength="10"
-                                minlength="10"
-                                placeholder="05XXXXXXXX"
-                                onkeypress="validateNumberInput(event)"
-                                class="@error('parent_phone') is-invalid @enderror">
-                        </div>
-
-                        @error('parent_phone')
-                            <small class="rg-error text-danger">{{ $message }}</small>
-                        @enderror
-
-                    </div>
+              
 
 
                     {{-- الجنس --}}
@@ -1021,52 +993,6 @@ $regions = [
                 }
             }
 
-
-            // جوال ولي الأمر
-
-            const parentPhone =
-                document.getElementById('parent_phone');
-
-            if (
-                !parentPhone ||
-                !parentPhone.value ||
-                !parentPhone.value.trim()
-            ) {
-
-                errors.push(
-                    'يرجى إدخال رقم جوال ولي الأمر'
-                );
-
-                if (!firstErrorField) {
-                    firstErrorField = parentPhone;
-                }
-
-            } else if (
-                !/^05\d{8}$/.test(parentPhone.value)
-            ) {
-
-                errors.push(
-                    'رقم جوال ولي الأمر يجب أن يبدأ بـ 05 ويتكون من 10 أرقام'
-                );
-
-                if (!firstErrorField) {
-                    firstErrorField = parentPhone;
-                }
-
-            } else if (
-                phone &&
-                phone.value &&
-                phone.value === parentPhone.value
-            ) {
-
-                errors.push(
-                    'يجب أن يكون رقم الجوال مختلفًا عن رقم ولي الأمر'
-                );
-
-                if (!firstErrorField) {
-                    firstErrorField = parentPhone;
-                }
-            }
 
 
             // الجنس

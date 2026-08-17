@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BootcampModuleController;
 use App\Http\Controllers\Admin\BootcampResourceController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\MicrosoftTeamsSettingController;
 use App\Http\Controllers\Admin\OfflinePaymentController;
 use App\Http\Controllers\Admin\OpenAiController;
 use App\Http\Controllers\Admin\PageBuilderController;
@@ -342,6 +343,12 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
 
         Route::get('live-class/settings', 'live_class_settings')->name('live.class.settings');
         Route::post('live-class/settings/update', 'update_live_class_settings')->name('live.class.settings.update');
+    });
+
+    Route::controller(MicrosoftTeamsSettingController::class)->group(function () {
+        Route::get('microsoft-teams/settings', 'settings')->name('teams.settings');
+        Route::post('microsoft-teams/settings/update', 'settings_update')->name('teams.settings.update');
+        Route::post('microsoft-teams/settings/test', 'test_connection')->name('teams.settings.test');
     });
 
     Route::controller(OpenAiController::class)->group(function () {

@@ -118,21 +118,21 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // my bootcamp routes
-    Route::controller(MyBootcampsController::class)->group(function () {
-        Route::get('my-bootcamps/', 'index')->name('my.bootcamps');
-        Route::get('my-bootcamps/details/{slug?}', 'show')->name('my.bootcamp.details');
-        Route::get('my-bootcamps/invoice/{id}', 'invoice')->name('my.bootcamp.invoice');
-        Route::get('bootcamp/live/class/join/{topic}', 'join_class')->name('bootcamp.live.class.join');
-        Route::get('bootcamp/resource/download/{id}', 'download')->name('bootcamp.resource.download');
-        Route::get('bootcamp/resource/play/{file}', 'play')->name('bootcamp.resource.play');
-    });
+    // Route::controller(MyBootcampsController::class)->group(function () {
+    //     Route::get('my-bootcamps/', 'index')->name('my.bootcamps');
+    //     Route::get('my-bootcamps/details/{slug?}', 'show')->name('my.bootcamp.details');
+    //     Route::get('my-bootcamps/invoice/{id}', 'invoice')->name('my.bootcamp.invoice');
+    //     Route::get('bootcamp/live/class/join/{topic}', 'join_class')->name('bootcamp.live.class.join');
+    //     Route::get('bootcamp/resource/download/{id}', 'download')->name('bootcamp.resource.download');
+    //     Route::get('bootcamp/resource/play/{file}', 'play')->name('bootcamp.resource.play');
+    // });
 
     // purchase bootcamp routes
-    Route::controller(BootcampPurchaseController::class)->group(function () {
-        Route::get('purchase/bootcamp/{id}', 'purchase')->name('purchase.bootcamp');
-        Route::get('bootcamp/purchase/history', 'purchase_history')->name('bootcamp.purchase.history');
-        Route::get('bootcamp/invoice/{id}', 'invoice')->name('bootcamp.invoice');
-    });
+    // Route::controller(BootcampPurchaseController::class)->group(function () {
+    //     Route::get('purchase/bootcamp/{id}', 'purchase')->name('purchase.bootcamp');
+    //     Route::get('bootcamp/purchase/history', 'purchase_history')->name('bootcamp.purchase.history');
+    //     Route::get('bootcamp/invoice/{id}', 'invoice')->name('bootcamp.invoice');
+    // });
 
     // my team packages
     Route::controller(MyTeamPackageController::class)->group(function () {

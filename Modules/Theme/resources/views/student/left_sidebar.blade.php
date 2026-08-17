@@ -10,6 +10,7 @@
     $isProfile = $current_route === 'theme.my.profile';
     $isWallet = in_array($current_route, ['theme.my.wallet', 'theme.wallet.charging'], true);
     $isInvoices = in_array($current_route, ['theme.purchase.history', 'theme.invoice'], true);
+    $isBootcamps = in_array($current_route, ['theme.my.bootcamps', 'theme.my.bootcamp.details', 'theme.my.bootcamp.invoice'], true);
 @endphp
 
 <link rel="stylesheet" href="{{ asset('modules/theme/css/student-sidebar-modern.css') }}">
@@ -138,15 +139,15 @@
                             </span>
                         </a>
                     </li>
-                    <li class="@if (
-                        $current_route == 'theme.my.bootcamps' ||
-                            $current_route == 'theme.my.bootcamp.details' ||
-                            $current_route == 'theme.my.bootcamp.invoice') active @endif">
+                    <li class="ss-nav__item {{ $isBootcamps ? 'is-active active' : '' }}">
                         <a href="{{ route('theme.my.bootcamps') }}">
-                            <dotlottie-player src="{{ asset('assets/frontend/default/image/icons/bootcamp.json') }}"
-                                background="transparent" speed="1" style="width: 30px; height: 30px;" part="lottie-svg"
-                                loop autoplay @if ($current_route != 'theme.my.bootcamps') hover @endif></dotlottie-player>
-                            <span> معسكراتي </span>
+                            <span class="ss-nav__icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M12 3 2 21"/><path d="M12 3l10 18"/><path d="M12 10v11"/></svg>
+                            </span>
+                            <span class="ss-nav__text">{{ get_phrase('معسكراتي') }}</span>
+                            <span class="ss-nav__chev ss-desktop-only" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                            </span>
                         </a>
                     </li>
                     <li class="ss-nav__divider ss-desktop-only" aria-hidden="true"></li>

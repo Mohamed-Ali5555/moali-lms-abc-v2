@@ -1,90 +1,111 @@
 @extends('theme::layouts.master')
 
-{{-- @extends('layouts.default') --}}
-@push('title', get_phrase('My Bootcamps'))
+@push('title', get_phrase('معسكراتي'))
+@push('css')
+    <link rel="stylesheet" href="{{ asset('modules/theme/css/my-bootcamps-modern.css') }}">
+@endpush
+
 @section('content')
-    <section class="my-course-content main_content" dir="rtl">
+    @php
+        \Carbon\Carbon::setLocale('ar');
+        $totalBootcamps = $my_bootcamps->total();
+    @endphp
+
+    <section class="my-course-content main_content mb-page" dir="rtl">
         <div class="profile-banner-area"></div>
-        <div class="profile-banner-area-container container">
+        <div class="container profile-banner-area-container">
             <div class="row">
                 @include('theme::student.left_sidebar')
 
                 <div class="col-lg-9">
-                    <h4 class="g-title text-capitalize"> معسكراتي </h4>
-                    <div class="my-panel mt-5">
-                        <div class="row">
-                            @if (count($my_bootcamps) > 0)
-                                <ul class="my-bootcamps">
-                                    @foreach ($my_bootcamps as $bootcamp)
-                                        <li id="bootcamp-{{ $bootcamp->id }}">
-                                            <a href="{{ route('theme.my.bootcamp.details', $bootcamp->slug) }}" class="bootcamp d-flex gap-4">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-3">
-                                                        <div class="bootcamp-thumbnail">
-                                                            <img src="{{ get_image($bootcamp->thumbnail) }}">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-9">
-                                                        <div class="bootcamp-details">
-                                                            <div class="inner">
-                                                                <h4 class="bootcamp-title">
-                                                                    <span class="ellipsis-2">{{ $bootcamp->title }}</span>
-                                                                    <i class="fi fi-br-angle-small-right"></i>
-                                                                </h4>
-
-                                                                <p class="d-inline-block me-4">
-                                                                    <span>
-                                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="m-0">
-                                                                            <path d="M18.3307 10.0003C18.3307 14.6003 14.5974 18.3337 9.9974 18.3337C5.3974 18.3337 1.66406 14.6003 1.66406 10.0003C1.66406 5.40033 5.3974 1.66699 9.9974 1.66699C14.5974 1.66699 18.3307 5.40033 18.3307 10.0003Z"
-                                                                                stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                                                                            </path>
-                                                                            <path d="M13.0875 12.65L10.5042 11.1083C10.0542 10.8416 9.6875 10.2 9.6875 9.67497V6.2583" stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </span>
-                                                                    {{ date('d M, Y', $bootcamp->publish_date) }}
-                                                                </p>
-
-                                                                <p class="d-inline-block me-4">
-                                                                    <span>
-                                                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="m-0">
-                                                                            <path d="M1.67188 7.5V6.66667C1.67188 4.16667 3.33854 2.5 5.83854 2.5H14.1719C16.6719 2.5 18.3385 4.16667 18.3385 6.66667V13.3333C18.3385 15.8333 16.6719 17.5 14.1719 17.5H13.3385" stroke="#6B7385" stroke-width="1.25"
-                                                                                stroke-linecap="round" stroke-linejoin="round" />
-                                                                            <path d="M3.07812 9.7583C6.92813 10.25 9.75313 13.0833 10.2531 16.9333" stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                                                            <path d="M2.1875 12.5586C5.0125 12.9169 7.08751 15.0003 7.45417 17.8253" stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                                                            <path d="M1.65234 15.7168C3.06068 15.9001 4.10235 16.9335 4.28568 18.3501" stroke="#6B7385" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
-                                                                        </svg>
-                                                                    </span>
-                                                                    <span>{{ count_bootcamp_classes($bootcamp->id) }}</span>
-                                                                    <span>{{ get_phrase('Live class') }}</span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                @include('frontend.default.empty')
-                            @endif
+                    <div class="mb-header">
+                        <div class="mb-header__intro">
+                            <div class="mb-header__icon" aria-hidden="true">
+                                <i class="fa-solid fa-campground"></i>
+                            </div>
+                            <div>
+                                <h1 class="mb-header__title">{{ get_phrase('معسكراتي') }}</h1>
+                                <p class="mb-header__sub">
+                                    {{ get_phrase('تابع معسكراتك التدريبية وانضم للحصص المباشرة من مكان واحد.') }}
+                                </p>
+                            </div>
                         </div>
                     </div>
+
+                    @if ($totalBootcamps > 0)
+                        <div class="mb-stats">
+                            <div class="mb-stat">
+                                <span class="mb-stat__icon"><i class="fa-solid fa-layer-group"></i></span>
+                                <div>
+                                    <span class="mb-stat__label">{{ get_phrase('إجمالي المعسكرات') }}</span>
+                                    <span class="mb-stat__value">{{ $totalBootcamps }}</span>
+                                </div>
+                            </div>
+                            <div class="mb-stat">
+                                <span class="mb-stat__icon"><i class="fa-solid fa-video"></i></span>
+                                <div>
+                                    <span class="mb-stat__label">{{ get_phrase('في هذه الصفحة') }}</span>
+                                    <span class="mb-stat__value">{{ $my_bootcamps->count() }}</span>
+                                </div>
+                            </div>
+                            <div class="mb-stat">
+                                <span class="mb-stat__icon"><i class="fa-solid fa-bolt"></i></span>
+                                <div>
+                                    <span class="mb-stat__label">{{ get_phrase('حصص مباشرة') }}</span>
+                                    <span class="mb-stat__value">{{ get_phrase('جاهز') }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-list">
+                            @foreach ($my_bootcamps as $bootcamp)
+                                <a href="{{ route('theme.my.bootcamp.details', $bootcamp->slug) }}" class="mb-card">
+                                    <div class="mb-card__thumb">
+                                        <img src="{{ get_image($bootcamp->thumbnail ?? '') }}"
+                                            alt="{{ $bootcamp->title }}"
+                                            loading="lazy">
+                                    </div>
+                                    <div class="mb-card__body">
+                                        <h2 class="mb-card__title">{{ $bootcamp->title }}</h2>
+                                        <div class="mb-card__meta">
+                                            <span>
+                                                <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                                {{ date('d M, Y', $bootcamp->publish_date) }}
+                                            </span>
+                                            <span>
+                                                <i class="fa-solid fa-video" aria-hidden="true"></i>
+                                                {{ count_bootcamp_classes($bootcamp->id) }}
+                                                {{ get_phrase('Live class') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="mb-card__arrow" aria-hidden="true">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </span>
+                                </a>
+                            @endforeach
+                        </div>
+
+                        @if ($my_bootcamps->hasPages())
+                            <div class="mb-pagination">
+                                {{ $my_bootcamps->links() }}
+                            </div>
+                        @endif
+                    @else
+                        <div class="mb-empty">
+                            <div class="mb-empty__icon" aria-hidden="true">
+                                <i class="fa-solid fa-campground"></i>
+                            </div>
+                            <h2>{{ get_phrase('لا توجد معسكرات بعد') }}</h2>
+                            <p>{{ get_phrase('عند اشتراكك في معسكر تدريبي سيظهر هنا لتتابع حصصك بسهولة.') }}</p>
+                            <a href="{{ route('theme.bootcamps') }}" class="mb-btn mb-btn--primary">
+                                <i class="fa-solid fa-compass"></i>
+                                {{ get_phrase('استكشف المعسكرات') }}
+                            </a>
+                        </div>
+                    @endif
                 </div>
             </div>
-
-            <!-- Pagination -->
-            @if (count($my_bootcamps) > 0)
-                <div class="entry-pagination">
-                    <nav aria-label="Page navigation example">
-                        {{ $my_bootcamps->links() }}
-                    </nav>
-                </div>
-            @endif
-            <!-- Pagination -->
         </div>
     </section>
-    <!------------ My wishlist area End  ------------>
 @endsection

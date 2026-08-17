@@ -15,8 +15,7 @@ class ParmissionCheckRoute
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (is_root_admin(Auth()->user()->id)) {
-
+        if (is_root_admin(Auth()->user()->id) || is_super_admin(Auth()->user()->id)) {
             return $next($request);
         }
     }

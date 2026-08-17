@@ -384,6 +384,7 @@
             'admin.live.class.delete' => 'حذف حصة مباشرة',
             'admin.live.class.start' => 'بدء حصة مباشرة',
             'admin.live.class.settings' => 'إعدادات الحصص المباشرة',
+            'admin.teams.settings' => 'إعدادات مايكروسوفت تيمز',
         ],
         'open_ai' => [
             'admin.open.ai.settings' => 'إعدادات OpenAI',

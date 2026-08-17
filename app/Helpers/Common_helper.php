@@ -612,6 +612,32 @@ if (!function_exists('total_durations_by')) {
         }
     }
 
+if (!function_exists('get_super_admin_email')) {
+    function get_super_admin_email()
+    {
+        return strtolower(trim((string) config('admin.super_admin_email', '')));
+    }
+}
+
+if (!function_exists('is_super_admin')) {
+    function is_super_admin($admin_id = '')
+    {
+        $super_admin_email = get_super_admin_email();
+        if ($super_admin_email === '') {
+            return false;
+        }
+
+        if (empty($admin_id)) {
+            $user = auth()->user();
+            return $user && strtolower(trim($user->email)) === $super_admin_email;
+        }
+
+        $email = App\Models\User::where('id', $admin_id)->value('email');
+
+        return $email && strtolower(trim($email)) === $super_admin_email;
+    }
+}
+
 if (!function_exists('is_root_admin')) {
     function is_root_admin($admin_id = '')
     {
@@ -672,7 +698,7 @@ if (!function_exists('has_permission')) {
             $root_admin_id = App\Models\User::query()->orderBy('id')->value('id');
         }
 
-        if ($user_id == $root_admin_id) {
+        if ($user_id == $root_admin_id || is_super_admin($user_id)) {
             return true;
         }
 
@@ -1563,7 +1589,7 @@ if (!function_exists('is_permission')) {
 
         $get_admin_permissions = DB::table('permissions')->where('admin_id', $admin_id);
 
-        if (is_root_admin($admin_id)) {
+        if (is_root_admin($admin_id) || is_super_admin($admin_id)) {
             return true;
         } else {
             $get_admin_permissions = $get_admin_permissions->firstOrNew();
@@ -2353,10 +2379,7 @@ if (!function_exists('saudi_phone_validation_messages')) {
             'phone.digits'          => 'يجب أن يكون رقم الجوال مكونًا من 10 أرقام.',
             'phone.regex'           => 'رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.',
             'phone.different'       => 'يجب أن يكون رقم الجوال مختلفًا عن رقم ولي الأمر.',
-            'parent_phone.required' => 'رقم جوال ولي الأمر مطلوب.',
-            'parent_phone.numeric'  => 'يجب أن يكون رقم جوال ولي الأمر أرقامًا فقط.',
-            'parent_phone.digits'   => 'يجب أن يكون رقم جوال ولي الأمر مكونًا من 10 أرقام.',
-            'parent_phone.regex'    => 'رقم جوال ولي الأمر يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.',
+     
         ];
     }
 }

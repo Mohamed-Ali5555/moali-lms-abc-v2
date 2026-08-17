@@ -114,15 +114,6 @@ $regions = [
             </select>
     </div>
 </div>
-<div class="row mb-3">
-    <label for="parent-phone"
-        class="form-label ol-form-label col-sm-2 col-form-label">{{ get_phrase('رقم جوال ولي الأمر') }}</label>
-    <div class="col-sm-8">
-        <input type="text" name="parent_phone" class="form-control ol-form-control" id="parent-phone"
-            placeholder="05XXXXXXXX" maxlength="10" inputmode="numeric"
-            @isset($student->parent_phone) value="{{ old('parent_phone', isset($student) ? $student->parent_phone : '') }}" @endisset>
-    </div>
-</div>
 
 
 <div class="row mb-3">

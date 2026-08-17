@@ -1,344 +1,240 @@
-{{-- @extends('theme::layouts.master') --}}
-
-@extends('layouts.default')
+@extends('theme::layouts.master')
 
 @push('title', get_phrase('My Bootcamps'))
 @push('css')
-<style>
-    .c-card i {
-        font-size: 16px; /* Adjust icon size */
-        color: #858C8A; /* Default icon color */
-        padding-left: 2px; /* Padding on the left of the icon */
-        margin-right: 4px; /* Space between icon and text */
-        transition: color 0.3s ease; /* Smooth color transition */
-    }
-
-    .c-card a {
-        color: #6b7385; /* Default text color */
-        font-size: 14px; /* Default text size */
-        font-weight: 500; /* Make text bold */
-        text-decoration: none; /* Remove underline */
-        transition: color 0.3s ease; /* Smooth color transition */
-    }
-
-    .c-card a:hover i,
-    .c-card a:hover {
-        color: #2f57ef; /* Change text and icon color on hover */
-    }
-
-</style>
+    <link rel="stylesheet" href="{{ asset('modules/theme/css/my-bootcamps-modern.css') }}">
 @endpush
+
 @section('content')
-    <section class="my-course-content mt-50">
+    @php
+        \Carbon\Carbon::setLocale('ar');
+        $user = get_user_info($bootcamp->user_id);
+        $modules = App\Models\BootcampModule::where('bootcamp_id', $bootcamp->id)->get();
+        $purchase = App\Models\BootcampPurchase::where('user_id', auth()->user()->id)
+            ->where('bootcamp_id', $bootcamp->id)
+            ->where('status', 1)
+            ->first();
+    @endphp
+
+    <section class="my-course-content main_content mb-page" dir="rtl">
         <div class="profile-banner-area"></div>
         <div class="container profile-banner-area-container">
             <div class="row">
                 @include('theme::student.left_sidebar')
 
                 <div class="col-lg-9">
-                    <h4 class="g-title text-capitalize">{{ get_phrase('My Bootcamps') }}</h4>
-                    <div class="my-panel mt-5">
-                        <div class="bootcamp my-bootcamp-details">
-                            <div class="row">
-                                <div class="col-sm-4 col-md-3">
-                                    <div class="bootcamp-thumbnail">
-                                        <img src="{{ get_image($bootcamp->thumbnail) }}">
-                                    </div>
-                                </div>
+                    <div class="mb-header">
+                        <div class="mb-header__intro">
+                            <div class="mb-header__icon" aria-hidden="true">
+                                <i class="fa-solid fa-campground"></i>
+                            </div>
+                            <div>
+                                <h1 class="mb-header__title">{{ get_phrase('My Bootcamps') }}</h1>
+                                <p class="mb-header__sub">
+                                    {{ get_phrase('محتوى المعسكر والحصص المباشرة والموارد التعليمية.') }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="col-sm-6 col-md-7 py-4 py-sm-0">
-                                    <div class="bootcamp-details">
-                                        <div class="inner d-flex justify-content-between align-items-start">
-                                            <div class="d-flex flex-column gap-2">
-                                                <h4 class="bootcamp-title ellipsis-3" data-bs-toggle="tooltip"
-                                                    title="{{ $bootcamp->title }}">
-                                                    <a href="{{ route('theme.bootcamp.details', $bootcamp->slug) }}"
-                                                        class="color-2">{{ $bootcamp->title }}</a>
-                                                </h4>
-                                                @php
-                                                    $user = get_user_info($bootcamp->user_id);
-                                                @endphp
+                    <div class="mb-detail-hero">
+                        <div class="mb-detail-hero__thumb">
+                            <img src="{{ get_image($bootcamp->thumbnail ?? '') }}" alt="{{ $bootcamp->title }}">
+                        </div>
 
-                                                <p class="text-14">{{ get_phrase('By ') }}
-                                                    <a href="{{ route('theme.instructor.details', ['name' => slugify($user->name), $user->id]) }}"
-                                                        class="text-color">{{ $user->name }}</a>
-                                                </p>
-                                                <div class="d-flex gap-3">
-                                                    <p class="module-details">
-                                                        <span>
-                                                            <svg width="20" height="20" viewBox="0 0 20 20"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                                class="m-0">
-                                                                <path
-                                                                    d="M18.3307 10.0003C18.3307 14.6003 14.5974 18.3337 9.9974 18.3337C5.3974 18.3337 1.66406 14.6003 1.66406 10.0003C1.66406 5.40033 5.3974 1.66699 9.9974 1.66699C14.5974 1.66699 18.3307 5.40033 18.3307 10.0003Z"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                                <path
-                                                                    d="M13.0875 12.65L10.5042 11.1083C10.0542 10.8416 9.6875 10.2 9.6875 9.67497V6.2583"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                            </svg>
-                                                        </span>
-                                                        {{ date('d M, Y', $bootcamp->publish_date) }}
-                                                    </p>
+                        <div>
+                            <h2 class="mb-detail-hero__title">
+                                <a href="{{ route('theme.bootcamp.details', $bootcamp->slug) }}">
+                                    {{ $bootcamp->title }}
+                                </a>
+                            </h2>
 
-                                                    <p class="module-details">
-                                                        <span>
-                                                            <svg width="20" height="20" viewBox="0 0 20 20"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg"
-                                                                class="m-0">
-                                                                <path
-                                                                    d="M1.67188 7.5V6.66667C1.67188 4.16667 3.33854 2.5 5.83854 2.5H14.1719C16.6719 2.5 18.3385 4.16667 18.3385 6.66667V13.3333C18.3385 15.8333 16.6719 17.5 14.1719 17.5H13.3385"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                                <path
-                                                                    d="M3.07812 9.7583C6.92813 10.25 9.75313 13.0833 10.2531 16.9333"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                                <path
-                                                                    d="M2.1875 12.5586C5.0125 12.9169 7.08751 15.0003 7.45417 17.8253"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                                <path
-                                                                    d="M1.65234 15.7168C3.06068 15.9001 4.10235 16.9335 4.28568 18.3501"
-                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                            </svg>
-                                                        </span>
-                                                        <span>{{ count_bootcamp_classes($bootcamp->id) }}</span>
-                                                        <span>{{ get_phrase('Live class') }}</span>
-                                                    </p>
-                                                </div>
-                                                <div class="d-flex gap-3 c-card">
-                                                    <a href="{{ route('theme.my.bootcamp.invoice', ['id' => $bootcamp->id]) }}" class="text-center"><i class="fas fa-file-invoice"></i> {{ get_phrase('Invoice') }}</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <p class="mb-detail-hero__instructor">
+                                {{ get_phrase('By ') }}
+                                
+                            </p>
 
-                                <div class="col-sm-2 col-md-2 p-0">
-                                    <a href="{{ route('theme.my.bootcamps') }}"
-                                        class="eBtn gradient float-md-end">{{ get_phrase('Back') }}</a>
-                                </div>
+                            <div class="mb-detail-hero__meta">
+                                <span>
+                                    <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+                                    {{ date('d M, Y', $bootcamp->publish_date) }}
+                                </span>
+                                <span>
+                                    <i class="fa-solid fa-video" aria-hidden="true"></i>
+                                    {{ count_bootcamp_classes($bootcamp->id) }}
+                                    {{ get_phrase('Live class') }}
+                                </span>
+                            </div>
+
+                            <div class="mb-detail-hero__links">
+                                @if ($purchase)
+                                    <a href="{{ route('theme.my.bootcamp.invoice', ['id' => $purchase->id]) }}">
+                                        <i class="fa-solid fa-file-invoice" aria-hidden="true"></i>
+                                        {{ get_phrase('Invoice') }}
+                                    </a>
+                                @endif
                             </div>
                         </div>
 
-                        <!------------ modules ------------>
-                        <div class="row">
-                            @php
-                                $modules = App\Models\BootcampModule::where('bootcamp_id', $bootcamp->id)->get();
-                            @endphp
-                            @if ($modules->count() > 0)
-                                <div class="modules">
-                                    @foreach ($modules as $module)
-                                        @php
-                                            $is_available = 1;
+                        <a href="{{ route('theme.my.bootcamps') }}" class="mb-btn mb-btn--ghost">
+                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                            {{ get_phrase('Back') }}
+                        </a>
+                    </div>
 
-                                            if ($module->restriction == 1) {
-                                                $is_available = time() >= $module->publish_date ? 1 : 0;
-                                            } elseif ($module->restriction == 2) {
-                                                $is_available =
-                                                    time() >= $module->publish_date && time() <= $module->expiry_date
-                                                        ? 1
-                                                        : 0;
-                                            }
-                                        @endphp
-                                        <div class="accordion accordion-flush" id="module-{{ $module->id }}">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="module-label-{{ $module->id }}">
-                                                    <button class="accordion-button collapsed d-block" type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#module-content-{{ $module->id }}"
-                                                        aria-expanded="true"
-                                                        aria-controls="module-content-{{ $module->id }}">
-                                                        <div class="row">
-                                                            <div class="col-md-8">
-                                                                <span class="module-title ellipsis-2 pb-1"
-                                                                    data-bs-target="tooltip" title="{{ $module->title }}">
-                                                                    {{ $module->title }}
-                                                                </span>
+                    @if ($modules->count() > 0)
+                        <div class="mb-modules" id="bootcamp-modules">
+                            @foreach ($modules as $module)
+                                @php
+                                    $isAvailable = 1;
 
-                                                                <small class="text-12 d-block fw-light text-color">
-                                                                    @if ($module->restriction == 1)
-                                                                        {{ get_phrase('Available from : ') }}
-                                                                        {{ date('d-M-Y', $module->publish_date) }}
-                                                                    @elseif ($module->restriction == 2)
-                                                                        {{ get_phrase('Available within : ') }}
-                                                                        {{ date('d-M-Y', $module->publish_date) }} -
-                                                                        {{ date('d-M-Y', $module->expiry_date) }}
+                                    if ($module->restriction == 1) {
+                                        $isAvailable = time() >= $module->publish_date ? 1 : 0;
+                                    } elseif ($module->restriction == 2) {
+                                        $isAvailable = time() >= $module->publish_date && time() <= $module->expiry_date ? 1 : 0;
+                                    }
+
+                                    $liveClasses = App\Models\BootcampLiveClass::where('module_id', $module->id)->get();
+                                    $resources = App\Models\BootcampResource::where('module_id', $module->id)->get();
+                                @endphp
+
+                                <div class="mb-module">
+                                    <button class="mb-module__head collapsed" type="button"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#module-content-{{ $module->id }}"
+                                        aria-expanded="false"
+                                        aria-controls="module-content-{{ $module->id }}">
+                                        <div>
+                                            <h3 class="mb-module__title">{{ $module->title }}</h3>
+                                            @if ($module->restriction == 1)
+                                                <p class="mb-module__hint">
+                                                    {{ get_phrase('Available from : ') }}
+                                                    {{ date('d-M-Y', $module->publish_date) }}
+                                                </p>
+                                            @elseif ($module->restriction == 2)
+                                                <p class="mb-module__hint">
+                                                    {{ get_phrase('Available within : ') }}
+                                                    {{ date('d-M-Y', $module->publish_date) }} -
+                                                    {{ date('d-M-Y', $module->expiry_date) }}
+                                                </p>
+                                            @endif
+                                        </div>
+
+                                        <div class="mb-module__meta">
+                                            <span>
+                                                <i class="fa-solid fa-video" aria-hidden="true"></i>
+                                                {{ count_bootcamp_classes($module->id, 'module') }}
+                                                {{ get_phrase('Live class') }}
+                                            </span>
+                                            @if (! $isAvailable)
+                                                <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                                            @endif
+                                            <i class="fa-solid fa-chevron-down mb-module__chevron" aria-hidden="true"></i>
+                                        </div>
+                                    </button>
+
+                                    <div id="module-content-{{ $module->id }}" class="collapse mb-module__body"
+                                        data-bs-parent="#bootcamp-modules">
+                                        @if ($isAvailable)
+                                            @if ($liveClasses->count() > 0)
+                                                <ul class="mb-class-list">
+                                                    @foreach ($liveClasses as $class)
+                                                        <li class="mb-class-item">
+                                                            <div>
+                                                                <p class="mb-class-item__title">{{ $class->title }}</p>
+                                                                <div class="mb-class-item__meta">
+                                                                    @if ($class->status == 'live')
+                                                                        <span class="mb-badge mb-badge--live">{{ $class->status }}</span>
+                                                                    @elseif ($class->status == 'upcoming')
+                                                                        <span class="mb-badge mb-badge--upcoming">{{ $class->status }}</span>
+                                                                    @elseif ($class->status == 'completed')
+                                                                        <span class="mb-badge mb-badge--completed">{{ $class->status }}</span>
                                                                     @endif
-                                                                </small>
-                                                            </div>
-                                                            <div class="col-md-4 d-flex justify-content-end">
-                                                                <div class="d-flex align-items-center gap-3">
-                                                                    <p class="module-details">
-                                                                        <span>
-                                                                            <svg width="20" height="20"
-                                                                                viewBox="0 0 20 20" fill="none"
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                class="m-0">
-                                                                                <path
-                                                                                    d="M1.67188 7.5V6.66667C1.67188 4.16667 3.33854 2.5 5.83854 2.5H14.1719C16.6719 2.5 18.3385 4.16667 18.3385 6.66667V13.3333C18.3385 15.8333 16.6719 17.5 14.1719 17.5H13.3385"
-                                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round">
-                                                                                </path>
-                                                                                <path
-                                                                                    d="M3.07812 9.7583C6.92813 10.25 9.75313 13.0833 10.2531 16.9333"
-                                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round">
-                                                                                </path>
-                                                                                <path
-                                                                                    d="M2.1875 12.5586C5.0125 12.9169 7.08751 15.0003 7.45417 17.8253"
-                                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round">
-                                                                                </path>
-                                                                                <path
-                                                                                    d="M1.65234 15.7168C3.06068 15.9001 4.10235 16.9335 4.28568 18.3501"
-                                                                                    stroke="#6B7385" stroke-width="1.25"
-                                                                                    stroke-linecap="round"
-                                                                                    stroke-linejoin="round">
-                                                                                </path>
-                                                                            </svg>
-                                                                        </span>
-                                                                        <span>{{ count_bootcamp_classes($module->id, 'module') }}</span>
-                                                                        <span>{{ get_phrase('Live class') }}</span>
-                                                                    </p>
-                                                                    @if (!$is_available)
-                                                                        <span class="fi fi-sr-lock text-color"></span>
-                                                                    @endif
+                                                                    <span>{{ date('d M, y', $class->start_time) }}</span>
+                                                                    <span>
+                                                                        ({{ date('h:i a', $class->start_time) }} -
+                                                                        {{ date('h:i a', $class->end_time) }})
+                                                                    </span>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </button>
-                                                </h2>
-                                                <div id="module-content-{{ $module->id }}"
-                                                    class="accordion-collapse collapse"
-                                                    aria-labelledby="module-label-{{ $module->id }}"
-                                                    data-bs-parent="#module-{{ $module->id }}">
-                                                    <div class="accordion-body">
-                                                        @php
-                                                            $live_classes = App\Models\BootcampLiveClass::where(
-                                                                'module_id',
-                                                                $module->id,
-                                                            )->get();
-                                                            $resources = App\Models\BootcampResource::where(
-                                                                'module_id',
-                                                                $module->id,
-                                                            )->get();
-                                                        @endphp
 
-                                                        @if ($is_available)
-                                                            @if ($live_classes->count() > 0)
-                                                                <ul class="live-classes">
-                                                                    @foreach ($live_classes as $class)
-                                                                        <li>
-                                                                            <div class="class-details">
-                                                                                <p class="class-title">{{ $class->title }}
-                                                                                </p>
+                                                            <a href="{{ class_started($class->id) ? route('theme.bootcamp.live.class.join', slugify($class->title)) : 'javascript:void(0);' }}"
+                                                                class="mb-btn mb-btn--primary {{ class_started($class->id) ? '' : 'is-disabled' }}">
+                                                                {{ get_phrase('Join Now') }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
 
-                                                                                <div class="d-flex gap-3">
-                                                                                    <div class="class-status">
-                                                                                        @if ($class->status == 'live')
-                                                                                            <span
-                                                                                                class="badge bg-danger text-capitalize">{{ $class->status }}</span>
-                                                                                        @elseif($class->status == 'upcoming')
-                                                                                            <span
-                                                                                                class="badge bg-warning text-capitalize">{{ $class->status }}</span>
-                                                                                        @elseif($class->status == 'completed')
-                                                                                            <span
-                                                                                                class="badge bg-success text-capitalize">{{ $class->status }}</span>
-                                                                                        @endif
-                                                                                    </div>
+                                            @if ($resources->count() > 0)
+                                                <h4 class="mb-section-title">{{ get_phrase('Resource files') }}</h4>
+                                                <ul class="mb-class-list">
+                                                    @foreach ($resources as $resource)
+                                                        <li class="mb-class-item">
+                                                            <div>
+                                                                <p class="mb-class-item__title">{{ $resource->title }}</p>
+                                                                <div class="mb-class-item__meta">
+                                                                    @if ($resource->upload_type == 'resource')
+                                                                        <span class="mb-badge mb-badge--resource">{{ get_phrase('Resource') }}</span>
+                                                                    @elseif ($resource->upload_type == 'record')
+                                                                        <span class="mb-badge mb-badge--record">{{ get_phrase('Record') }}</span>
+                                                                    @endif
+                                                                    <span>{{ date('d M, Y', $resource->create_at) }}</span>
+                                                                </div>
+                                                            </div>
 
-                                                                                    <small class="text-12 text-color">
-                                                                                        {{ date('d M, y', $class->start_time) }}
-                                                                                    </small>
-
-                                                                                    <small class="text-12 text-color">
-                                                                                        ({{ date('h:i a', $class->start_time) }}
-                                                                                        -
-                                                                                        {{ date('h:i a', $class->end_time) }})
-                                                                                    </small>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="class-btns">
-                                                                                <a href="{{ class_started($class->id) ? route('theme.bootcamp.live.class.join', slugify($class->title)) : 'javascript:void(0);' }}"
-                                                                                    class="join-now {{ class_started($class->id) ? '' : 'disable' }}">{{ get_phrase('Join Now') }}</a>
-                                                                            </div>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
+                                                            @if ($resource->upload_type == 'resource')
+                                                                <a href="{{ route('theme.bootcamp.resource.download', $resource->id) }}"
+                                                                    class="mb-btn mb-btn--ghost">
+                                                                    {{ get_phrase('Download') }}
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ route('theme.bootcamp.resource.play', $resource->title) }}"
+                                                                    class="mb-btn mb-btn--primary">
+                                                                    {{ get_phrase('Play Now') }}
+                                                                </a>
                                                             @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
 
-                                                            @if ($resources->count() > 0)
-                                                                <h4 class="mt-4 resource-title mb-3">
-                                                                    {{ get_phrase('Resource files') }}</h4>
-                                                                <ul class="live-classes">
-                                                                    @foreach ($resources as $resource)
-                                                                        <li>
-                                                                            <div class="class-details">
-                                                                                <p class="class-title ellipsis-1"
-                                                                                    data-bs-target="tooltip"
-                                                                                    title="{{ $resource->title }}">
-                                                                                    {{ $resource->title }}
-                                                                                </p>
-
-                                                                                <div class="d-flex gap-3">
-                                                                                    <div class="class-status">
-                                                                                        @if ($resource->upload_type == 'resource')
-                                                                                            <span
-                                                                                                class="badge bg-success text-capitalize">{{ get_phrase('Resource') }}</span>
-                                                                                        @elseif($resource->upload_type == 'record')
-                                                                                            <span
-                                                                                                class="badge bg-primary text-capitalize">{{ get_phrase('Record') }}</span>
-                                                                                        @endif
-                                                                                    </div>
-                                                                                    <small
-                                                                                        class="text-12 text-color fw-400">
-                                                                                        {{ date('d M, Y', $resource->create_at) }}
-                                                                                    </small>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="class-btns">
-                                                                                @if ($resource->upload_type == 'resource')
-                                                                                    <a href="{{ route('theme.bootcamp.resource.download', $resource->id) }}"
-                                                                                        class="join-now">{{ get_phrase('Download') }}</a>
-                                                                                @else
-                                                                                    <a href="{{ route('theme.bootcamp.resource.play', $resource->title) }}"
-                                                                                        class="join-now">{{ get_phrase('Play Now') }}</a>
-                                                                                @endif
-                                                                            </div>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            @endif
-
-                                                            @if ($live_classes->count() < 1 && $resources->count() < 1)
-                                                                <p class="module-details no-data">
-                                                                    {{ get_phrase('Module has no class available.') }}</p>
-                                                            @endif
-                                                        @else
-                                                            <p class="module-details no-data">
-                                                                {{ get_phrase('Module is not available.') }}</p>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                            @if ($liveClasses->count() < 1 && $resources->count() < 1)
+                                                <p class="mb-no-data">{{ get_phrase('Module has no class available.') }}</p>
+                                            @endif
+                                        @else
+                                            <p class="mb-no-data">{{ get_phrase('Module is not available.') }}</p>
+                                        @endif
+                                    </div>
                                 </div>
-                            @endif
+                            @endforeach
                         </div>
-                    </div>
+                    @else
+                        <div class="mb-empty">
+                            <div class="mb-empty__icon" aria-hidden="true">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </div>
+                            <h2>{{ get_phrase('لا يوجد محتوى') }}</h2>
+                            <p>{{ get_phrase('Module has no class available.') }}</p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </section>
-    <!------------ My wishlist area End  ------------>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.mb-module__head').forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    setTimeout(function () {
+                        btn.setAttribute('aria-expanded', btn.classList.contains('collapsed') ? 'false' : 'true');
+                    }, 0);
+                });
+            });
+        });
+    </script>
 @endsection

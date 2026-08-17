@@ -59,14 +59,7 @@
                         </div>
 
 
-                        <div class="form-group mb-5">
-                            <label for="" class="form-label">{{ get_phrase('parent_phone') }}</label>
-                            <input type="number" name="parent_phone" class="form-control" placeholder="Your parent_phone">
-
-                            @error('parent_phone')
-                                <small class="text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+               
 
 
                         <div class="form-group mb-5">

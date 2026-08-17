@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\instructor;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\MicrosoftTeamsMeetingController;
 use App\Http\Controllers\ZoomMeetingController;
 use App\Models\BootcampLiveClass;
 use App\Models\BootcampModule;
@@ -76,13 +77,17 @@ class BootcampLiveClassController extends Controller
         $data['start_time']  = $start_timestamp;
         $data['end_time']    = $end_timestamp;
 
-        $joiningData    = ZoomMeetingController::createMeeting($request->title, $start_timestamp);
+        // Zoom (legacy provider, kept only for reference/rollback):
+        // $joiningData = ZoomMeetingController::createMeeting($request->title, $start_timestamp);
+
+        $joiningData    = MicrosoftTeamsMeetingController::createMeeting($request->title, $start_timestamp, $end_timestamp);
         $joiningInfoArr = json_decode($joiningData, true);
 
-        if (array_key_exists('code', $joiningInfoArr) && $joiningInfoArr) {
-            return redirect(route('instructor.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum']))->with('error', get_phrase($joiningInfoArr['message']));
+        if (is_array($joiningInfoArr) && array_key_exists('error', $joiningInfoArr)) {
+            $errorMessage = is_array($joiningInfoArr['error']) ? ($joiningInfoArr['error']['message'] ?? 'Microsoft Teams API error occurred.') : $joiningInfoArr['error'];
+            return redirect(route('instructor.bootcamp.edit', ['id' => $module->bootcamp_id, 'tab' => 'curriculum']))->with('error', get_phrase($errorMessage));
         }
-        $data['provider']     = 'zoom';
+        $data['provider']     = 'teams';
         $data['joining_data'] = $joiningData;
 
         BootcampLiveClass::insert($data);
@@ -159,7 +164,14 @@ class BootcampLiveClassController extends Controller
         $data['start_time']  = $start_timestamp;
         $data['end_time']    = $end_timestamp;
 
-        if ($class->provider == 'zoom') {
+        if ($class->provider == 'teams') {
+            $oldMeetingData = json_decode($class->joining_data, true);
+            MicrosoftTeamsMeetingController::updateMeeting($request->title, $start_timestamp, $oldMeetingData['id'] ?? null, $end_timestamp);
+            $oldMeetingData['subject']       = $request->title;
+            $oldMeetingData['startDateTime'] = gmdate('Y-m-d\TH:i:s\Z', $start_timestamp);
+            $oldMeetingData['endDateTime']   = gmdate('Y-m-d\TH:i:s\Z', $end_timestamp);
+            $data['joining_data']            = json_encode($oldMeetingData);
+        } elseif ($class->provider == 'zoom') {
             $oldMeetingData = json_decode($class->joining_data, true);
             ZoomMeetingController::updateMeeting($request->title, $request->start_time, $oldMeetingData['id']);
             $oldMeetingData["start_time"] = date('Y-m-d\TH:i:s', strtotime($request->start_time));
@@ -185,9 +197,16 @@ class BootcampLiveClassController extends Controller
         }
 
         $meetingData = $class->value('joining_data');
+        $provider    = $class->value('provider');
         if ($meetingData) {
             $oldMeetingData = json_decode($meetingData, true);
-            ZoomMeetingController::deleteMeeting($oldMeetingData['id']);
+            if (($oldMeetingData['id'] ?? null)) {
+                if ($provider == 'teams') {
+                    MicrosoftTeamsMeetingController::deleteMeeting($oldMeetingData['id']);
+                } else {
+                    ZoomMeetingController::deleteMeeting($oldMeetingData['id']);
+                }
+            }
         }
         BootcampLiveClass::where('id', $id)->delete();
         Session::flash('success', get_phrase('Live class has been deleted.'));
@@ -211,6 +230,16 @@ class BootcampLiveClassController extends Controller
         if (! $class) {
             Session::flash('error', get_phrase('Class not found.'));
             return redirect()->back();
+        }
+
+        if ($class->provider == 'teams') {
+            $meeting_info = json_decode($class->joining_data, true);
+            $joinUrl      = $meeting_info['joinWebUrl'] ?? null;
+            if (! $joinUrl) {
+                Session::flash('error', get_phrase('Microsoft Teams join link is not available.'));
+                return redirect()->back();
+            }
+            return redirect($joinUrl);
         }
 
         if (get_settings('zoom_web_sdk') == 'active') {

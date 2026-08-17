@@ -78,7 +78,6 @@
                                         <th scope="col">#</th>
                                         <th scope="col">{{ get_phrase('Name') }}</th>
                                         <th scope="col">{{ get_phrase('Phone') }}</th>
-                                        <th scope="col">{{ get_phrase('Parent Phone') }}</th>
                                         <th scope="col">{{ get_phrase('category') }}</th>
                                         <th scope="col">{{ get_phrase('goverment') }}</th>
                                         <th scope="col">{{ get_phrase('رقم الإقامة') }}</th>
@@ -111,11 +110,7 @@
                                                 </div>
                                             </td>
 
-                                            <td>
-                                                <div class="dAdmin_info_name min-w-150px">
-                                                    <p>{{ $row->parent_phone }}</p>
-                                                </div>
-                                            </td>
+                                          
                                             <td>
                                                 <div class="dAdmin_info_name min-w-150px">
                                                     <p>{{ optional($row->get_category)->title }}</p>

@@ -86,7 +86,6 @@
                                         <th scope="col">#</th>
                                         <th scope="col">{{ get_phrase('الاسم') }}</th>
                                         <th scope="col">{{ get_phrase('رقم الجوال') }}</th>
-                                        <th scope="col">{{ get_phrase('رقم جوال ولي الأمر') }}</th>
                                         <th scope="col">{{ get_phrase('المرحلة الدراسية') }}</th>
                                         <th scope="col">{{ get_phrase('المنطقة') }}</th>
                                         <th scope="col">{{ get_phrase('رقم الإقامة') }}</th>
@@ -122,11 +121,6 @@
                                                 </div>
                                             </td>
 
-                                            <td>
-                                                <div class="dAdmin_info_name min-w-150px">
-                                                    <p>{{ $row->parent_phone }}</p>
-                                                </div>
-                                            </td>
                                             <td>
                                                 <div class="dAdmin_info_name min-w-150px">
                                                     <p>{{ optional($row->get_category)->title }}</p>
