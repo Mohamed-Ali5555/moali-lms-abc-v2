@@ -197,7 +197,9 @@
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
-                        </span> {{ get_theme_settings('copyright_prefix') ?: 'جميع الحقوق محفوظة لـ' }} <a href="{{ get_theme_settings('copyright_url') ?: 'https://wa.me/+201044445330' }}" target="_blank" rel="noopener">{{ get_theme_settings('copyright_text') ?: 'Arkan' }}</a>
+                        </span> جميع الحقوق محفوظة لـ <a href="{{ get_theme_settings('copyright_url') ?: 'https://wa.me/+201026833710' }}" target="_blank" rel="noopener">Arkan</a>
+                        <!-- </span> {{ get_theme_settings('copyright_prefix') ?: 'جميع الحقوق محفوظة لـ' }} <a href="{{ get_theme_settings('copyright_url') ?: 'https://wa.me/+201026833710' }}" target="_blank" rel="noopener">Arkan</a> -->
+
                     </p>
                 @endif
 
