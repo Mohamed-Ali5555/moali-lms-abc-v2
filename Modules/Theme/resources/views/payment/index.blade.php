@@ -46,10 +46,10 @@
                 </div>
 
                 <nav class="pm-steps" aria-label="{{ get_phrase('خطوات الدفع') }}">
-                    <a href="{{ $cancel_url }}" class="pm-step">
+                    <!-- <a href="{{ $cancel_url }}" class="pm-step">
                         <span class="pm-step__num">1</span>
                         <span class="pm-step__label">{{ get_phrase('العربة') }}</span>
-                    </a>
+                    </a> -->
                     <span class="pm-steps__line" aria-hidden="true"></span>
                     <div class="pm-step is-active" aria-current="step">
                         <span class="pm-step__num">2</span>
@@ -136,13 +136,13 @@
                             </div>
                         </div>
 
-                        <a href="{{ $cancel_url }}" class="pm-back">
+                        <!-- <a href="{{ $cancel_url }}" class="pm-back">
                             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             {{ get_phrase('العودة للعربة') }}
-                        </a>
+                        </a> -->
                     </aside>
                 </div>
 
