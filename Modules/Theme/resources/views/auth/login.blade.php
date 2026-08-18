@@ -108,9 +108,9 @@
                             <input class="form-check-input" type="checkbox" name="remember" value="1" id="remember" checked>
                             <span>{{ get_phrase('تذكرني') }}</span>
                         </label>
-                        <a class="lg-forgot" href="{{ route('theme.password.request') }}">
+                        <!-- <a class="lg-forgot" href="{{ route('theme.password.request') }}">
                             {{ get_phrase('نسيت كلمة المرور؟') }}
-                        </a>
+                        </a> -->
                     </div>
 
                     @if (get_frontend_settings('recaptcha_status'))

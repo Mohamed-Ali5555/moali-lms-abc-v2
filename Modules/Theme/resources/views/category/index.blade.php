@@ -224,7 +224,7 @@
                                                         {{ get_phrase('عرض الكورس') }}
                                                     </a>
                                                 @elseif ($isFree)
-                                                    <a href="{{ route('payment.successFree', $course->id) }}"
+                                                    <a href="{{ route('theme.payment.successFree', $course->id) }}"
                                                         class="cat-btn cat-btn--success">
                                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                             fill="none" stroke="currentColor" stroke-width="2"
