@@ -50,9 +50,9 @@
                         <span class="pm-step__num">1</span>
                         <span class="pm-step__label">{{ get_phrase('العربة') }}</span>
                     </a> -->
-                    <span class="pm-steps__line" aria-hidden="true"></span>
+                    <!-- <span class="pm-steps__line" aria-hidden="true"></span> -->
                     <div class="pm-step is-active" aria-current="step">
-                        <span class="pm-step__num">2</span>
+                        <span class="pm-step__num">1</span>
                         <span class="pm-step__label">{{ get_phrase('الدفع') }}</span>
                     </div>
                 </nav>
