@@ -17,7 +17,7 @@
         $coupon_code = $payment_details['coupon'] ?? '';
         $coupon_discount = (float) ($payment_details['custom_field']['coupon_discount'] ?? 0);
         $payable = (float) ($payment_details['payable_amount'] ?? 0);
-        $cancel_url = $payment_details['cancel_url'] ?? route('theme.cart');
+        $cancel_url =  route('theme.cart');
         $is_gift = !empty($payment_details['custom_field']['gifted_user_id'] ?? null);
     @endphp
 
