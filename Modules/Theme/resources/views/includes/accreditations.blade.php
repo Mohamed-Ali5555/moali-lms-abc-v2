@@ -30,22 +30,7 @@
               ? $badgesDecoded
               : $defaultBadges;
 
-    $accrVideoStatus = get_theme_settings('accr_video_status') != '0';
-    $accrVideoUrl    = trim((string) get_theme_settings('accr_video_url'));
-    $accrVideoThumb  = get_theme_settings('accr_video_thumbnail');
-
-    $youtubeId = null;
-    if ($accrVideoUrl !== '') {
-        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/', $accrVideoUrl, $ytMatch)) {
-            $youtubeId = $ytMatch[1];
-        }
-    }
-
-    $videoThumbSrc = $accrVideoThumb
-        ? get_image($accrVideoThumb)
-        : ($youtubeId ? 'https://img.youtube.com/vi/' . $youtubeId . '/maxresdefault.jpg' : '');
-
-    $showAccrVideo = $accrVideoStatus && ($youtubeId || $accrVideoUrl !== '' || $accrVideoThumb);
+  
 @endphp
 
 {{-- ============================================================
@@ -59,44 +44,7 @@
         <span class="accred-section__blob accred-section__blob--2"></span>
     </div>
 
-    @if ($showAccrVideo)
-    <div class="accred-video-banner" id="accredVideoBlock">
-        <button type="button"
-            class="accred-video-banner__trigger"
-            id="accredVideoTrigger"
-            aria-label="تشغيل الفيديو التعريفي"
-            @if ($youtubeId) data-youtube-id="{{ $youtubeId }}" @endif
-            @if ($accrVideoUrl && !$youtubeId) data-video-url="{{ $accrVideoUrl }}" @endif>
-            <span class="accred-video-banner__media">
-                @if ($videoThumbSrc)
-                <img src="{{ $videoThumbSrc }}"
-                    alt=""
-                    class="accred-video-banner__thumb"
-                    loading="lazy"
-                    onerror="this.onerror=null;this.src='{{ $youtubeId ? 'https://img.youtube.com/vi/'.$youtubeId.'/hqdefault.jpg' : '' }}';this.classList.add('accred-video-banner__thumb--fallback');">
-                @else
-                <span class="accred-video-banner__thumb accred-video-banner__thumb--fallback" aria-hidden="true"></span>
-                @endif
-                <span class="accred-video-banner__overlay" aria-hidden="true"></span>
-            </span>
-            <span class="accred-video-banner__play" aria-hidden="true">
-                <i class="fa-solid fa-play"></i>
-            </span>
-        </button>
-    </div>
-
-    <div class="accred-video-modal" id="accredVideoModal" hidden aria-hidden="true">
-        <div class="accred-video-modal__backdrop" id="accredVideoBackdrop"></div>
-        <div class="accred-video-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="accredVideoModalTitle">
-            <button type="button" class="accred-video-modal__close" id="accredVideoClose" aria-label="إغلاق الفيديو">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-            <h3 class="visually-hidden" id="accredVideoModalTitle">فيديو تعريفي</h3>
-            <div class="accred-video-modal__player" id="accredVideoPlayer"></div>
-        </div>
-    </div>
-    @endif
-
+ 
     <div class="container">
         <div class="accred-section__head">
             <span class="accred-section__eyebrow">
@@ -248,170 +196,6 @@
     font-size: .95rem;
     max-width: 500px;
     margin: 0 auto;
-}
-
-/* ── Full-width cinematic video banner ── */
-.accred-video-banner {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .7s ease, transform .7s ease;
-}
-.accred-section.is-visible .accred-video-banner {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.accred-video-banner__trigger {
-    display: block;
-    width: 100%;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-.accred-video-banner__trigger:focus-visible {
-    outline: 3px solid rgba(var(--c-secondary-rgb), .85);
-    outline-offset: -3px;
-}
-
-.accred-video-banner__media {
-    display: block;
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1024 / 285;
-    min-height: 220px;
-    max-height: 600px;
-    overflow: hidden;
-    background: #1a1a1a;
-}
-
-.accred-video-banner__thumb {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transform: scale(1.03);
-    transition: transform .7s ease;
-}
-.accred-video-banner__thumb--fallback {
-    background:
-        linear-gradient(135deg, rgba(var(--c-accent-rgb), .35), rgba(var(--c-secondary-rgb), .25)),
-        rgb(var(--c-primary-rgb));
-}
-.accred-video-banner__trigger:hover .accred-video-banner__thumb {
-    transform: scale(1.06);
-}
-
-.accred-video-banner__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.38);
-    pointer-events: none;
-    transition: background .35s ease;
-}
-.accred-video-banner__trigger:hover .accred-video-banner__overlay {
-    background: rgba(0, 0, 0, 0.28);
-}
-
-.accred-video-banner__play {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    width: clamp(64px, 7vw, 84px);
-    height: clamp(64px, 7vw, 84px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: var(--ac);
-    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
-    padding-inline-start: .28rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
-    transition: transform .3s ease, box-shadow .3s ease;
-}
-.accred-video-banner__trigger:hover .accred-video-banner__play {
-    transform: translate(-50%, -50%) scale(1.06);
-    box-shadow: 0 14px 48px rgba(0, 0, 0, 0.38);
-}
-
-/* ── Video modal ── */
-.accred-video-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
-}
-.accred-video-modal[hidden] { display: none; }
-
-.accred-video-modal__backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(8, 12, 24, 0.82);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-}
-
-.accred-video-modal__dialog {
-    position: relative;
-    z-index: 1;
-    width: min(960px, 100%);
-    border-radius: 1.1rem;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-    animation: accredModalIn .35s ease;
-}
-@keyframes accredModalIn {
-    from { opacity: 0; transform: translateY(16px) scale(.97); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.accred-video-modal__close {
-    position: absolute;
-    top: .75rem;
-    left: .75rem;
-    z-index: 2;
-    width: 40px;
-    height: 40px;
-    border: 0;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background .2s, transform .2s;
-}
-.accred-video-modal__close:hover {
-    background: rgba(0, 0, 0, 0.75);
-    transform: scale(1.06);
-}
-
-.accred-video-modal__player {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    background: #000;
-}
-.accred-video-modal__player iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
 }
 
 .accred-ticker-wrap {
@@ -586,7 +370,6 @@
 @media (max-width: 480px) {
     .accred-stats { flex-wrap: wrap; gap: 1.2rem; }
     .accred-stat__sep { display: none; }
-    .accred-video-banner__media { min-height: 200px; }
     .accred-section__head { padding-top: 2.5rem; }
 }
 
@@ -594,8 +377,6 @@
     .accred-ticker { animation: none; }
     .accred-ticker__track { flex-wrap: wrap; }
     .accred-ticker__track[aria-hidden="true"] { display: none; }
-    .accred-video-banner__trigger:hover .accred-video-banner__thumb { transform: none; }
-    .accred-video-banner__trigger:hover .accred-video-banner__play { transform: translate(-50%, -50%); }
 }
 </style>
 
@@ -609,51 +390,5 @@
         });
     }, { threshold: 0.06 });
     io.observe(s);
-
-    var trigger = document.getElementById('accredVideoTrigger');
-    var modal   = document.getElementById('accredVideoModal');
-    var player  = document.getElementById('accredVideoPlayer');
-    var closeBtn = document.getElementById('accredVideoClose');
-    var backdrop = document.getElementById('accredVideoBackdrop');
-    if (!trigger || !modal || !player) return;
-
-    function closeVideoModal() {
-        modal.hidden = true;
-        modal.setAttribute('aria-hidden', 'true');
-        player.innerHTML = '';
-        document.body.style.overflow = '';
-    }
-
-    function openVideoModal() {
-        var ytId = trigger.getAttribute('data-youtube-id');
-        var extUrl = trigger.getAttribute('data-video-url');
-
-        player.innerHTML = '';
-
-        if (ytId) {
-            var iframe = document.createElement('iframe');
-            iframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0&modestbranding=1';
-            iframe.title = trigger.getAttribute('aria-label') || 'Video';
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-            iframe.allowFullscreen = true;
-            player.appendChild(iframe);
-            modal.hidden = false;
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-            if (closeBtn) closeBtn.focus();
-            return;
-        }
-
-        if (extUrl) {
-            window.open(extUrl, '_blank', 'noopener,noreferrer');
-        }
-    }
-
-    trigger.addEventListener('click', openVideoModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
-    if (backdrop) backdrop.addEventListener('click', closeVideoModal);
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && !modal.hidden) closeVideoModal();
-    });
 })();
 </script>
