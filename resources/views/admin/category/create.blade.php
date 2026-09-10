@@ -14,7 +14,7 @@
         <div class="mb-3">
             <label for="description" class="form-label ol-form-label">{{ get_phrase('Category Description') }}
                 <small class="text-muted">({{ get_phrase('optional') }})</small></label>
-            <textarea name="description" rows="4" class="form-control ol-form-control text_editor" id="description"
+            <textarea name="description" rows="4" class="form-control ol-form-control text_editor_lite" id="description"
                 placeholder="{{ get_phrase('Enter your description') }}"
                 aria-label="{{ get_phrase('Enter your description') }}"></textarea>
         </div>

@@ -15,26 +15,31 @@
             <td style="padding:30px; text-align:right; color:#333; line-height:1.6;">
                 <p>مرحباً <strong>{{ $user->name ?? 'عزيزي المستخدم' }}</strong>،</p>
                 <p>لقد طلبت إعادة تعيين كلمة المرور لحسابك لدينا.</p>
-                <p>اضغط على الزر التالي لإعادة تعيين كلمة المرور:</p>
+
+                <p style="margin-top: 20px; font-weight: bold;">اتبع الخطوات التالية:</p>
+                <ol style="padding-right: 20px; margin: 10px 0 20px; line-height: 1.8;">
+                    <li>اضغط على زر «إعادة تعيين الآن» أدناه.</li>
+                    <li>ستُفتح صفحة لتعيين كلمة مرور جديدة.</li>
+                    <li>أدخل كلمة المرور الجديدة مرتين للتأكيد.</li>
+                    <li>بعد الحفظ، سجّل الدخول بكلمة المرور الجديدة.</li>
+                </ol>
 
                 <p style="text-align:center; margin:30px 0;">
                     <a href="{{ $url }}"
-                       style="background-color:#1bb1b2; color:#fff; text-decoration:none; padding:14px 28px; border-radius:8px; font-weight:bold; display:inline-block; transition: background-color 0.3s;"
-                       onmouseover="this.style.backgroundColor='#169a9b'"
-                       onmouseout="this.style.backgroundColor='#1bb1b2'">
+                       style="background-color:#1bb1b2; color:#fff; text-decoration:none; padding:14px 28px; border-radius:8px; font-weight:bold; display:inline-block;">
                         إعادة تعيين الآن
                     </a>
+                </p>
+
+                <p style="font-size: 13px; color: #666; background: #f9f9f9; padding: 12px; border-radius: 8px;">
+                    <strong>ملاحظة:</strong> هذا الرابط صالح لمدة <strong>60 دقيقة</strong> فقط. إذا انتهت صلاحيته، اطلب رابطاً جديداً من صفحة «نسيت كلمة المرور».
                 </p>
 
                 <p>إذا لم تطلب ذلك، يمكنك تجاهل هذه الرسالة ولن يحدث أي تغيير لحسابك.</p>
 
                 <p style="margin-top:30px; color:#777;">
                     تحياتنا ❤️<br>
-                    <strong>فريق الدعم الفني</strong><br>
-                    <span style="font-size:13px;">
-                        البريد الإلكتروني: mohammedelbalshy4@gmail.com<br>
-                       +رقم الهاتف: 01044445330
-                    </span>
+                    <strong>فريق الدعم الفني</strong>
                 </p>
             </td>
         </tr>

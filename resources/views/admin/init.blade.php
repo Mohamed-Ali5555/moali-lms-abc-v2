@@ -122,19 +122,43 @@
             $('select.select2:not(.inited)').addClass('inited');
         }
 
-        //Text editor
-        if ($('.text_editor:not(.inited)').length) {
+        // Text editor
+        if ($('.text_editor:not(.inited)').length || $('.text_editor_lite:not(.inited)').length) {
             Promise.all([
                 lmsLoadAsset.css(asset('assets/global/summernote/summernote-lite.min.css')),
                 lmsLoadAsset.js(asset('assets/global/summernote/summernote-lite.min.js'))
             ]).then(function() {
-                $('.text_editor:not(.inited)').summernote({
-                    height: 180,
-                    minHeight: null,
-                    maxHeight: null,
-                    focus: true,
-                });
-                $('.text_editor:not(.inited)').addClass('inited');
+                if ($('.text_editor:not(.inited)').length) {
+                    $('.text_editor:not(.inited)').summernote({
+                        height: 180,
+                        minHeight: null,
+                        maxHeight: null,
+                        focus: true,
+                    });
+                    $('.text_editor:not(.inited)').addClass('inited');
+                }
+
+                if ($('.text_editor_lite:not(.inited)').length) {
+                    $('.text_editor_lite:not(.inited)').summernote({
+                        height: 180,
+                        focus: false,
+                        toolbar: [
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],
+                        ],
+                        popover: {
+                            image: [],
+                            link: [],
+                            table: [],
+                            air: [],
+                        },
+                        disableDragAndDrop: true,
+                        callbacks: {
+                            onImageUpload: function() {},
+                        },
+                    });
+                    $('.text_editor_lite:not(.inited)').addClass('inited');
+                }
             });
         }
 

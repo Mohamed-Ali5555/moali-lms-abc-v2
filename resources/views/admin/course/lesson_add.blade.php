@@ -110,7 +110,7 @@
 
             <div class="form-group mb-3">
                 <label class="form-label ol-form-label">{{ get_phrase('Summary') }}</label>
-                <textarea name="summary" class="form-control text_editor" placeholder="{{ get_phrase('Optional short summary for students') }}"></textarea>
+                <textarea name="summary" class="form-control text_editor_lite" placeholder="{{ get_phrase('Optional short summary for students') }}"></textarea>
             </div>
         </div>
 

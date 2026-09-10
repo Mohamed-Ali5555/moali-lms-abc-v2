@@ -3,10 +3,6 @@
 namespace Modules\Theme\App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\WhatsappTemplate;
-use App\Services\WaPilot\WaPilotClient;
-use App\Services\WaPilot\WhatsAppNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
@@ -26,84 +22,46 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset request via phone + WhatsApp.
+     * Handle an incoming password reset request via email.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request, WhatsAppNotifier $notifier, WaPilotClient $client): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email'],
         ], [
-            'phone.required' => 'رقم الهاتف مطلوب.',
+            'email.required' => 'البريد الإلكتروني مطلوب.',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صالح.',
         ]);
 
         $this->ensureIsNotRateLimited($request);
 
-        if (!$client->isEnabled()) {
-            return back()
-                ->withInput($request->only('phone'))
-                ->withErrors(['phone' => 'خدمة واتساب غير مفعّلة حالياً. تواصل مع الإدارة.']);
-        }
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-        $template = WhatsappTemplate::where('event_key', 'password_reset')->first();
-        if (!$template || !$template->is_active) {
-            return back()
-                ->withInput($request->only('phone'))
-                ->withErrors(['phone' => 'قالب استعادة كلمة المرور غير مفعّل في إعدادات واتساب. تواصل مع الإدارة.']);
-        }
+        $genericSuccess = 'إذا كان البريد مسجّلاً لدينا فستصلك رسالة تحتوي على رابط إعادة تعيين كلمة المرور. تحقق من صندوق الوارد ومجلد الرسائل غير المرغوب فيها (Spam).';
 
-        $user = $this->findUserByPhone((string) $request->input('phone'));
-
-        // Always show a generic success message when the phone is unknown
-        // so we do not leak whether an account exists.
-        if (!$user) {
+        if ($status === Password::RESET_LINK_SENT || $status === Password::INVALID_USER) {
             RateLimiter::hit($this->throttleKey($request));
 
-            return back()->with('status', 'إذا كان الرقم مسجّلاً لدينا فستصلك رسالة واتساب برابط إعادة تعيين كلمة المرور.');
+            return back()->with('status', $genericSuccess);
         }
 
-        if (!$client->normalizePhone($user->phone)) {
-            return back()
-                ->withInput($request->only('phone'))
-                ->withErrors(['phone' => 'رقم الهاتف المسجّل غير صالح لإرسال واتساب. تواصل مع الإدارة.']);
-        }
+        RateLimiter::hit($this->throttleKey($request));
 
-        $token = Password::broker()->createToken($user);
-        $resetLink = url(route('theme.password.reset', [
-            'token' => $token,
-            'email' => $user->email,
-        ], false));
-
-        $notifier->notifyPasswordReset($user, $resetLink);
-
-        RateLimiter::clear($this->throttleKey($request));
-
-        return back()->with('status', 'تم إرسال رابط إعادة تعيين كلمة المرور عبر واتساب. تحقق من رسائلك.');
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => $this->translateStatus($status)]);
     }
 
-    protected function findUserByPhone(string $phone): ?User
+    protected function translateStatus(string $status): string
     {
-        $raw = trim($phone);
-        $digits = preg_replace('/\D+/', '', $raw) ?: '';
-
-        $candidates = array_values(array_unique(array_filter([
-            $raw,
-            $digits,
-            ltrim($digits, '0'),
-            $digits !== '' ? ('0' . ltrim($digits, '0')) : null,
-            str_starts_with($digits, '20') ? ('0' . substr($digits, 2)) : null,
-            str_starts_with($digits, '20') ? substr($digits, 2) : null,
-            str_starts_with($digits, '0') ? ('20' . substr($digits, 1)) : null,
-        ])));
-
-        if ($candidates === []) {
-            return null;
-        }
-
-        return User::query()
-            ->whereIn('phone', $candidates)
-            ->first();
+        return match ($status) {
+            Password::RESET_THROTTLED => 'تم إرسال رابط مؤخراً. يرجى الانتظار قبل المحاولة مرة أخرى.',
+            default => 'تعذّر إرسال رابط إعادة التعيين. حاول مرة أخرى لاحقاً.',
+        };
     }
 
     protected function ensureIsNotRateLimited(Request $request): void
@@ -115,12 +73,12 @@ class PasswordResetLinkController extends Controller
         $seconds = RateLimiter::availableIn($this->throttleKey($request));
 
         throw ValidationException::withMessages([
-            'phone' => 'محاولات كثيرة. حاول مرة أخرى بعد ' . $seconds . ' ثانية.',
+            'email' => 'محاولات كثيرة. حاول مرة أخرى بعد ' . $seconds . ' ثانية.',
         ]);
     }
 
     protected function throttleKey(Request $request): string
     {
-        return Str::transliterate(Str::lower((string) $request->input('phone')) . '|' . $request->ip());
+        return Str::transliterate(Str::lower((string) $request->input('email')) . '|' . $request->ip());
     }
 }

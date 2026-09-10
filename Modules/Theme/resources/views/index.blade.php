@@ -3,21 +3,16 @@
 @include('theme::includes.banner')
 @php
     $accrVideoStatus = get_theme_settings('accr_video_status') != '0';
-    $accrVideoUrl    = trim((string) get_theme_settings('accr_video_url'));
+    $accrVideoFile   = get_theme_settings('accr_video');
     $accrVideoThumb  = get_theme_settings('accr_video_thumbnail');
 
-    $youtubeId = null;
-    if ($accrVideoUrl !== '') {
-        if (preg_match('/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/', $accrVideoUrl, $ytMatch)) {
-            $youtubeId = $ytMatch[1];
-        }
-    }
+    $accrVideoFileUrl = $accrVideoFile ? asset($accrVideoFile) : '';
 
     $videoThumbSrc = $accrVideoThumb
         ? get_image($accrVideoThumb)
-        : ($youtubeId ? 'https://img.youtube.com/vi/' . $youtubeId . '/maxresdefault.jpg' : '');
+        : '';
 
-    $showAccrVideo = $accrVideoStatus && ($youtubeId || $accrVideoUrl !== '' || $accrVideoThumb);
+    $showAccrVideo = $accrVideoStatus && $accrVideoFile;
 
     if ($showAccrVideo) {
         $acColors      = get_active_theme_colors();
@@ -37,20 +32,19 @@
 
         <div class="container">
             <div class="home-video-section__inner" id="accredVideoBlock">
-                <div class="accred-video-banner">
+                <div class="accred-video-banner" id="accredVideoBanner">
                     <button type="button"
                         class="accred-video-banner__trigger"
                         id="accredVideoTrigger"
                         aria-label="تشغيل الفيديو التعريفي"
-                        @if ($youtubeId) data-youtube-id="{{ $youtubeId }}" @endif
-                        @if ($accrVideoUrl && !$youtubeId) data-video-url="{{ $accrVideoUrl }}" @endif>
+                        @if ($accrVideoFileUrl) data-video-file="{{ $accrVideoFileUrl }}" @endif>
                         <span class="accred-video-banner__media">
                             @if ($videoThumbSrc)
                             <img src="{{ $videoThumbSrc }}"
                                 alt=""
                                 class="accred-video-banner__thumb"
                                 loading="lazy"
-                                onerror="this.onerror=null;this.src='{{ $youtubeId ? 'https://img.youtube.com/vi/'.$youtubeId.'/hqdefault.jpg' : '' }}';this.classList.add('accred-video-banner__thumb--fallback');">
+                                onerror="this.onerror=null;this.classList.add('accred-video-banner__thumb--fallback');">
                             @else
                             <span class="accred-video-banner__thumb accred-video-banner__thumb--fallback" aria-hidden="true"></span>
                             @endif
@@ -64,17 +58,6 @@
             </div>
         </div>
     </section>
-
-    <div class="accred-video-modal" id="accredVideoModal" hidden aria-hidden="true">
-        <div class="accred-video-modal__backdrop" id="accredVideoBackdrop"></div>
-        <div class="accred-video-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="accredVideoModalTitle">
-            <button type="button" class="accred-video-modal__close" id="accredVideoClose" aria-label="إغلاق الفيديو">
-                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-            </button>
-            <h3 class="visually-hidden" id="accredVideoModalTitle">فيديو تعريفي</h3>
-            <div class="accred-video-modal__player" id="accredVideoPlayer"></div>
-        </div>
-    </div>
 
     <style>
     .home-video-section {
@@ -264,69 +247,26 @@
             0 14px 48px rgba(0, 0, 0, 0.38),
             0 0 0 8px rgba(var(--c-accent-rgb), .24);
     }
-    .accred-video-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1.25rem;
+    .accred-video-banner.is-playing .accred-video-banner__trigger {
+        display: none;
     }
-    .accred-video-modal[hidden] { display: none; }
-    .accred-video-modal__backdrop {
-        position: absolute;
-        inset: 0;
-        background: rgba(8, 12, 24, 0.82);
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-    }
-    .accred-video-modal__dialog {
+    .accred-video-banner__embed {
         position: relative;
-        z-index: 1;
-        width: min(960px, 100%);
-        border-radius: 1.1rem;
-        overflow: hidden;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-        animation: accredModalIn .35s ease;
-    }
-    @keyframes accredModalIn {
-        from { opacity: 0; transform: translateY(16px) scale(.97); }
-        to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .accred-video-modal__close {
-        position: absolute;
-        top: .75rem;
-        left: .75rem;
-        z-index: 2;
-        width: 40px;
-        height: 40px;
-        border: 0;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.55);
-        color: #fff;
-        font-size: 1.1rem;
-        cursor: pointer;
-        transition: background .2s, transform .2s;
-    }
-    .accred-video-modal__close:hover {
-        background: rgba(0, 0, 0, 0.75);
-        transform: scale(1.06);
-    }
-    .accred-video-modal__player {
-        position: relative;
+        width: 100%;
         aspect-ratio: 16 / 9;
+        min-height: 220px;
+        max-height: 520px;
         background: #000;
+        overflow: hidden;
     }
-    .accred-video-modal__player iframe {
+    .accred-video-banner__embed video {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        border: 0;
+        object-fit: contain;
+        display: block;
+        background: #000;
     }
     @media (max-width: 767px) {
         .home-video-section { padding: 2rem 0 2.5rem; }
@@ -344,12 +284,9 @@
     <script>
     (function () {
         var block = document.getElementById('accredVideoBlock');
+        var banner = document.getElementById('accredVideoBanner');
         var trigger = document.getElementById('accredVideoTrigger');
-        var modal   = document.getElementById('accredVideoModal');
-        var player  = document.getElementById('accredVideoPlayer');
-        var closeBtn = document.getElementById('accredVideoClose');
-        var backdrop = document.getElementById('accredVideoBackdrop');
-        if (!block || !trigger || !modal || !player) return;
+        if (!block || !banner || !trigger) return;
 
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (e) {
@@ -361,44 +298,27 @@
         }, { threshold: 0.06 });
         io.observe(block);
 
-        function closeVideoModal() {
-            modal.hidden = true;
-            modal.setAttribute('aria-hidden', 'true');
-            player.innerHTML = '';
-            document.body.style.overflow = '';
+        function playInline() {
+            var fileUrl = trigger.getAttribute('data-video-file');
+            if (!fileUrl || banner.classList.contains('is-playing')) return;
+
+            var embed = document.createElement('div');
+            embed.className = 'accred-video-banner__embed';
+
+            var video = document.createElement('video');
+            video.src = fileUrl;
+            video.controls = true;
+            video.autoplay = true;
+            video.playsInline = true;
+            video.setAttribute('preload', 'metadata');
+            video.setAttribute('aria-label', trigger.getAttribute('aria-label') || 'فيديو تعريفي');
+
+            embed.appendChild(video);
+            banner.appendChild(embed);
+            banner.classList.add('is-playing');
         }
 
-        function openVideoModal() {
-            var ytId = trigger.getAttribute('data-youtube-id');
-            var extUrl = trigger.getAttribute('data-video-url');
-
-            player.innerHTML = '';
-
-            if (ytId) {
-                var iframe = document.createElement('iframe');
-                iframe.src = 'https://www.youtube.com/embed/' + ytId + '?autoplay=1&rel=0&modestbranding=1';
-                iframe.title = trigger.getAttribute('aria-label') || 'Video';
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-                iframe.allowFullscreen = true;
-                player.appendChild(iframe);
-                modal.hidden = false;
-                modal.setAttribute('aria-hidden', 'false');
-                document.body.style.overflow = 'hidden';
-                if (closeBtn) closeBtn.focus();
-                return;
-            }
-
-            if (extUrl) {
-                window.open(extUrl, '_blank', 'noopener,noreferrer');
-            }
-        }
-
-        trigger.addEventListener('click', openVideoModal);
-        if (closeBtn) closeBtn.addEventListener('click', closeVideoModal);
-        if (backdrop) backdrop.addEventListener('click', closeVideoModal);
-        document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && !modal.hidden) closeVideoModal();
-        });
+        trigger.addEventListener('click', playInline);
     })();
     </script>
 @endif
@@ -437,7 +357,7 @@
                             <span class="year-portal__index">{{ str_pad((string) $loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
                         </div>
                         <div class="year-portal__body">
-                            <span class="year-portal__eyebrow">السنة الدراسية</span>
+                            <span class="year-portal__eyebrow">برامجنا</span>
                             <h3 class="year-portal__title">{{ $category->title }}</h3>
                             @if (!empty(trim(strip_tags($category->description ?? ''))))
                                 <div class="year-portal__desc">{!! $category->description !!}</div>

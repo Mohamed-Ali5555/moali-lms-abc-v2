@@ -58,8 +58,7 @@
 
     <div class="accred-ticker-wrap">
         <div class="accred-ticker" id="accredTicker" aria-label="شركاؤنا واعتماداتنا">
-            @for ($pass = 0; $pass < 2; $pass++)
-            <div class="accred-ticker__track" aria-hidden="{{ $pass === 1 ? 'true' : 'false' }}">
+            <div class="accred-ticker__track">
                 @foreach ($badges as $badge)
                 <div class="accred-badge">
                     <div class="accred-badge__inner">
@@ -74,7 +73,6 @@
                 </div>
                 @endforeach
             </div>
-            @endfor
         </div>
     </div>
 
@@ -212,7 +210,6 @@
 .accred-ticker {
     display: flex;
     width: max-content;
-    animation: accredScroll 40s linear infinite;
 }
 
 .accred-ticker:hover { animation-play-state: paused; }
@@ -221,11 +218,14 @@
     display: flex;
     gap: 1.1rem;
     padding: 1.2rem .55rem;
+    width: max-content;
+    animation: accredScroll var(--accred-duration, 30s) ease-in-out infinite alternate;
+    will-change: transform;
 }
 
 @keyframes accredScroll {
     0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    100% { transform: translateX(var(--accred-shift, 0px)); }
 }
 
 .accred-badge { flex-shrink: 0; cursor: default; }
@@ -374,9 +374,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .accred-ticker { animation: none; }
-    .accred-ticker__track { flex-wrap: wrap; }
-    .accred-ticker__track[aria-hidden="true"] { display: none; }
+    .accred-ticker__track { animation: none; }
 }
 </style>
 
@@ -384,6 +382,18 @@
 (function () {
     var s = document.getElementById('accreditations-section');
     if (!s) return;
+
+    var ticker = s.querySelector('.accred-ticker');
+    var track = s.querySelector('.accred-ticker__track');
+    var updateTicker = function () {
+        if (!ticker || !track) return;
+        var shift = Math.min(0, ticker.clientWidth - track.scrollWidth - 16);
+        track.style.setProperty('--accred-shift', shift + 'px');
+        track.style.setProperty('--accred-duration', Math.max(20, Math.abs(shift) * 0.035) + 's');
+    };
+    updateTicker();
+    window.addEventListener('resize', updateTicker);
+
     var io = new IntersectionObserver(function (entries) {
         entries.forEach(function (e) {
             if (e.isIntersecting) { s.classList.add('is-visible'); io.unobserve(s); }

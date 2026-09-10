@@ -40,7 +40,7 @@
 
             <div class="col-lg-6">
                 <div class="hero-content-wrapper">
-                    <p class="hero-welcome">أهلاً بكم في منصة</p>
+                    <p class="hero-welcome">{{ get_theme_settings('hero_welcome') ?: 'أهلاً بكم في منصة' }}</p>
                     <div class="hero-teacher-name-wrapper">
                         <h1 class="hero-teacher-name">{{ get_theme_settings('jop_title') }} / <br />
                             {{ get_theme_settings('name') }}</h1>

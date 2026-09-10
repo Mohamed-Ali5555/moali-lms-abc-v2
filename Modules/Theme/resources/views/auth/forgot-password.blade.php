@@ -21,31 +21,31 @@
                     @endif
 
                     <span class="lg-brand__badge">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        {{ get_phrase('استعادة عبر واتساب') }}
+                        <i class="fa-solid fa-envelope"></i>
+                        {{ get_phrase('استعادة عبر البريد الإلكتروني') }}
                     </span>
 
                     <h1 class="lg-brand__title">
                         {{ get_phrase('نسيت كلمة المرور؟') }}
                     </h1>
                     <p class="lg-brand__desc">
-                        {{ get_phrase('أدخل رقم هاتفك المسجّل وسنرسل لك رابط إعادة التعيين عبر رسالة واتساب.') }}
+                        {{ get_phrase('لا تقلق — يمكنك استعادة حسابك بخطوات بسيطة عبر البريد الإلكتروني المسجّل.') }}
                     </p>
 
-                    <ul class="lg-brand__points">
-                        <li>
-                            <i class="fa-solid fa-mobile-screen"></i>
-                            {{ get_phrase('استخدم نفس رقم تسجيل الدخول') }}
+                    <ol class="lg-brand__points" style="list-style: none; counter-reset: step; padding: 0;">
+                        <li style="counter-increment: step; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                            <span style="min-width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.2); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold;">1</span>
+                            <span>{{ get_phrase('أدخل بريدك الإلكتروني المسجّل في الحساب') }}</span>
                         </li>
-                        <li>
-                            <i class="fa-brands fa-whatsapp"></i>
-                            {{ get_phrase('الرابط يصل فوراً على واتساب') }}
+                        <li style="counter-increment: step; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                            <span style="min-width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.2); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold;">2</span>
+                            <span>{{ get_phrase('افتح بريدك واضغط على رابط إعادة التعيين') }}</span>
                         </li>
-                        <li>
-                            <i class="fa-solid fa-shield-halved"></i>
-                            {{ get_phrase('الرابط صالح لفترة محدودة فقط') }}
+                        <li style="counter-increment: step; display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px;">
+                            <span style="min-width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,.2); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: bold;">3</span>
+                            <span>{{ get_phrase('اختر كلمة مرور جديدة وسجّل الدخول') }}</span>
                         </li>
-                    </ul>
+                    </ol>
                 </div>
 
                 <div class="lg-brand__art">
@@ -57,12 +57,18 @@
                 <p class="lg-form__eyebrow">{{ get_phrase('PASSWORD RESET') }}</p>
                 <h2 class="lg-form__title">{{ get_phrase('استعادة الحساب') }}</h2>
                 <p class="lg-form__sub">
-                    {{ get_phrase('اكتب رقم الهاتف المسجّل في حسابك وسنرسل لك رسالة واتساب برابط تعيين كلمة مرور جديدة.') }}
+                    {{ get_phrase('اكتب بريدك الإلكتروني وسنرسل لك رابطاً آمناً لتعيين كلمة مرور جديدة.') }}
                 </p>
 
                 @if (session('status'))
                     <div class="lg-alert lg-alert--success" role="status">
-                        {{ session('status') }}
+                        <strong>{{ get_phrase('تم إرسال الطلب') }}</strong>
+                        <p style="margin: 8px 0 0;">{{ session('status') }}</p>
+                        <ul style="margin: 12px 0 0; padding-right: 18px; font-size: 14px; line-height: 1.7;">
+                            <li>{{ get_phrase('تحقق من صندوق الوارد') }}</li>
+                            <li>{{ get_phrase('راجع مجلد الرسائل غير المرغوب فيها (Spam / Junk)') }}</li>
+                            <li>{{ get_phrase('الرابط صالح لمدة 60 دقيقة فقط') }}</li>
+                        </ul>
                     </div>
                 @endif
 
@@ -76,25 +82,24 @@
                     @csrf
 
                     <div class="lg-field">
-                        <label for="phone">{{ get_phrase('رقم الهاتف') }}</label>
+                        <label for="email">{{ get_phrase('البريد الإلكتروني') }}</label>
                         <div class="lg-input">
-                            <i class="fa-solid fa-phone lg-input__icon"></i>
+                            <i class="fa-solid fa-envelope lg-input__icon"></i>
                             <input
-                                type="text"
-                                id="phone"
-                                name="phone"
-                                value="{{ old('phone') }}"
-                                placeholder="01XXXXXXXXX"
-                                inputmode="numeric"
-                                autocomplete="tel"
+                                type="email"
+                                id="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                placeholder="example@email.com"
+                                autocomplete="email"
                                 required
                             >
                         </div>
                     </div>
 
                     <button type="submit" class="lg-submit eBtn gradient">
-                        <i class="fa-brands fa-whatsapp"></i>
-                        {{ get_phrase('إرسال رابط واتساب') }}
+                        <i class="fa-solid fa-paper-plane"></i>
+                        {{ get_phrase('إرسال رابط إعادة التعيين') }}
                     </button>
                 </form>
 
