@@ -269,7 +269,7 @@ class PurchaseController extends Controller
             'payable_amount' => round($request->payable, 2),
             'total_amount'   => round($request->payable + ($request->coupon_discount != '' ? $request->coupon_discount : 0), 2),
             'cancel_url'     => route('cart'),
-            'success_url'    => route('payment.success', ''),
+            'success_url'    => route('theme.payment.success', ''),
         ];
 
         Session::put(['payment_details' => $payment_details]);
