@@ -154,10 +154,10 @@
 
                                     <div class="mc-card__actions">
                                         @if ($enroll_status == 'free_locked')
-                                            <a class="mc-btn mc-btn--primary" href="{{ route('theme.course.details', $course->course_id) }}">
+                                            <a class="mc-btn mc-btn--warn" href="{{ route('theme.purchase.course', ['course_id' => $course->course_id]) }}">
                                                 <i class="fa-solid fa-lock"></i>
-                                                {{ get_phrase('اشترِ للوصول') }}
-                                            </a>
+                                                {{ get_phrase('الكورس اصبح مجانا اشترِ للوصول') }}
+                                             </a>
                                         @elseif ($enroll_status == 'expired')
                                             <a class="mc-btn mc-btn--warn" href="{{ route('theme.purchase.course', ['course_id' => $course->course_id]) }}">
                                                 <i class="fa-solid fa-rotate"></i>

@@ -161,23 +161,23 @@
                                                         data-bs-toggle="dropdown" aria-expanded="false">
                                                         <span class="fi-rr-menu-dots-vertical"></span>
                                                     </button>
-                                                    <ul class="dropdown-menu">
+                                                    <ul class="dropdown-menu dropdown-menu-end p-2">
                                                         @if (has_permission('admin.student.edit'))
                                                             <li>
-                                                                <a class="dropdown-item text-center"
+                                                                <a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2"
                                                                     href="{{ route('admin.student.edit', $row->id) }}">
-                                                                    <i class="fa-solid fa-pen-to-square"
-                                                                        style="color:#198754;font-size:20px"></i>
+                                                                    <i class="fa-solid fa-pen-to-square text-success" aria-hidden="true"></i>
+                                                                    <span>{{ get_phrase('تعديل بيانات الطالب') }}</span>
                                                                 </a>
                                                             </li>
                                                         @endif
                                                         @if (has_permission('admin.student.delete'))
                                                             <li>
-                                                                <a class="dropdown-item text-center"
+                                                                <a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2 text-danger"
                                                                     onclick="confirmModal('{{ route('admin.student.delete', $row->id) }}')"
                                                                     href="javascript:void(0)">
-                                                                    <i class="fa-solid fa-trash-can"
-                                                                        style="color:#be1b2b;font-size:20px"></i>
+                                                                    <i class="fa-solid fa-trash-can" aria-hidden="true"></i>
+                                                                    <span>{{ get_phrase('حذف الطالب') }}</span>
                                                                 </a>
                                                             </li>
                                                         @endif
@@ -185,21 +185,20 @@
 
                                                         @if (has_permission('admin.student.remove-device'))
                                                             <li>
-                                                                <a class="dropdown-item text-center"
+                                                                <a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2"
                                                                     onclick="confirmModal('{{ route('admin.student.remove-device', $row->id) }}')"
                                                                     href="javascript:void(0)">
-                                                                    <i class="fa-solid fa-mobile-alt"
-                                                                        style="color:#6a4fe1;font-size:20px"></i>
+                                                                    <i class="fa-solid fa-mobile-screen-button text-primary" aria-hidden="true"></i>
+                                                                    <span>{{ get_phrase('إزالة الجهاز') }}</span>
                                                                 </a>
                                                             </li>
                                                         @endif
                                                         @if (has_permission('admin.student.login'))
                                                             <li>
-                                                                <a class="dropdown-item text-center"
-                                                                    href="{{ route('admin.student.login', $row->id) }}"
-                                                                    href="javascript:void(0)">
-                                                                    <i class="fa-solid fa-user-check"
-                                                                        style="color:#6a4fe1;font-size:20px"></i>
+                                                                <a class="dropdown-item d-flex align-items-center gap-2 rounded-2 py-2"
+                                                                    href="{{ route('admin.student.login', $row->id) }}">
+                                                                    <i class="fa-solid fa-user-check text-primary" aria-hidden="true"></i>
+                                                                    <span>{{ get_phrase('تسجيل الدخول كطالب') }}</span>
                                                                 </a>
                                                             </li>
                                                         @endif

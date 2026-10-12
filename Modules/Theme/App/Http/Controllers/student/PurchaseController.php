@@ -78,72 +78,74 @@ class PurchaseController extends Controller
 
     public function purchase_course($course_id)
     {
-
         // validate course id
-        if (!is_numeric($course_id) && $course_id < 1) {
+        if (!is_numeric($course_id) || (int) $course_id < 1) {
+            Session::flash('error', get_phrase('Data not found.'));
+            return redirect()->back();
+        }
+
+        $course_details = Course::find($course_id);
+        if (!$course_details) {
             Session::flash('error', get_phrase('Data not found.'));
             return redirect()->back();
         }
 
         // check personal course
-        if (Course::where('id', $course_id)->where('user_id', auth()->user()->id)->exists()) {
+        if ((int) $course_details->user_id === (int) auth()->id()) {
             Session::flash('error', get_phrase('Ops! You own this course.'));
             return redirect()->back();
         }
 
-        // Check if the course is purchased and not expired
-        $existingEnrollment = Enrollment::where('user_id', auth()->user()->id)
+        // Renew free access in place when an expired enrollment already exists.
+        if ($course_details->is_paid == 0) {
+            $course_info = get_course_info($course_id);
+            $expiryDate = $course_info->expiry_period > 0
+                ? strtotime('+' . ($course_info->expiry_period * 30) . ' days')
+                : null;
+
+            $enrollment = Enrollment::where('user_id', auth()->id())
+                ->where('course_id', $course_id)
+                ->latest('id')
+                ->first();
+
+            $enrollmentData = [
+                'user_id' => auth()->id(),
+                'course_id' => $course_id,
+                'enrollment_type' => 'free',
+                'entry_date' => time(),
+                'expiry_date' => $expiryDate,
+            ];
+
+            if ($enrollment) {
+                $enrollment->update($enrollmentData);
+            } else {
+                Enrollment::create($enrollmentData);
+            }
+
+            return redirect()->route('my.courses');
+        }
+
+        // A previous free enrollment must not block purchasing a course that became paid.
+        $validPaidEnrollment = Enrollment::where('user_id', auth()->id())
             ->where('course_id', $course_id)
+            ->whereNotNull('payment_history_id')
             ->where(function ($query) {
                 $query->where('expiry_date', '>', now()->timestamp)
                     ->orWhereNull('expiry_date');
             })
             ->exists();
 
-        if ($existingEnrollment) {
+        if ($validPaidEnrollment) {
             Session::flash('error', get_phrase('You already enrolled in this course'));
             return redirect()->back();
         }
 
-        // get course details by id
-        $course_details = Course::where('id', $course_id)->first();
+        CartItem::firstOrCreate(
+            ['course_id' => $course_id, 'user_id' => auth()->id()],
+            ['created_at' => now()]
+        );
 
-        // if course doesn't exist redirect back
-        if (!$course_details) {
-            Session::flash('error', get_phrase('Data not found.'));
-            return redirect()->back();
-        }
-
-        // if course is free then enroll user and redirect to my courses
-        if ($course_details->is_paid == 0) {
-            $enrollment['user_id']         = auth()->user()->id;
-            $enrollment['course_id']       = $course_id;
-            $enrollment['enrollment_type'] = 'free';
-            $enrollment['entry_date']      = time();
-
-            $course_details = get_course_info($course_id);
-
-            if ($course_details->expiry_period > 0) {
-                $days = $course_details->expiry_period * 30;
-                $enrollment['expiry_date'] = strtotime("+" . $days . " days");
-            } else {
-                $enrollment['expiry_date'] = null;
-            }
-
-            Enrollment::insert($enrollment);
-            return redirect()->route('my.courses');
-        } else {
-            $query = CartItem::where('course_id', $course_id)->where('user_id', auth()->user()->id);
-            if ($query->count() == 0) {
-                CartItem::insert(['user_id' => auth()->user()->id, 'course_id' => $course_id, 'created_at' => date('Y-m-d H:i:s')]);
-                return redirect(route('cart'));
-            } elseif ($query->count() == 1) {
-                return redirect(route('cart'));
-            }
-        }
-
-        // redirect to cart store
-        return redirect()->back();
+        return redirect()->route('theme.cart');
     }
 
     public function payout(Request $request)
@@ -268,7 +270,7 @@ class PurchaseController extends Controller
             'coupon'         => $request->coupon_code,
             'payable_amount' => round($request->payable, 2),
             'total_amount'   => round($request->payable + ($request->coupon_discount != '' ? $request->coupon_discount : 0), 2),
-            'cancel_url'     => route('cart'),
+            'cancel_url'     => route('theme.cart'),
             'success_url'    => route('theme.payment.success', ''),
         ];
 

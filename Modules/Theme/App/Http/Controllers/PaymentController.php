@@ -51,14 +51,14 @@ class PaymentController extends Controller
             $coupon = Coupon::where('code',$page_data['payment_details']['coupon'])->where('type','discount')->first();
             if (!$coupon) {
                 return ['status' => false, 'message' => get_phrase('الكوبون غير صالح.')];
-            }          
-            
+            }
+
             [$isValid, $message] = $coupon->validateForDiscount(auth()->user()->id, $page_data['payment_details']['total_amount']);
 
             if (!$isValid) {
                 return ['status' => false, 'message' => $message];
             }
-            
+
             CouponLog::create([
                 'coupon_id'       => $coupon->id,
                 'user_id'         => auth()->user()->id,
@@ -238,7 +238,7 @@ class PaymentController extends Controller
 
             $enroll['course_id']       = $course->id;
             $enroll['user_id']         =  auth()->user()->id;
-            $enroll['enrollment_type'] = "paid";
+            $enroll['enrollment_type'] = "free";
             $enroll['entry_date']      = time();
 
 
@@ -429,14 +429,14 @@ class PaymentController extends Controller
             $coupon = Coupon::where('code',$payment_details['coupon'])->where('type','discount')->first();
             if (!$coupon) {
                 return ['status' => false, 'message' => get_phrase('الكوبون غير صالح.')];
-            }          
-            
+            }
+
             [$isValid, $message] = $coupon->validateForDiscount(auth()->user()->id, $payment_details['total_amount']);
 
             if (!$isValid) {
                 return ['status' => false, 'message' => $message];
             }
-            
+
             CouponLog::create([
                 'coupon_id'       => $coupon->id,
                 'user_id'         => auth()->user()->id,
@@ -472,7 +472,7 @@ class PaymentController extends Controller
             $balance_handling = json_decode($coupon->balance_handling,true);
             if(in_array('wallet',$balance_handling)){
                 auth()->user()->increment('wallet',$remainingBalance);
-                
+
                 WalletLog::create([
                     'student_id' => auth()->user()->id,
                     'added_by'   => auth()->user()->id,

@@ -72,7 +72,7 @@ class CartController extends Controller
         // $view_path = 'frontend.' . get_frontend_settings('theme') . '.student.cart.index';
         // return view($view_path, $page_data);
     }
-    
+
     public function store(Request $request,$id)
     {
 
@@ -105,10 +105,16 @@ class CartController extends Controller
                         ->orWhereNull('expiry_date');
                 })->exists();
 
-                if ($existingEnrollment) {
-                    Session::flash('error', get_phrase('You already purchased the course.'));
-                    return redirect()->back();
-                }
+                    $enrollStatus = enroll_status($id, auth()->user()->id);
+
+                    if ($enrollStatus === 'valid') {
+                        Session::flash('error', get_phrase('You already purchased the course.'));
+                        return redirect()->back();
+                    }
+                // if ($existingEnrollment) {
+                //     Session::flash('error', get_phrase('You already purchased the course.'));
+                //     return redirect()->back();
+                // }
             }
 
             if($type=='book'){

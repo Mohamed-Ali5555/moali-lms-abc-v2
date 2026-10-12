@@ -65,7 +65,7 @@ class UsersController extends Controller
                  $query->where(function($q) use($search){
                      $q->where('name', 'LIKE', '%' . $search . '%')
                          ->orWhere('phone', 'LIKE', '%' . $search . '%')
-                       
+
                          ->orWhere('national_id', 'LIKE', '%' . $search . '%');
 
                  });
@@ -854,6 +854,7 @@ class UsersController extends Controller
             for ($j = 0; $j < count($request->course_id); $j++) {
                 $data['user_id']    = $request->user_id[$i];
                 $data['course_id']  = $request->course_id[$j];
+                $data['enrollment_type'] = 'manual';
                 $data['entry_date'] = time();
 
                 $course_details = get_course_info($request->course_id[$j]);
@@ -1038,7 +1039,7 @@ class UsersController extends Controller
     public function enroll_history_update_expiry_date(Request $request, $id)
     {
         $enroll = Enrollment::where('id', $id)->first();
-        
+
         if(!$enroll){
             Session::flash('error', get_phrase('Enrollment not found.'));
             return redirect()->route('admin.enroll.history');

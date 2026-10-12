@@ -2118,9 +2118,22 @@ if (!function_exists('enroll_status')) {
             $enrolled = App\Models\Enrollment::where('course_id', $course_id)->where('user_id', $user_id)->orderBy('id', 'desc')->first();
 
             if ($enrolled) {
-                // إذا الكورس مدفوع والطالب أخده مجاناً - لا يسمح له بالوصول إلا لو اشتراه
-                $course = get_course_info($course_id);
-                if ($course->is_paid && empty($enrolled->payment_history_id)) {
+                // Lock only explicitly free enrollments if the course later becomes paid.
+                // Admin/manual and offline enrollments may not have a payment_history_id.
+
+
+                // $course = get_course_info($course_id);
+                // if ($course->is_paid && $enrolled->enrollment_type === 'free' && empty($enrolled->payment_history_id)) {
+                //     return 'free_locked'; // كان مجاني وأصبح مدفوع - يحتاج شراء
+                // }
+
+                 $course = get_course_info($course_id);
+                if (
+                    $course
+                    && $course->is_paid
+                    && $enrolled->enrollment_type === 'free'
+                    && empty($enrolled->payment_history_id)
+                ) {
                     return 'free_locked'; // كان مجاني وأصبح مدفوع - يحتاج شراء
                 }
 
@@ -2379,7 +2392,7 @@ if (!function_exists('saudi_phone_validation_messages')) {
             'phone.digits'          => 'يجب أن يكون رقم الجوال مكونًا من 10 أرقام.',
             'phone.regex'           => 'رقم الجوال يجب أن يبدأ بـ 05 ويتكون من 10 أرقام.',
             'phone.different'       => 'يجب أن يكون رقم الجوال مختلفًا عن رقم ولي الأمر.',
-     
+
         ];
     }
 }

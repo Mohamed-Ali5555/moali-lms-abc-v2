@@ -7,7 +7,10 @@
 
     $course = $data['course'];
     $isFree = $course->is_paid == 0 && ($course->price == 0 || $course->price < 0 || $course->price === null);
-    $isEnrolled = auth()->check() && \App\Models\Enrollments::where('user_id', auth()->id())->where('course_id', $course->id)->exists();
+    $isEnrolled = auth()->check() && \App\Models\Enrollment::where('user_id', auth()->id())->where('course_id', $course->id)->exists();
+    $enroll_status = auth()->check() ? enroll_status($course->id, auth()->id()) : false;
+
+
     $categoryTitle = $course->category->parent == null
         ? $course->category->title
         : $course->category->parent->title;
@@ -642,7 +645,7 @@
             <div class="cd-hero__desc">
                 {!! $course->description !!}
             </div>
-<!-- 
+<!--
             <div class="cd-stats">
                 <div class="cd-stat">
                     <span class="cd-stat__icon"><i class="fa-solid fa-play"></i></span>
@@ -857,28 +860,52 @@
                             </li>
                         </ul>
 
-                        @if ($isEnrolled)
-                            <button type="button" class="cd-cta" onclick="window.location='{{ $watchUrl }}'">
-                                <i class="fa-solid fa-circle-play"></i>
-                                @if (progress_bar($course->id) > 0)
-                                    مشاهدة الكورس
-                                @else
-                                    البدء في مشاهدة الكورس
-                                @endif
-                            </button>
-                        @elseif ($isFree)
-                            <button type="button" class="cd-cta"
-                                onclick="window.location.href='{{ route('payment.successFree', $course->id) }}'">
-                                <i class="fa-solid fa-gift"></i>
-                                ابدأ مجانًا
-                            </button>
-                        @else
-                            <button type="button" class="cd-cta add-to-cart"
-                                element-type="course" id-element="{{ $course->id }}">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                اشترك الآن
-                            </button>
-                        @endif
+                   @if ($isEnrolled && $enroll_status === 'valid')
+                        <button type="button" class="cd-cta" onclick="window.location='{{ $watchUrl }}'">
+                            <i class="fa-solid fa-circle-play"></i>
+                            @if (progress_bar($course->id) > 0)
+                                مشاهدة الكورس
+                            @else
+                                البدء في مشاهدة الكورس
+                            @endif
+                        </button>
+
+                    @elseif ($isEnrolled && $enroll_status === 'expired' && !$isFree)
+                        <div class="alert alert-warning py-2 px-3 mb-3" style="font-size: 14px;">
+                            <i class="fa-solid fa-clock"></i>
+                            انتهت صلاحية اشتراكك. جدّد اشتراكك للوصول إلى المحتوى.
+                        </div>
+                        <a  class="cd-cta add-to-cart"
+                            element-type="course" id-element="{{ $course->id }}">
+                            <i class="fa-solid fa-rotate"></i>
+                            {{ get_phrase('تجديد الاشتراك') }}
+                        </a>
+
+                    @elseif ($isEnrolled && $enroll_status === 'free_locked')
+                        <div class="alert alert-warning py-2 px-3 mb-3" style="font-size: 14px;">
+                            <i class="fa-solid fa-lock"></i>
+                            هذا الكورس أصبح مدفوعًا. اشترِ الكورس للوصول إلى المحتوى.
+                        </div>
+                        <a class="cd-cta add-to-cart"
+                            element-type="course" id-element="{{ $course->id }}">
+                            <i class="fa-solid fa-lock-open"></i>
+                            {{ get_phrase('اشترِ للوصول') }}
+                        </a>
+
+                    @elseif ($isFree)
+                        <button type="button" class="cd-cta"
+                            onclick="window.location.href='{{ route('theme.payment.successFree', $course->id) }}'">
+                            <i class="fa-solid fa-gift"></i>
+                            ابدأ مجانًا
+                        </button>
+
+                    @else
+                        <button type="button" class="cd-cta add-to-cart"
+                            element-type="course" id-element="{{ $course->id }}">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            اشترك الآن
+                        </button>
+                    @endif
                     </div>
                 </aside>
             </div>
