@@ -20,7 +20,6 @@ class BootcampLiveClassController extends Controller
     }
     public function store(Request $request)
     {
-        dd('d00');
         $validator = Validator::make($request->all(), [
             'title'       => 'required|string',
             'date'        => 'required|date',
