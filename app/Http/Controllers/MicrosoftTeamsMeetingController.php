@@ -8,8 +8,6 @@ class MicrosoftTeamsMeetingController extends Controller
 {
     /**
      * Get an application-only (client credentials) access token for Microsoft Graph.
-     * Requires an Azure AD app registration with the "OnlineMeetings.ReadWrite.All"
-     * application permission (admin consent granted).
      */
     public static function createToken()
     {
@@ -54,12 +52,19 @@ class MicrosoftTeamsMeetingController extends Controller
     }
 
     /**
+     * Get User Object ID (GUID) from Microsoft Graph using User Principal Name (Email).
+     */
+    private static function getUserIdByEmail($email, $token)
+    {
+        $url = 'https://graph.microsoft.com/v1.0/users/' . rawurlencode($email) . '?$select=id';
+        $response = self::request('GET', $url, $token);
+        $data = json_decode($response, true);
+
+        return $data['id'] ?? null;
+    }
+
+    /**
      * Create a Microsoft Teams online meeting on behalf of the configured organizer.
-     * $start_time / $end_time accept unix timestamps.
-     *
-     * Note: the organizer account must have a Microsoft Teams license and an
-     * "Application Access Policy" granted to this Azure AD app (see settings page
-     * for the exact PowerShell steps), otherwise Graph returns a 403 error.
      */
     public static function createMeeting($topic, $start_time, $end_time = null)
     {
@@ -74,6 +79,12 @@ class MicrosoftTeamsMeetingController extends Controller
             return json_encode(['error' => ['message' => 'Microsoft Teams organizer email is not configured.']]);
         }
 
+        // جلب الـ GUID الفعلي للمستخدم باستخدام البريد الإلكتروني لتجنب خطأ الـ GUID
+        $userId = self::getUserIdByEmail($organizer, $token);
+        if (!$userId) {
+            return json_encode(['error' => ['message' => 'Could not find a valid Microsoft user ID (GUID) for the organizer email: ' . $organizer]]);
+        }
+
         $startTimestamp = is_numeric($start_time) ? (int) $start_time : strtotime($start_time);
         $endTimestamp   = $end_time
             ? (is_numeric($end_time) ? (int) $end_time : strtotime($end_time))
@@ -85,7 +96,8 @@ class MicrosoftTeamsMeetingController extends Controller
             'endDateTime'   => gmdate('Y-m-d\TH:i:s\Z', $endTimestamp),
         ];
 
-        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . rawurlencode($organizer) . '/onlineMeetings';
+        // استخدام الـ GUID المستخرج مباشرة في الرابط
+        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . $userId . '/onlineMeetings';
 
         return self::request('POST', $graphEndpoint, $token, $meetingData);
     }
@@ -102,6 +114,11 @@ class MicrosoftTeamsMeetingController extends Controller
             return json_encode(['error' => ['message' => 'Failed to authenticate with Microsoft Teams.']]);
         }
 
+        $userId = self::getUserIdByEmail($organizer, $token);
+        if (!$userId) {
+            return json_encode(['error' => ['message' => 'Could not find a valid Microsoft user ID (GUID) for the organizer email.']]);
+        }
+
         $startTimestamp = is_numeric($start_time) ? (int) $start_time : strtotime($start_time);
 
         $meetingData = [
@@ -110,11 +127,11 @@ class MicrosoftTeamsMeetingController extends Controller
         ];
 
         if ($end_time) {
-            $endTimestamp                = is_numeric($end_time) ? (int) $end_time : strtotime($end_time);
+            $endTimestamp                     = is_numeric($end_time) ? (int) $end_time : strtotime($end_time);
             $meetingData['endDateTime']  = gmdate('Y-m-d\TH:i:s\Z', $endTimestamp);
         }
 
-        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . rawurlencode($organizer) . '/onlineMeetings/' . rawurlencode($meetingId);
+        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . $userId . '/onlineMeetings/' . rawurlencode($meetingId);
 
         return self::request('PATCH', $graphEndpoint, $token, $meetingData);
     }
@@ -131,7 +148,12 @@ class MicrosoftTeamsMeetingController extends Controller
             return null;
         }
 
-        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . rawurlencode($organizer) . '/onlineMeetings/' . rawurlencode($meetingId);
+        $userId = self::getUserIdByEmail($organizer, $token);
+        if (!$userId) {
+            return null;
+        }
+
+        $graphEndpoint = 'https://graph.microsoft.com/v1.0/users/' . $userId . '/onlineMeetings/' . rawurlencode($meetingId);
 
         return self::request('DELETE', $graphEndpoint, $token);
     }
@@ -144,8 +166,9 @@ class MicrosoftTeamsMeetingController extends Controller
         ];
 
         $ch = curl_init();
+        $curlopt_customrequest = $method;
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $curlopt_customrequest);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
