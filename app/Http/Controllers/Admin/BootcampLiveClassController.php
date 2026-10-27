@@ -50,7 +50,7 @@ class BootcampLiveClassController extends Controller
 
 
         // new
-        date_default_timezone_set('Africa/Cairo'); // تعيين المنطقة الزمنية
+        date_default_timezone_set('Asia/Riyadh');
 
         $start = $request->date . ' ' . $request->start_time . ':00'; // إضافة الثواني إذا لم تكن موجودة
         $start_datetime = new \DateTime($start);
@@ -161,7 +161,7 @@ class BootcampLiveClassController extends Controller
 
 
 
-        date_default_timezone_set('Africa/Cairo');
+        date_default_timezone_set('Asia/Riyadh');
 
         $start = $request->date . ' ' . $request->start_time . ':00';
         $start_datetime = new \DateTime($start);
