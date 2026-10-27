@@ -21,14 +21,14 @@
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('Start time') }}</label>
             <input type="time" class="form-control ol-form-control" name="start_time"
-                value="{{ \Carbon\Carbon::createFromTimestamp($class->start_time)->setTimezone('Africa/Cairo')->format('H:i') }}"
+                value="{{ \Carbon\Carbon::createFromTimestamp($class->start_time)->setTimezone('Asia/Riyadh')->format('H:i') }}"
                 required />
         </div>
 
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('End time') }}</label>
             <input type="time" class="form-control ol-form-control" name="end_time"
-                value="{{ \Carbon\Carbon::createFromTimestamp($class->end_time)->setTimezone('Africa/Cairo')->format('H:i') }}"
+                value="{{ \Carbon\Carbon::createFromTimestamp($class->end_time)->setTimezone('Asia/Riyadh')->format('H:i') }}"
                 required />
         </div>
 
