@@ -48,7 +48,7 @@ class BootcampPurchaseController extends Controller
             BootcampPurchase::insert($payment);
 
             Session::flash('success', get_phrase('Enrolled in the bootcamp successfully'));
-            return redirect()->route('my.bootcamps');
+            return redirect()->route('theme.my.bootcamps');
         }
 
         // check any offline processing data
