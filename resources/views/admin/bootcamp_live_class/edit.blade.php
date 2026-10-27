@@ -9,14 +9,13 @@
         <input class="form-control ol-form-control" type="text" id="title" name="title" value="{{ $class->title }}"
             required>
     </div>
-    {{ $class->start_time }}
     <div class="row mb-3">
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('Date') }}</label>
+            <!-- التعديل هنا: استخدام Carbon مع تحويل النطاق الزمني للرياض -->
             <input type="date" class="form-control ol-form-control" name="date"
-                value="{{ date('Y-m-d', $class->start_time) }}" required />
+                value="{{ \Carbon\Carbon::createFromTimestamp($class->start_time)->setTimezone('Asia/Riyadh')->format('Y-m-d') }}" required />
         </div>
-
 
         <div class="col-sm-4 fpb7">
             <label class="form-label ol-form-label d-block">{{ get_phrase('Start time') }}</label>
@@ -31,8 +30,8 @@
                 value="{{ \Carbon\Carbon::createFromTimestamp($class->end_time)->setTimezone('Asia/Riyadh')->format('H:i') }}"
                 required />
         </div>
-
     </div>
+
 
     <div class="row mb-3">
         <div class="col-sm-6 fpb-7">
